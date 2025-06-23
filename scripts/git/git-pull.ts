@@ -1,15 +1,15 @@
 import { exec } from "child_process";
+import { resolve } from "path";
+import os from "os";
 
-console.log("Starting git pull....");
+const repoPath = resolve(os.homedir(), "tools/create-react-template");
 
-exec("git pull origin main", (error, stdout, stderr) => {
-  if (error) {
-    console.error(`エラー: ${error.message}`);
-    return;
+exec("git pull origin main", { cwd: repoPath }, (err, stdout, stderr) => {
+  if (err) {
+    console.error("❌ git pull failed:", err.message);
+    process.exit(1);
   }
-  if (stderr) {
-    console.error(`標準エラー: ${stderr}`);
-    return;
-  }
-  console.log(`出力: ${stdout}`);
+  if (stderr) console.error("[stderr]", stderr);
+
+  if (stdout) console.log("[stdout]", stdout);
 });
