@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "git-pull:build": "cd scripts/git && tsc",
-    "pkg:git-pull-mac": "pkg dist/scripts/git-pull/git-pull.js --targets node18-macos-x64 --output execution/git-pull"
+    "git-pull:pkg": "pkg dist/scripts/git-pull/react-template-pull.js --targets node18-macos-x64 --output execution/react-tmp-pull"
   },
   "keywords": [],
   "author": "",
