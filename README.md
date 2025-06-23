@@ -39,3 +39,5 @@ $cd tools
 ```bash
 $git clone https://github.com/ShionTerunaga/create-react-template.git
 ```
+
+6. test
