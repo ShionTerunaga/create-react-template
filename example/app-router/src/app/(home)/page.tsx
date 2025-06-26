@@ -1,9 +1,10 @@
+import { Heading } from "@/components/ui";
 import { ja } from "@/shared/lang/ja";
 
 export default function Home() {
     return (
         <div>
-            <h1>{ja.app.home.title}</h1>
+            <Heading>{ja.app.home.title}</Heading>
         </div>
     );
 }
