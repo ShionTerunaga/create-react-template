@@ -2,12 +2,22 @@ import { appConfig } from "@/shared/config/config";
 import { OPTION_NONE } from "@/utils/option";
 import { APIScheme } from "../model/model-view";
 import { perseApi } from "../utils/parse-api";
+import { createResult, Result } from "@/utils/result";
+import { APIView } from "../model/model-res";
+import { HttpError } from "@/utils/error/http";
 
-export async function getCharacter() {
+export async function getCharacter(): Promise<
+    Result<Array<APIView>, HttpError>
+> {
     const url = appConfig.apiKey;
 
     if (url.kind === OPTION_NONE) {
-        throw new Error("APIキーを設定してください");
+        return createResult.ng(
+            new HttpError({
+                status: 404,
+                message: "パスを設定してください"
+            })
+        );
     }
 
     const res = await fetch(url.value);
@@ -19,12 +29,17 @@ export async function getCharacter() {
     const judgeType = APIScheme.safeParse(resValue);
 
     if (judgeType.error) {
-        throw new Error("スキームを確認してください");
+        return createResult.ng(
+            new HttpError({
+                status: 500,
+                message: "スキームが間違っています。"
+            })
+        );
     }
 
     const okValue = judgeType.data;
 
     const perseCharacter = perseApi(okValue);
 
-    return perseCharacter;
+    return createResult.ok(perseCharacter);
 }
