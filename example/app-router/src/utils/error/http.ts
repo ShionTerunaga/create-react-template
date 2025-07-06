@@ -1,7 +1,7 @@
 /**
  * 適宜必要なステータスを追加する
  */
-type HttpStatus = 404 | 500;
+export type HttpStatus = 404 | 500 | 501;
 
 export class HttpError extends Error {
     public type: string;
