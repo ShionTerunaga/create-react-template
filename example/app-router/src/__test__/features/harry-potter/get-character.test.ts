@@ -33,7 +33,6 @@ const mockAPIData: APIRes = [
     }
 ];
 
-// ✅ 2. fetchモックのセットアップ
 global.fetch = vi.fn();
 
 const mockFetch = fetch as Mock;
@@ -90,7 +89,7 @@ describe("getCharacter", () => {
 
         mockFetch.mockResolvedValue({
             ok: false,
-            status: 300, //statusコードは存在するものを定義する
+            status: 300, //statusコードは存在しないものを定義する
             json: async () => ({
                 message: "mock error"
             })
@@ -113,7 +112,6 @@ describe("getCharacter", () => {
             createOption.some("https://mock-api.com/characters")
         );
 
-        // 👇 Schema に合わないデータ（例えば wand が null）
         mockFetch.mockResolvedValue({
             ok: true,
             json: async () => [{ ...mockAPIData[0], wand: null }]
@@ -146,6 +144,7 @@ describe("getCharacter", () => {
         if (result.kind === RESULT_NG) return;
 
         expect(result.value.length).toBe(1);
+
         expect(result.value[0].name).toBe("Harry Potter");
     });
 });
