@@ -11,6 +11,7 @@
     },
     "dependencies": {
         "@vanilla-extract/css": "^1.17.4",
+        "motion": "^12.23.3",
         "next": "15.3.4",
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
