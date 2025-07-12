@@ -1,4 +1,4 @@
-import { TextTheme } from "@/shared/theme/color.css";
+import { TextTheme } from "@/shared/theme/design-system.css";
 import { ElementType } from "react";
 import { headingFontStyle } from "./heading.css";
 

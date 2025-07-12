@@ -1,12 +1,10 @@
 import { CheckerProps } from "@/shared/types/object";
-import { ReactNode } from "react";
 import { HeadingStyle } from "./heading.type";
 import { headingFontStyle } from "./heading.css";
-import { textColor } from "@/shared/theme/color.css";
+import { textColor } from "@/shared/theme/design-system.css";
+import { ChildrenOnly } from "@/shared/types/react";
 
-type HeadingProps = HeadingStyle & {
-    children: ReactNode;
-};
+type HeadingProps = HeadingStyle & ChildrenOnly;
 
 export function Heading<T extends HeadingProps>(
     props: CheckerProps<T, HeadingProps, "Heading Props Error">
