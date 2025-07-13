@@ -1,7 +1,7 @@
 import { appTheme } from "@/shared/theme/theme";
 import { style } from "@vanilla-extract/css";
 
-const popupLayoutStyles = {
+const popupBaseStyles = {
     background: style({
         width: "100vw",
         height: "100vh",
@@ -20,4 +20,4 @@ const popupLayoutStyles = {
     })
 };
 
-export default popupLayoutStyles;
+export default popupBaseStyles;

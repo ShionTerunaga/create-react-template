@@ -3,7 +3,7 @@
 import { usePopup } from "@/lib/popup";
 import { ChildrenOnly } from "@/shared/types/react";
 import { AnimatePresence, motion } from "motion/react";
-import popupLayoutStyles from "./popup-layout.css";
+import popupBaseStyles from "./popup-base.css";
 
 export function PopupLayout({ children }: ChildrenOnly) {
     const { openState } = usePopup();
@@ -11,7 +11,7 @@ export function PopupLayout({ children }: ChildrenOnly) {
 
     return (
         <>
-            <div className={popupLayoutStyles.background} />
+            <div className={popupBaseStyles.background} />
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
@@ -19,7 +19,7 @@ export function PopupLayout({ children }: ChildrenOnly) {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.6 }}
-                        className={popupLayoutStyles.base}
+                        className={popupBaseStyles.base}
                     >
                         {children}
                     </motion.div>

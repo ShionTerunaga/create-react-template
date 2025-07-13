@@ -1,9 +1,8 @@
 import { Property } from "csstype";
-import { Dict } from "../types/object";
 
-export const appTheme: Dict<Color> = {
+export const appTheme = {
     textNormal: "#333",
-    textWhite: "#FFFFFF",
+    white: "#FFFFFF",
     likeBlue: "aqua",
     likeGreen: "#33FFCC",
     popupBackground: "rgba(0,0,0,0.6)"

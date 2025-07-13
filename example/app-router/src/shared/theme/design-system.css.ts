@@ -3,7 +3,7 @@ import { appTheme } from "./theme";
 
 export const textColor = styleVariants({
     textNormal: { color: appTheme.textNormal },
-    textWhite: { color: appTheme.text }
+    textWhite: { color: appTheme.white }
 });
 
 export const backgroundColor = styleVariants({
