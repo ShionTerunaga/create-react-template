@@ -5,5 +5,5 @@ export function isHttpStatus(status: unknown): status is HttpStatus {
         return false;
     }
 
-    return status === 404 || status === 500;
+    return status === 404 || status === 500 || status === 501;
 }
