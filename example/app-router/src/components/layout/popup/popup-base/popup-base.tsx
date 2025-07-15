@@ -1,19 +1,17 @@
 "use client";
 
 import { usePopup } from "@/lib/popup";
-import { ChildrenOnly } from "@/shared/types/react";
 import { AnimatePresence, motion } from "motion/react";
 import popupBaseStyles from "./popup-base.css";
 
-export function PopupLayout({ children }: ChildrenOnly) {
+export function PopupBase() {
     const { openState } = usePopup();
-    const { isOpen } = openState;
 
     return (
-        <>
-            <div className={popupBaseStyles.background} />
-            <AnimatePresence>
-                {isOpen && (
+        <AnimatePresence>
+            {openState.isOpen && (
+                <>
+                    <div className={popupBaseStyles.background} />
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -21,10 +19,10 @@ export function PopupLayout({ children }: ChildrenOnly) {
                         transition={{ duration: 0.6 }}
                         className={popupBaseStyles.base}
                     >
-                        {children}
+                        {openState.children}
                     </motion.div>
-                )}
-            </AnimatePresence>
-        </>
+                </>
+            )}
+        </AnimatePresence>
     );
 }

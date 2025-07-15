@@ -13,7 +13,11 @@ type ButtonProps = Omit<
 >;
 
 export function PopupCloseButton<T extends ButtonProps>(
-    props: CheckerProps<T, ButtonProps, "Not Expect In Popup Button Props">
+    props: CheckerProps<
+        T,
+        ButtonProps,
+        "Not Expect In Close Popup Button Props"
+    >
 ) {
     if (typeof props !== "object") {
         throw new Error("This is not props expected elements.");

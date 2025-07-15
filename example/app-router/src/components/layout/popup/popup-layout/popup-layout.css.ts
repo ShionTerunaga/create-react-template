@@ -6,7 +6,9 @@ const popupLayoutStyles = {
         backgroundColor: appTheme.white,
         borderRadius: 8,
         width: 450,
-        height: 250
+        height: 250,
+        padding: 8,
+        textAlign: "center"
     })
 };
 
