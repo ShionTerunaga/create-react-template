@@ -4,7 +4,7 @@ import { headingFontStyle } from "./heading.css";
 import { textColor } from "@/shared/theme/design-system.css";
 import { ChildrenOnly } from "@/shared/types/react";
 
-type HeadingProps = HeadingStyle & ChildrenOnly;
+interface HeadingProps extends HeadingStyle, ChildrenOnly {}
 
 export function Heading<T extends HeadingProps>(
     props: CheckerProps<T, HeadingProps, "Heading Props Error">
