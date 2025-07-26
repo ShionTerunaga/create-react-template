@@ -1,9 +1,6 @@
 import { Heading } from "@/components/ui";
 import type { Meta, StoryObj } from "@storybook/nextjs";
 
-//
-//import { Page } from './Page';
-//
 const meta = {
     title: "ui/heading",
     component: Heading,
