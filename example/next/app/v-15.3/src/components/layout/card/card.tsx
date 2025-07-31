@@ -1,6 +1,7 @@
 import { CheckerProps } from "@/shared/types/object";
 import Image, { StaticImageData } from "next/image";
 import { CSSProperties } from "react";
+import cardStyles from "./card.css";
 
 interface Props {
     title: string;
@@ -18,37 +19,19 @@ export function Card<T extends Props>(
 
     const cardStyle: CSSProperties = {
         width: srcWidth,
-        height: boxHeight,
-        border: "1px solid #ccc",
-        borderRadius: "10px",
-        overflow: "hidden",
-        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-        textAlign: "center",
-        margin: "1rem"
-    };
-
-    const imageStyle: CSSProperties = {
-        objectFit: "cover"
-    };
-
-    const nameStyle: CSSProperties = {
-        padding: "1rem",
-        fontSize: "1.2rem",
-        fontWeight: "bold",
-        color: "#333",
-        margin: 0
+        height: boxHeight
     };
 
     return (
-        <div style={cardStyle}>
+        <div className={cardStyles.cardContainer} style={cardStyle}>
             <Image
                 src={src}
                 alt={alt}
-                style={imageStyle}
+                className={cardStyles.image}
                 width={srcWidth}
                 height={srcHeight}
             />
-            <p style={nameStyle}>{title}</p>
+            <p className={cardStyles.title}>{title}</p>
         </div>
     );
 }
