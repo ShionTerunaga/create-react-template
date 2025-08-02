@@ -4,6 +4,7 @@ import { CSSProperties } from "react";
 import cardStyles from "./card.css";
 
 interface Props {
+    key: number | string;
     title: string;
     src: StaticImageData | string;
     alt: string;
