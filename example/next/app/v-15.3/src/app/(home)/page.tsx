@@ -3,6 +3,7 @@ import { PopupOpenButton } from "@/components/ui/popup/popup-open-button/popup-o
 import { ExplainPopup } from "@/features/about";
 import { ja } from "@/shared/lang/ja";
 import homeStyles from "./home.css";
+import Link from "next/link";
 
 export default function Home() {
     return (
@@ -15,6 +16,10 @@ export default function Home() {
             >
                 {ja.app.home.openPopup}
             </PopupOpenButton>
+
+            <div>
+                <Link href="/cache-potter">{ja.app.home.toCachePotter}</Link>
+            </div>
         </main>
     );
 }
