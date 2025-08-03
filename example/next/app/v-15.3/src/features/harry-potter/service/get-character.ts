@@ -1,9 +1,9 @@
 import { appConfig } from "@/shared/config/config";
 import { Option, OPTION_NONE } from "@/utils/option";
-import { APIScheme } from "../model/model-view";
+import { APIScheme } from "../model/model-res";
 import { perseApi } from "../utils/parse-api";
 import { createResult, Result } from "@/utils/result";
-import { APIView } from "../model/model-res";
+import { APIView } from "../model/model-view";
 import { HttpError } from "@/utils/error/http";
 import { isHttpStatus } from "@/utils/error/is-http-status";
 

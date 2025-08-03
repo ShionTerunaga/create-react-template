@@ -1,5 +1,5 @@
-import { APIRes } from "../model/model-view";
-import { APIView } from "../model/model-res";
+import { APIRes } from "../model/model-res";
+import { APIView } from "../model/model-view";
 import { createOption } from "@/utils/option";
 
 export function perseApi(api: APIRes): Array<APIView> {
