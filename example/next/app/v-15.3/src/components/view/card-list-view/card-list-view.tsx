@@ -9,7 +9,7 @@ interface Props {
     potters: Array<APIView>;
 }
 
-function CachePotterLayout<T extends Props>(
+export function CardListView<T extends Props>(
     props: CheckerProps<T, Props, "Cache potter layout has not any props.">
 ) {
     const { potters } = props;
@@ -36,5 +36,3 @@ function CachePotterLayout<T extends Props>(
         </section>
     );
 }
-
-export default CachePotterLayout;
