@@ -1,23 +1,24 @@
 import { Card } from "@/components/layout";
 import { GridBox, Heading } from "@/components/ui";
 import FontCenter from "@/components/ui/center/font-center/font-center";
-import { APIView } from "@/features/harry-potter";
-import { ja } from "@/shared/lang/ja";
+import { SinglePageGetCharacters } from "@/features/harry-potter";
 import { CheckerProps } from "@/shared/types/object";
 
-interface Props {
-    potters: Array<APIView>;
+interface Props<T extends SinglePageGetCharacters> {
+    potters: Array<T>;
+    title: string;
 }
 
-export function CardListView<T extends Props>(
-    props: CheckerProps<T, Props, "Cache potter layout has not any props.">
-) {
-    const { potters } = props;
+export function CardListView<
+    T extends SinglePageGetCharacters,
+    S extends Props<T>
+>(props: CheckerProps<S, Props<T>, "Cache potter layout has not any props.">) {
+    const { potters, title } = props;
 
     return (
         <section>
             <FontCenter>
-                <Heading>{ja.app.cachePotter.title}</Heading>
+                <Heading>{title}</Heading>
             </FontCenter>
 
             <GridBox>

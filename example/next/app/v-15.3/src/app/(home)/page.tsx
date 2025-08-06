@@ -19,6 +19,10 @@ export default function Home() {
 
             <div>
                 <Link href="/cache-potter">{ja.app.home.toCachePotter}</Link>
+                <br />
+                <Link href="/single-dynamic-potter">
+                    {ja.app.home.toSingleDynamicPotter}
+                </Link>
             </div>
         </main>
     );

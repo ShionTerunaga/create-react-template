@@ -3,10 +3,14 @@ export const ja = {
         home: {
             title: "こんにちは,Next.js",
             openPopup: "説明",
-            toCachePotter: "静的データ収集へ"
+            toCachePotter: "静的データ収集へ",
+            toSingleDynamicPotter: "動的データ収集へ"
         },
         cachePotter: {
             title: "静的なデータ収集"
+        },
+        singleDynamicPotter: {
+            title: "動的なデータ収集"
         }
     },
     features: {
