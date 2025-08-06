@@ -2,7 +2,7 @@ import "../../setting/setup";
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { renderHook, waitFor } from "@testing-library/react";
 import { createResult } from "@/utils/result";
-import { createOption, OPTION_NONE, OPTION_SOME } from "@/utils/option";
+import { createOption, OPTION_NONE } from "@/utils/option";
 import {
     APIView,
     getCharacter,
@@ -30,7 +30,7 @@ describe("useGetCharacters", () => {
 
         console.log(result.current);
 
-        expect(result.current.characters.kind).toBe(OPTION_NONE);
+        expect(result.current.characters).toEqual([]);
         expect(result.current.isLoading).toBe(true);
         expect(result.current.error.kind).toBe(OPTION_NONE);
     });
@@ -108,17 +108,9 @@ describe("useGetCharacters", () => {
         await waitFor(() => {
             expect(result.current.isLoading).toBe(false);
 
-            console.log(result.current);
-
-            expect(result.current.characters.kind).toBe(OPTION_SOME);
-
             const resultValue = result.current.characters;
 
-            if (resultValue.kind === OPTION_NONE) {
-                throw new Error("Expected characters to be some value");
-            }
-
-            expect(resultValue.value).toEqual(mockSinglePageGetCharacters);
+            expect(resultValue).toEqual(mockSinglePageGetCharacters);
             expect(result.current.isLoading).toBeFalsy();
             expect(result.current.error.kind).toBe(OPTION_NONE);
         });
