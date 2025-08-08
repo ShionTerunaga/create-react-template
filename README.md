@@ -45,21 +45,10 @@ git clone https://github.com/ShionTerunaga/create-react-template.git
 
 6. pass through
 
-1.
-
 ```bash
 export PATH="/Users/<your path>/tools/create-react-template/execution/mac"
-```
-
-2.
-
-```bash
 source ~/.zprofile
-```
-
-or
-
-```bash
+#or
 source .bash_profile
 ```
 
