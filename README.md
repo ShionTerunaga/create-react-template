@@ -1,19 +1,22 @@
 # Create React Project
 
-This is template of react projects. For now, it will be for macos only.We will not put this repository on npm for now.
+This is template of react projects. For now, it will be for macos only.We will
+not put this repository on npm for now.
 
-## usage
+## setup
+
+### mac os
 
 1. Go to root directory.
 
 ```bash
-$cd ~
+cd ~
 ```
 
 2. Check your location
 
 ```bash
-$pwd
+pwd
 ```
 
 It should be as follows
@@ -25,19 +28,49 @@ Users/<yourname>
 3. Make `tools` directory
 
 ```bash
-$mkdir tools
+mkdir tools
 ```
 
 4. Go to `tools` directory
 
 ```bash
-$cd tools
+cd tools
 ```
 
 5. Clone this project
 
 ```bash
-$git clone https://github.com/ShionTerunaga/create-react-template.git
+git clone https://github.com/ShionTerunaga/create-react-template.git
 ```
 
-6. test
+6. pass through
+
+1.
+
+```bash
+export PATH="/Users/<your path>/tools/create-react-template/execution/mac"
+```
+
+2.
+
+```bash
+source ~/.zprofile
+```
+
+or
+
+```bash
+source .bash_profile
+```
+
+### windows
+
+coming soon...
+
+## usage
+
+### new update
+
+```bash
+react-tmp-pull
+```
