@@ -1,22 +1,25 @@
 {
-  "name": "create-react-template",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "git-pull:build": "cd scripts/git && tsc",
-    "git-pull:pkg": "pkg dist/scripts/git-pull/react-template-pull.js --targets node18-macos-x64 --output execution/react-tmp-pull",
-    "generate-csstype": "tsx ./scripts/css/generate-css-type.ts"
-  },
-  "keywords": [],
-  "author": "",
-  "dependencies": {
-    "@types/node": "^24.0.3",
-    "csstype": "^3.1.3",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "ts-node": "^10.9.2",
-    "tsx": "^4.20.3",
-    "typescript": "^5.8.3"
-  }
+    "name": "create-react-template",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "git-pull:build": "cd scripts/git && tsc",
+        "git-pull:pkg": "pkg dist/scripts/git-pull/react-template-pull.js --targets node18-macos-x64 --output execution/react-tmp-pull",
+        "generate-csstype": "tsx ./scripts/css/generate-css-type.ts"
+    },
+    "keywords": [],
+    "author": "",
+    "dependencies": {
+        "@commitlint/cli": "^19.8.1",
+        "@commitlint/config-conventional": "^19.8.1",
+        "@types/node": "^24.0.3",
+        "csstype": "^3.1.3",
+        "prettier": "^3.6.2",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+        "ts-node": "^10.9.2",
+        "tsx": "^4.20.3",
+        "typescript": "^5.8.3"
+    }
 }
