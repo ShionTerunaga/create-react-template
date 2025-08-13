@@ -5,14 +5,14 @@
  * @returns
  */
 export function omitElementObject<T extends object, S extends keyof T>(
-    obj: T,
-    keys: S[]
+  obj: T,
+  keys: S[],
 ): Omit<T, S> {
-    const result = { ...obj };
+  const result = { ...obj }
 
-    for (const key of keys) {
-        delete result[key];
-    }
+  for (const key of keys) {
+    delete result[key]
+  }
 
-    return result;
+  return result
 }

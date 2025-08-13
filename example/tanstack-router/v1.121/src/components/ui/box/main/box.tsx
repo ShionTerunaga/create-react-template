@@ -1,3 +1,3 @@
 export function Box() {
-    return <></>;
+  return <></>
 }
