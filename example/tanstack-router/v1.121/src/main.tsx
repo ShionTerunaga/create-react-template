@@ -4,9 +4,9 @@ import { RouterProvider, createRouter } from '@tanstack/react-router'
 
 // Import the generated route tree
 import { routeTree } from './routeTree.gen'
-
-import './styles.css'
 import reportWebVitals from './reportWebVitals.ts'
+import { PopupProvider } from './lib/popup/index.ts'
+import { PopupBase } from './components/layout/index.ts'
 
 // Create a new router instance
 const router = createRouter({
@@ -31,7 +31,9 @@ if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <StrictMode>
-      <RouterProvider router={router} />
+      <PopupProvider layoutPopup={<PopupBase />}>
+        <RouterProvider router={router} />
+      </PopupProvider>
     </StrictMode>,
   )
 }
