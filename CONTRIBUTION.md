@@ -33,28 +33,20 @@ steps below to ensure a smooth contribution process.
 
 ## 3. Create a New Branch
 
-1. **Create a Feature Branch**:
+1. **Create a Feature Branch** (for new features):
     ```bash
     git checkout -b feat/your-feature-name
     ```
-
-## 4. Make Your Changes
-
-1. **Write Code**: Implement your feature or fix the issue.
-2. **Run Linters**:
+2. **Create a Fix Branch** (for bug fixes):
     ```bash
-    pnpm exec eslint .
+    git checkout -b fix/your-bug-fix
     ```
-3. **Format Code**:
+3. **Create a Documentation Branch** (for documentation updates):
     ```bash
-    pnpm exec prettier --write .
-    ```
-4. **Run Tests**:
-    ```bash
-    pnpm test
+    git checkout -b docs/update-docs
     ```
 
-## 5. Commit Your Changes
+## 4. Commit Your Changes
 
 1. **Stage Your Changes**:
     ```bash
@@ -69,7 +61,7 @@ steps below to ensure a smooth contribution process.
     - `fix: resolve crash on login`
     - `docs: update README with setup instructions`
 
-## 6. Push and Create a Pull Request
+## 5. Push and Create a Pull Request
 
 1. **Push Your Branch**:
     ```bash
@@ -80,12 +72,12 @@ steps below to ensure a smooth contribution process.
     - Click "Compare & pull request".
     - Provide a clear and concise description of your changes.
 
-## 7. Respond to Code Reviews
+## 6. Respond to Code Reviews
 
 - Be open to feedback from maintainers.
 - Make necessary changes and update your pull request.
 
-## 8. Additional Guidelines
+## 7. Additional Guidelines
 
 - Follow the project's coding standards.
 - Add tests for new features or bug fixes.
