@@ -5,7 +5,8 @@
     "main": "index.js",
     "scripts": {
         "git-pull:build": "cd scripts/git && tsc",
-        "git-pull:pkg": "pkg dist/scripts/git-pull/react-template-pull.js --targets node18-macos-x64 --output execution/mac/react-tmp-pull",
+        "git-pull-mac:pkg": "pkg dist/scripts/git-pull/react-template-pull.js --targets node18-macos-x64 --output execution/mac/react-tmp-pull",
+        "git-pull-win:pkg": "pkg dist/scripts/git-pull/react-template-pull.js --targets node18-win-x64 --output execution/win/react-tmp-pull",
         "generate-csstype": "tsx ./scripts/css/generate-css-type.ts"
     },
     "keywords": [],
