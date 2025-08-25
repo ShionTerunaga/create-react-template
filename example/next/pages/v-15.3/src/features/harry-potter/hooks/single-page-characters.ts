@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useMemo, useState } from "react";
 import { SinglePageGetCharacters } from "./characters.type";
 import { createOption, Option, OPTION_NONE } from "@/utils/option";

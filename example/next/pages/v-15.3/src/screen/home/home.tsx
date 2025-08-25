@@ -55,6 +55,12 @@ function HomeScreen() {
                     <Link href="/static-generator">
                         {ja.app.home.toStaticPotter}
                     </Link>
+
+                    <br />
+
+                    <Link href="/dynamic-render">
+                        {ja.app.home.toSingleDynamicPotter}
+                    </Link>
                 </div>
             </main>
         </>
