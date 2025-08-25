@@ -31,31 +31,31 @@ function HomeScreen() {
             </Head>
 
             <main className={`${geistSans.variable} ${geistMono.variable}`}>
-                <main>
-                    <Heading>{ja.app.home.title}</Heading>
+                <Heading>{ja.app.home.title}</Heading>
 
-                    <PopupOpenButton
-                        popupChildren={<ExplainPopup />}
-                        className={homeStyles.button}
-                    >
-                        {ja.app.home.openPopup}
-                    </PopupOpenButton>
+                <PopupOpenButton
+                    popupChildren={<ExplainPopup />}
+                    className={homeStyles.button}
+                >
+                    {ja.app.home.openPopup}
+                </PopupOpenButton>
 
-                    <div>
-                        <Link href="/server-side-render">
-                            {ja.app.home.toServerSideRender}
-                        </Link>
-                        <br />
-                        <Link href="/single-dynamic-potter">
-                            {ja.app.home.toSingleDynamicPotter}
-                        </Link>
+                <div>
+                    <Link href="/server-side-render">
+                        {ja.app.home.toServerSideRender}
+                    </Link>
 
-                        <br />
-                        <Link href="/static-generator">
-                            {ja.app.home.toStaticPotter}
-                        </Link>
-                    </div>
-                </main>
+                    <br />
+
+                    <Link href="/single-dynamic-potter">
+                        {ja.app.home.toSingleDynamicPotter}
+                    </Link>
+
+                    <br />
+                    <Link href="/static-generator">
+                        {ja.app.home.toStaticPotter}
+                    </Link>
+                </div>
             </main>
         </>
     );
