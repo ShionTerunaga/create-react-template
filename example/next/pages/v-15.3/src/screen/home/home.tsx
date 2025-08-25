@@ -49,6 +49,11 @@ function HomeScreen() {
                         <Link href="/single-dynamic-potter">
                             {ja.app.home.toSingleDynamicPotter}
                         </Link>
+
+                        <br />
+                        <Link href="/static-generator">
+                            {ja.app.home.toStaticPotter}
+                        </Link>
                     </div>
                 </main>
             </main>

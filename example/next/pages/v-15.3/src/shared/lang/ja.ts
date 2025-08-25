@@ -10,6 +10,9 @@ export const ja = {
         serverSideRenderPotter: {
             title: "静的なデータ収集"
         },
+        staticGeneratorPotter: {
+            title: "静的なデータ収集"
+        },
         singleDynamicPotter: {
             title: "動的なデータ収集"
         }

@@ -9,21 +9,21 @@ interface Props {
     character: Result<APIView[], HttpError>;
 }
 
-function ServerSideRenderScreen<T extends Props>(
+function StaticGeneratorScreen<T extends Props>(
     props: CheckerProps<T, Props, "This props is different from Props.">
 ) {
     const { character } = props;
 
     if (character.kind === RESULT_NG) {
-        return <div>サーバーサイドレンダーが失敗してます。</div>;
+        return <div>静的生成が失敗してます。</div>;
     }
 
     return (
         <CardListView
             potters={character.value}
-            title={ja.app.serverSideRenderPotter.title}
+            title={ja.app.staticGeneratorPotter.title}
         />
     );
 }
 
-export default ServerSideRenderScreen;
+export default StaticGeneratorScreen;
