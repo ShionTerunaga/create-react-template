@@ -1,5 +1,3 @@
-"use client";
-
 import { usePopup } from "@/lib/popup";
 import { CheckerProps } from "@/shared/types/object";
 import { omitElementObject } from "@/utils/object";

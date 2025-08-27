@@ -1,5 +1,3 @@
-"use client";
-
 import { usePopup } from "@/lib/popup";
 import { AnimatePresence, motion } from "motion/react";
 import popupBaseStyles from "./popup-base.css";

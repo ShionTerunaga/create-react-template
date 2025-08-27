@@ -1,5 +1,3 @@
-"use client";
-
 import { createReducerContext } from "@/lib/context/reducer-context";
 import { popupReducer } from "./popup-reducer";
 import { PopupAction, PopupState } from "./popup.type";
