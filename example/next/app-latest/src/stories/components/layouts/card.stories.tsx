@@ -14,6 +14,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Sample1: Story = {
     args: {
+        key: "sample1",
         title: "sample",
         src: "https://placehold.jp/150x150.png",
         alt: "",
@@ -25,6 +26,7 @@ export const Sample1: Story = {
 
 export const Sample2: Story = {
     args: {
+        key: "sample2",
         title: "sample",
         src: "https://placehold.jp/250x300.png",
         alt: "",
