@@ -1,4 +1,4 @@
-import { usePopup } from "@/lib/popup";
+import { usePopup } from "@/utils/lib/popup";
 import { CheckerProps } from "@/shared/types/object";
 import { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
 

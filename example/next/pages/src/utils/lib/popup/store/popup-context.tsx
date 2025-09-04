@@ -1,6 +1,4 @@
-"use client";
-
-import { createReducerContext } from "@/utils/context/reducer-context";
+import { createReducerContext } from "@/utils/lib/context/reducer-context";
 import { popupReducer } from "./popup-reducer";
 import { PopupAction, PopupState } from "./popup.type";
 import { ChildrenOnly } from "@/shared/types/react";

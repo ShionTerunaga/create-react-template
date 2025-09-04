@@ -27,9 +27,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={`${geistSans.variable} ${geistMono.variable}`}>
-                <PopupProvider layoutPopup={<PopupBase />}>
-                    {children}
-                </PopupProvider>
+                {children}
             </body>
         </html>
     );
