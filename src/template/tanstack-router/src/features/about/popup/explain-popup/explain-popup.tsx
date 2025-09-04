@@ -1,4 +1,4 @@
-import { PopupSampleLayout } from '@/components/layout/popup/popup-layout/popup-layout'
+import { PopupSampleLayout } from '../../../../../../../packages/lib-stories/popup/popup-layout/popup-layout'
 import { Heading } from '@/components/ui'
 import { ja } from '@/shared/lang/ja'
 import explainPopupStyles from './explain-popup.css'

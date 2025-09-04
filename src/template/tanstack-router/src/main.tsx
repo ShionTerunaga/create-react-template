@@ -31,9 +31,7 @@ if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <StrictMode>
-      <PopupProvider layoutPopup={<PopupBase />}>
-        <RouterProvider router={router} />
-      </PopupProvider>
+      <RouterProvider router={router} />
     </StrictMode>,
   )
 }
