@@ -1,5 +1,5 @@
-import { popupReducer } from "@/lib/popup/store/popup-reducer";
-import { PopupAction, PopupState } from "@/lib/popup/store/popup.type";
+import { popupReducer } from "@/utils/lib/popup/store/popup-reducer";
+import { PopupAction, PopupState } from "@/utils/lib/popup/store/popup.type";
 import { ReactNode } from "react";
 import { describe, expect, it } from "vitest";
 

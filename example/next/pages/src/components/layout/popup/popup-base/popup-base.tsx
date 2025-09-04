@@ -1,4 +1,4 @@
-import { usePopup } from "@/lib/popup";
+import { usePopup } from "@/utils/lib/popup";
 import { AnimatePresence, motion } from "motion/react";
 import popupBaseStyles from "./popup-base.css";
 
