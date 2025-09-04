@@ -1,9 +1,9 @@
 "use client";
 
-import { createReducerContext } from "@/lib/context/reducer-context";
+import { createReducerContext } from "@/utils/context/reducer-context";
 import { popupReducer } from "./popup-reducer";
-import { PopupAction, PopupState } from "./popup.type";
-import { ChildrenOnly } from "@/shared/types/react";
+import { type PopupAction, type PopupState } from "./popup.type";
+import { type ChildrenOnly } from "@/shared/types/react";
 import { ReactNode } from "react";
 
 export const popupContext = createReducerContext<PopupState, PopupAction>({

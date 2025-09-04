@@ -1,4 +1,4 @@
-import { PopupAction, PopupState } from "./popup.type";
+import { type PopupAction, type PopupState } from "./popup.type";
 
 export function popupReducer(
     popupState: PopupState,
