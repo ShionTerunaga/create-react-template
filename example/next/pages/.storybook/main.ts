@@ -51,8 +51,8 @@ const config: StorybookConfig = {
         options: {}
     },
     staticDirs: ["../public"],
-    webpackFinal: async (config) => {
-        if (config.resolve) {
+    webpackFinal: async (config: StorybookConfig["webpackFinal"]) => {
+        if (config.resolve != null) {
             config.resolve.alias = {
                 ...config.resolve.alias,
                 "@": path.resolve(__dirname, "./src")
