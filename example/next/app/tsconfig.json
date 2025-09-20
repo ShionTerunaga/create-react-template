@@ -28,7 +28,8 @@
         "**/*.tsx",
         ".next/types/**/*.ts",
         ".storybook/**/*.ts",
-        "eslint.config.mjs"
+        "eslint.config.mjs",
+        "vitest.config.mts"
     ],
     "exclude": ["node_modules"]
 }
