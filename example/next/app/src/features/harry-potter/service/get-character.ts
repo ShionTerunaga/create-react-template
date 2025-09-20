@@ -48,7 +48,7 @@ export async function getCharacter(): Promise<
 
     const judgeType = APIScheme.safeParse(resValue);
 
-    if (judgeType.error) {
+    if (judgeType.error !== undefined) {
         return createResult.ng(
             new HttpError({
                 status: 500,
