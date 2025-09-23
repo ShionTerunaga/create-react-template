@@ -3,8 +3,8 @@ import { getCharacter } from "@/features/harry-potter";
 import { ja } from "@/shared/lang/ja";
 import { RESULT_NG } from "@/utils/result";
 
-async function CachePotter() {
-    const potters = await getCharacter();
+async function ForceCachePotter() {
+    const potters = await getCharacter("force-cache");
 
     if (potters.kind === RESULT_NG) {
         return <div>error</div>;
@@ -13,9 +13,9 @@ async function CachePotter() {
     return (
         <CardListView
             potters={potters.value}
-            title={ja.app.cachePotter.title}
+            title={ja.app.forceCachePotter.title}
         />
     );
 }
 
-export default CachePotter;
+export default ForceCachePotter;

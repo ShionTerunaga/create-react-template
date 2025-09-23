@@ -7,9 +7,9 @@ import { APIView } from "../model/model-view";
 import { HttpError } from "@/utils/error/http";
 import { isHttpStatus } from "@/utils/error/is-http-status";
 
-export async function getCharacter(): Promise<
-    Result<Array<APIView>, HttpError>
-> {
+export async function getCharacter(
+    cache?: RequestCache
+): Promise<Result<Array<APIView>, HttpError>> {
     const url: Option<string> = appConfig.apiKey;
 
     if (url.kind === OPTION_NONE) {
@@ -21,7 +21,9 @@ export async function getCharacter(): Promise<
         );
     }
 
-    const res = await fetch(url.value);
+    const res = await fetch(url.value, {
+        cache
+    });
 
     if (!res.ok) {
         const status = res.status;

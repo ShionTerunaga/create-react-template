@@ -18,7 +18,13 @@ export default function Home() {
             </PopupOpenButton>
 
             <div>
-                <Link href="/cache-potter">{ja.app.home.toCachePotter}</Link>
+                <Link href="/force-cache-potter">
+                    {ja.app.home.toForceCachePotter}
+                </Link>
+                <br />
+                <Link href="/no-store-potter">
+                    {ja.app.home.toNoStorePotter}
+                </Link>
             </div>
         </main>
     );
