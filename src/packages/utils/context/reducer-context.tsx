@@ -1,14 +1,14 @@
 "use client";
 
 import {
-    ActionDispatch,
+    type ActionDispatch,
     createContext,
-    JSX,
+    type JSX,
     useContext,
     useReducer
 } from "react";
-import { createResult, Result, RESULT_NG } from "@/utils/result";
-import { ChildrenOnly } from "@/shared/types/react";
+import { createResult, type Result, RESULT_NG } from "@/utils/result";
+import { type ChildrenOnly } from "@/shared/types/react";
 
 interface ReducerParams<S, D> {
     errorMessage: string;
