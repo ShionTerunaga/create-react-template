@@ -5,6 +5,9 @@ import prompts, { InitialReturnValue } from "prompts";
 import { validateNpmName } from "./helper/validate-npm-name";
 import { existsSync } from "node:fs";
 import { isFolderEmpty } from "./helper/is-folder-empty";
+import { TemplateInfo } from "./types";
+import { isTemplateInfo } from "./helper/is";
+import { blue } from "picocolors";
 
 const handleSigTerm = () => process.exit(0);
 
@@ -81,5 +84,39 @@ async function run(): Promise<void> {
 
     const preferences = conf.get("preferences") as Record<string, string>;
 
-    const defaults: typeof preferences = {};
+    const defaults: typeof preferences = {
+        framework: "tanstack-router"
+    };
+
+    const getPrefOrDefault = (key: keyof TemplateInfo) =>
+        preferences[key] ?? defaults[key];
+
+    const styleFramework = blue("framework");
+
+    const { framework } = await prompts({
+        onState: onPromptState,
+        type: "select",
+        name: "framework",
+        message: `Select a ${styleFramework} for your project:`,
+        choices: [
+            { title: "TanStack Router", value: "tanstack-router" },
+            { title: "Next.js (App Router)", value: "next/app" },
+            { title: "Next.js (Pages Router)", value: "next/pages" }
+        ],
+        initial: getPrefOrDefault("framework")
+    } as const);
+
+    const templateInfo: unknown = {
+        framework
+    };
+
+    if (!isTemplateInfo(templateInfo)) {
+        console.error("Invalid template information.");
+
+        process.exit(1);
+    }
+
+    opts.framework = framework;
+
+    //これ以降実際にテンプレートをコピーして使っていく
 }

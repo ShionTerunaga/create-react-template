@@ -1,0 +1,9 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "outDir": "../../dist/src/create-template-react",
+        "rootDir": "./",
+        "composite": false
+    },
+    "include": ["./"]
+}
