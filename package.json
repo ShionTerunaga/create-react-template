@@ -6,10 +6,11 @@
     "scripts": {
         "git-pull:build": "cd scripts/git && tsc",
         "create-template-build": "cd src/create-template && tsc && cp -r template/next ../../dist/src/create-template-react/template && cp -r template/tanstack-router ../../dist/src/create-template-react/template",
+        "build:vite": "vite build",
         "git-pull-mac:pkg": "pkg dist/scripts/git-pull/react-template-pull.js --targets node18-macos-x64 --output execution/mac/react-tmp-pull",
         "git-pull-win:pkg": "pkg dist/scripts/git-pull/react-template-pull.js --targets node18-win-x64 --output execution/win/react-tmp-pull",
-        "create-template-mac:pkg": "pkg dist/src/create-template-react/index.js --targets node18-macos-x64 --output execution/mac/create-react-tmp",
-        "create-template-win:pkg": "pkg dist/src/create-template-react/index.js --targets node18-win-x64 --output execution/win/create-react-tmp",
+        "create-template-mac:pkg": "pkg dist/bundle.js --targets node18-macos-x64 --output execution/mac/create-react-tmp",
+        "create-template-win:pkg": "pkg dist/bundle.js --targets node18-win-x64 --output execution/win/create-react-tmp",
         "generate-csstype": "tsx ./scripts/css/generate-css-type.ts"
     },
     "keywords": [],
@@ -26,18 +27,31 @@
         "conf": "^14.0.0",
         "csstype": "^3.1.3",
         "fast-glob": "^3.3.3",
+        "node-polyfill-webpack-plugin": "^4.1.0",
         "picocolors": "^1.1.1",
         "prettier": "^3.6.2",
         "prompts": "^2.4.2",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
+        "ts-loader": "^9.5.4",
         "ts-node": "^10.9.2",
         "validate-npm-package-name": "^6.0.2",
-        "vite": "^7.1.4"
+        "vite-plugin-node-polyfills": "^0.24.0"
     },
     "devDependencies": {
         "@types/conf": "^3.0.3",
+        "@vitejs/plugin-react": "^5.0.4",
+        "assert": "^2.1.0",
+        "browserify-zlib": "^0.2.0",
+        "buffer": "^6.0.3",
+        "process": "^0.11.10",
+        "stream-browserify": "^3.0.0",
         "tsx": "^4.20.3",
-        "typescript": "^5.8.3"
+        "typescript": "^5.8.3",
+        "util": "^0.12.5",
+        "vite": "^7.1.4",
+        "vite-tsconfig-paths": "^5.1.4",
+        "webpack": "^5.102.0",
+        "webpack-cli": "^6.0.1"
     }
 }
