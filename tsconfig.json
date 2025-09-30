@@ -12,5 +12,12 @@
         "strict": true,
         "skipLibCheck": true
     },
-    "include": ["scripts", "src"]
+    "include": ["scripts", "src"],
+    "exclude": [
+        "node_modules",
+        "dist",
+        "example",
+        "src/create-template/template/next",
+        "src/create-template/template/tanstack-router"
+    ]
 }

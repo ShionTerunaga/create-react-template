@@ -5,6 +5,5 @@
         "rootDir": "./",
         "composite": false
     },
-    "include": ["./"],
-    "exclude": ["node_modules", "dist", "./template"]
+    "include": ["./"]
 }
