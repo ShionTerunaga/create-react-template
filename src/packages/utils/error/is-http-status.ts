@@ -1,4 +1,4 @@
-import { HttpStatus } from "./http";
+import { type HttpStatus } from "./http";
 
 export function isHttpStatus(status: unknown): status is HttpStatus {
     if (typeof status === "number") {
