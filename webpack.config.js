@@ -1,7 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
-const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
-const RemoveNodeSchemePlugin = require('./RemoveNodeSchemePlugin');
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
+const RemoveNodeSchemePlugin = require("./RemoveNodeSchemePlugin");
 
 module.exports = {
     mode: "production",
@@ -17,14 +17,14 @@ module.exports = {
     resolve: {
         extensions: [".ts", ".js"], // 解決可能な拡張子
         alias: {
-            'node:assert': 'assert',
-            'node:fs': 'browserify-fs',
-            'node:path': 'path-browserify',
-            'node:crypto': 'crypto-browserify',
-            'node:stream': 'stream-browserify',
-            'node:util': 'util',
-            'node:os': 'os-browserify/browser',
-            'node:process': 'process/browser',
+            "node:assert": "assert",
+            "node:fs": "browserify-fs",
+            "node:path": "path-browserify",
+            "node:crypto": "crypto-browserify",
+            "node:stream": "stream-browserify",
+            "node:util": "util",
+            "node:os": "os-browserify/browser",
+            "node:process": "process/browser"
         },
         fallback: {
             fs: false,
@@ -36,7 +36,7 @@ module.exports = {
             util: require.resolve("util"),
             readline: false, // readlineを無効化
             module: false, // moduleを無効化
-            child_process: false, // child_processを無効化
+            child_process: false // child_processを無効化
         }
     },
     module: {
