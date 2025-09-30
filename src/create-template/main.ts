@@ -7,7 +7,8 @@ import { existsSync } from "node:fs";
 import { isFolderEmpty } from "./helper/is-folder-empty";
 import { TemplateInfo } from "./types";
 import { isTemplateInfo } from "./helper/is";
-import { blue } from "picocolors";
+import { blue, bold, red } from "picocolors";
+import { createApp } from "./create-app";
 
 const handleSigTerm = () => process.exit(0);
 
@@ -36,7 +37,9 @@ const program = new Command("create-next")
 
 const opts = program.opts();
 
-async function run(): Promise<void> {
+let projectPath: string = "";
+
+export async function run(): Promise<void> {
     const conf = new Conf({ projectName: "create-react-template" });
 
     const res = await prompts({
@@ -56,7 +59,7 @@ async function run(): Promise<void> {
         }
     });
 
-    const projectPath: string =
+    projectPath =
         res.path && typeof res.path === "string"
             ? res.path.trim()
             : "my-project";
@@ -75,21 +78,14 @@ async function run(): Promise<void> {
         process.exit(1);
     }
 
-    if (existsSync(appPath) && !isFolderEmpty(appPath, appName)) {
+    if (existsSync(appName)) {
         console.error(
-            `The directory ${appName} already exists. Please choose a different project name or remove the existing directory.\n`
+            red(
+                `The directory ${appName} already exists. Please choose a different project name or remove the existing directory.\n`
+            )
         );
         process.exit(1);
     }
-
-    const preferences = conf.get("preferences") as Record<string, string>;
-
-    const defaults: typeof preferences = {
-        framework: "tanstack-router"
-    };
-
-    const getPrefOrDefault = (key: keyof TemplateInfo) =>
-        preferences[key] ?? defaults[key];
 
     const styleFramework = blue("framework");
 
@@ -103,8 +99,8 @@ async function run(): Promise<void> {
             { title: "Next.js (App Router)", value: "next/app" },
             { title: "Next.js (Pages Router)", value: "next/pages" }
         ],
-        initial: getPrefOrDefault("framework")
-    } as const);
+        initial: 0
+    });
 
     const templateInfo: unknown = {
         framework
@@ -118,5 +114,34 @@ async function run(): Promise<void> {
 
     opts.framework = framework;
 
-    //これ以降実際にテンプレートをコピーして使っていく
+    try {
+        await createApp({
+            appPath,
+            templateInfo
+        });
+    } catch (e) {
+        console.error(red("An error occurred while creating the project."));
+        if (e instanceof Error) {
+            console.error(red(e.message));
+        }
+        process.exit(1);
+    }
+}
+
+export function notify() {
+    console.log("cd " + projectPath);
+
+    console.log("pnpm install");
+
+    console.log("pnpm dev");
+
+    console.log();
+
+    console.log(bold("Happy hacking!"));
+    process.exit(0);
+}
+
+export function errorExit() {
+    console.error(red("The operation was cancelled."));
+    process.exit(1);
 }

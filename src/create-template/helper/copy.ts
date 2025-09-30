@@ -1,4 +1,4 @@
-import { createResult, Result } from "@/utils/result";
+import { createResult, Result } from "../template/utils/result";
 import { async as glob } from "fast-glob";
 import { copyFile, mkdir } from "node:fs/promises";
 import { basename, dirname, join, resolve } from "node:path";
@@ -15,7 +15,7 @@ export async function copy(
     src: string | string[],
     dest: string,
     { cwd, rename = identity, parents = true }: CopyOptions
-): Promise<Result<Promise<void[]>, Error>> {
+): Promise<Result<Promise<void>, Error>> {
     const sources = typeof src === "string" ? [src] : src;
 
     if (sources.length === 0 || dest === "") {
@@ -25,27 +25,27 @@ export async function copy(
     const sourceFiles = await glob(sources, {
         cwd,
         dot: true,
-        onlyFiles: false,
-        followSymbolicLinks: false
+        absolute: false,
+        stats: false,
+        onlyFiles: true
     });
 
     const destRelativeToCwd = cwd ? resolve(cwd, dest) : dest;
 
-    return createResult.ok(
-        Promise.all(
-            sourceFiles.map(async (p) => {
-                const dirName = dirname(p);
-                const baseName = rename(basename(p));
+    for (const p of sourceFiles) {
+        const dirName = dirname(p);
 
-                const from = cwd ? resolve(cwd, p) : p;
-                const to = parents
-                    ? join(destRelativeToCwd, dirName, baseName)
-                    : join(destRelativeToCwd, baseName);
+        const baseName = rename(basename(p));
 
-                await mkdir(dirname(to), { recursive: true });
+        const from = cwd ? resolve(cwd, p) : p;
+        const to = parents
+            ? join(destRelativeToCwd, dirName, baseName)
+            : join(destRelativeToCwd, baseName);
 
-                return copyFile(from, to);
-            })
-        )
-    );
+        await mkdir(dirname(to), { recursive: true });
+
+        await copyFile(from, to);
+    }
+
+    return createResult.ok(Promise.resolve());
 }

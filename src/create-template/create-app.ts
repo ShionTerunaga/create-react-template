@@ -3,6 +3,7 @@ import { TemplateInfo } from "./types";
 import { mkdirSync } from "node:fs";
 import { isFolderEmpty } from "./helper/is-folder-empty";
 import { green } from "picocolors";
+import { installTemplate } from "./template";
 
 export async function createApp({
     appPath,
@@ -25,5 +26,9 @@ export async function createApp({
 
     process.chdir(root);
 
-    const packageJsonPath = join(root, "package.json");
+    await installTemplate({
+        appName,
+        root,
+        framework: templateInfo.framework
+    });
 }
