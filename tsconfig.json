@@ -12,7 +12,7 @@
         "strict": true,
         "skipLibCheck": true
     },
-    "include": ["scripts", "src"],
+    "include": ["scripts", "src", "src/create-template/rspack.config.js"],
     "exclude": [
         "node_modules",
         "dist",
