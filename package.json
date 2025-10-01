@@ -5,17 +5,20 @@
     "main": "index.js",
     "scripts": {
         "git-pull:build": "cd scripts/git && tsc",
-        "create-template-build": "cd src/create-template && tsc && cp -r template/next ../../dist/src/create-template-react/template && cp -r template/tanstack-router ../../dist/src/create-template-react/template",
-        "build:vite": "vite build",
+        "build:ncc-tmp": "ncc build ./src/create-template/index.ts -o ./dist/react-tmp",
         "git-pull-mac:pkg": "pkg dist/scripts/git-pull/react-template-pull.js --targets node18-macos-x64 --output execution/mac/react-tmp-pull",
         "git-pull-win:pkg": "pkg dist/scripts/git-pull/react-template-pull.js --targets node18-win-x64 --output execution/win/react-tmp-pull",
-        "create-template-mac:pkg": "pkg dist/create-template/bundle.js --targets node18-macos-x64 --output execution/mac/create-react-tmp && cp -r src/create-template/template execution/mac/template",
-        "create-template-win:pkg": "pkg dist/create-template/bundle.js --targets node18-win-x64 --output execution/win/create-react-tmp && cp -r src/create-template/template execution/mac/template",
-        "generate-csstype": "tsx ./scripts/css/generate-css-type.ts",
-        "build:rspack": "cd src/create-template && rspack"
+        "create-template-mac:pkg": "pkg dist/react-tmp/index.js --targets node18-macos-x64 --output execution/mac/create-react-tmp && cp -R src/create-template/template execution/mac",
+        "create-template-win:pkg": "pkg dist/react-tmp/index.js --targets node18-win-x64 --output execution/win/create-react-tmp && cp -R src/create-template/template execution/win",
+        "generate-csstype": "tsx ./scripts/css/generate-css-type.ts"
     },
     "keywords": [],
     "author": "",
+    "pkg": {
+        "assets": [
+            "dist/template/**/*"
+        ]
+    },
     "dependencies": {
         "@commitlint/cli": "^19.8.1",
         "@commitlint/config-conventional": "^19.8.1",

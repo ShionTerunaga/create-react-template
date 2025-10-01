@@ -3,7 +3,7 @@ import { TemplateInfo } from "./types";
 import { mkdirSync } from "node:fs";
 import { isFolderEmpty } from "./helper/is-folder-empty";
 import { green } from "picocolors";
-import { installTemplate } from "./template";
+import { installTemplate } from "./template-index";
 
 export async function createApp({
     appPath,
