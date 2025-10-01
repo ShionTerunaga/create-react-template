@@ -1,7 +1,7 @@
-import { copy } from "../helper/copy";
-import { InstallTemplateArgs } from "./types";
+import { copy } from "./helper/copy";
+import { InstallTemplateArgs } from "./template-types";
 import path from "path";
-import { RESULT_NG } from "./utils/result";
+import { RESULT_NG } from "./template/utils/result";
 import fs from "fs/promises";
 
 export async function installTemplate({
@@ -10,7 +10,7 @@ export async function installTemplate({
     framework
 }: InstallTemplateArgs) {
     const copySource = ["**/*"];
-    const templatePath = path.join(__dirname, framework);
+    const templatePath = path.join(__dirname, "template", framework);
 
     const res = await copy(copySource, root, {
         parents: true,
