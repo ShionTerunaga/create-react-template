@@ -3,6 +3,7 @@ import { createOption } from "@/utils/option";
 import { appConfig } from "@/shared/config/config";
 import { APIRes, getCharacter } from "@/features/harry-potter";
 import { RESULT_NG, RESULT_OK } from "@/utils/result";
+import { createHttpError, HttpError } from "@/utils/error/http";
 
 const mockAPIData: APIRes = [
     {
@@ -53,8 +54,7 @@ describe("getCharacter", () => {
 
         if (result.kind === RESULT_OK) return;
 
-        expect(result.err.status).toBe(404);
-        expect(result.err.message).toBe("パスを設定してください");
+        expect(result.err).toBe(createHttpError().notFoundAPIUrl());
     });
 
     it("レスポンスがerrorの場合", async () => {
@@ -76,9 +76,11 @@ describe("getCharacter", () => {
 
         if (result.kind === RESULT_OK) return;
 
-        expect(result.err.status).toBe(501);
-        expect(result.err.message).toBe(
-            "ステータスコードの定義が間違えています"
+        expect(result.err).toBe(
+            new HttpError({
+                status: 5000,
+                message: "httpエラーです"
+            })
         );
     });
 

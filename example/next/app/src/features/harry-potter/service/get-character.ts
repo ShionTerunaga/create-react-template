@@ -4,8 +4,7 @@ import { APIScheme } from "../model/model-res";
 import { perseApi } from "../utils/parse-api";
 import { createResult, Result } from "@/utils/result";
 import { APIView } from "../model/model-view";
-import { HttpError } from "@/utils/error/http";
-import { isHttpStatus } from "@/utils/error/is-http-status";
+import { createHttpError, HttpError, isHttpStatus } from "@/utils/error/http";
 
 export async function getCharacter(
     cache?: RequestCache
@@ -13,12 +12,7 @@ export async function getCharacter(
     const url: Option<string> = appConfig.apiKey;
 
     if (url.kind === OPTION_NONE) {
-        return createResult.ng(
-            new HttpError({
-                status: 404,
-                message: "パスを設定してください"
-            })
-        );
+        return createResult.ng(createHttpError().notFoundAPIUrl());
     }
 
     const res = await fetch(url.value, {
@@ -29,18 +23,13 @@ export async function getCharacter(
         const status = res.status;
 
         if (!isHttpStatus(status)) {
-            return createResult.ng(
-                new HttpError({
-                    status: 501,
-                    message: "ステータスコードの定義が間違えています"
-                })
-            );
+            return createResult.ng(createHttpError().unknownError());
         }
 
         //あとで作ろうかな
         return createResult.ng(
             new HttpError({
-                status,
+                status: 5000, //仮で5000にしてます
                 message: "httpエラーです"
             })
         );
@@ -51,12 +40,7 @@ export async function getCharacter(
     const judgeType = APIScheme.safeParse(resValue);
 
     if (judgeType.error !== undefined) {
-        return createResult.ng(
-            new HttpError({
-                status: 500,
-                message: "スキームが間違っています。"
-            })
-        );
+        return createResult.ng(createHttpError().schemeError());
     }
 
     const okValue = judgeType.data;
