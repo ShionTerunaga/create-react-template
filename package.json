@@ -10,7 +10,7 @@
         "git-pull-mac:pkg": "pkg dist/scripts/git-pull/react-template-pull.js --targets node18-macos-x64 --output execution/mac/react-tmp-pull",
         "git-pull-win:pkg": "pkg dist/scripts/git-pull/react-template-pull.js --targets node18-win-x64 --output execution/win/react-tmp-pull",
         "create-template-mac:pkg": "pkg dist/create-template/bundle.js --targets node18-macos-x64 --output execution/mac/create-react-tmp && cp -r src/create-template/template execution/mac/template",
-        "create-template-win:pkg": "pkg dist/create-template/bundle.js --targets node18-win-x64 --output execution/win/create-react-tmp",
+        "create-template-win:pkg": "pkg dist/create-template/bundle.js --targets node18-win-x64 --output execution/win/create-react-tmp && cp -r src/create-template/template execution/mac/template",
         "generate-csstype": "tsx ./scripts/css/generate-css-type.ts",
         "build:rspack": "cd src/create-template && rspack"
     },
