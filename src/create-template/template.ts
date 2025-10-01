@@ -1,7 +1,7 @@
 import { copy } from "./helper/copy";
 import { InstallTemplateArgs } from "./template-types";
 import path from "path";
-import { RESULT_NG } from "./template/utils/result";
+import { RESULT_NG } from "./utils/result";
 import fs from "fs/promises";
 
 export async function installTemplate({

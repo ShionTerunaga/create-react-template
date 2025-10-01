@@ -1,4 +1,4 @@
-import { resolve, basename, join } from "node:path";
+import { resolve, basename } from "node:path";
 import { TemplateInfo } from "./types";
 import { mkdirSync } from "node:fs";
 import { isFolderEmpty } from "./helper/is-folder-empty";

@@ -4,8 +4,6 @@ import Conf from "conf";
 import prompts, { InitialReturnValue } from "prompts";
 import { validateNpmName } from "./helper/validate-npm-name";
 import { existsSync } from "node:fs";
-import { isFolderEmpty } from "./helper/is-folder-empty";
-import { TemplateInfo } from "./types";
 import { isTemplateInfo } from "./helper/is";
 import { blue, bold, red } from "picocolors";
 import { createApp } from "./create-app";
