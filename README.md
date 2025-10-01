@@ -45,14 +45,16 @@ git clone https://github.com/ShionTerunaga/create-react-template.git
 
 6. pass through
 
-```bash
-export PATH="/Users/<username>/tools/create-react-template/execution/mac" >> ~/.zprofile
-#or
-export PATH="/Users/<username>/tools/create-react-template/execution/mac" >> ~/.bash_profile
+```
+#.zprofile
+export PATH="$PATH:/Users/terashieishion/tools/create-react-template/execution/mac"
+```
 
-source ~/.zprofile
-#or
-source .bash_profile
+or
+
+```
+# .bash_profile
+export PATH="$PATH:/Users/terashieishion/tools/create-react-template/execution/mac"
 ```
 
 ### windows
@@ -72,4 +74,3 @@ create-react-tmp
 ```bash
 react-tmp-pull
 ```
-
