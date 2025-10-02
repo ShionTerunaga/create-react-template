@@ -1,17 +1,4 @@
-/**
- * 適宜必要なステータスを追加する
- */
-export type HttpStatus = 404 | 500 | 403 | 400 | 501;
-
-export type HttpCustomStatus =
-    | 4040 //URLが設定されていない
-    | 4041 //httpからのレスポンスで404が返ってきた
-    | 4030 //権限がない
-    | 4000 //不正なリクエスト
-    | 5000 //
-    | 5001
-    | 5010
-    | 9999;
+import { createHttpScheme, HttpCustomStatus } from "@/utils/error/http-scheme";
 
 export class HttpError extends Error {
     public type: string;
@@ -33,61 +20,63 @@ export class HttpError extends Error {
     }
 }
 
-export function isHttpStatus(status: unknown): status is HttpStatus {
-    if (typeof status === "number") {
-        return false;
-    }
-
-    return status === 404 || status === 500 || status === 501;
-}
-
+/**ここは仕様に応じて変更する*/
 export function createHttpError() {
+    const httpErrorScheme = createHttpScheme();
+
     const notFoundAPIUrl = () => {
         return new HttpError({
-            status: 4040,
-            message: "APIのURLが設定されていません"
+            status: httpErrorScheme.httpCustomStatusScheme.notFoundAPIUrl,
+            message: httpErrorScheme.errorMessage.notFoundAPIUrl
         });
     };
 
     const returnNotFoundAPIUrl = () => {
         return new HttpError({
-            status: 4041,
-            message: "APIのURLが見つかりません"
+            status: httpErrorScheme.httpCustomStatusScheme.returnNotFoundAPIUrl,
+            message: httpErrorScheme.errorMessage.returnNotFoundAPIUrl
         });
     };
 
-    const returnDifferentMethod = () => {
+    const returnNoPermission = () => {
         return new HttpError({
-            status: 4030,
-            message: "権限がありません"
+            status: httpErrorScheme.httpCustomStatusScheme.returnNoPermission,
+            message: httpErrorScheme.errorMessage.returnNoPermission
         });
     };
 
     const returnBadRequest = () => {
         return new HttpError({
-            status: 4000,
-            message: "不正なリクエストです"
+            status: httpErrorScheme.httpCustomStatusScheme.returnBadRequest,
+            message: httpErrorScheme.errorMessage.returnBadRequest
+        });
+    };
+
+    const returnInternalServerError = () => {
+        return new HttpError({
+            status: httpErrorScheme.httpCustomStatusScheme.serverError,
+            message: httpErrorScheme.errorMessage.serverError
         });
     };
 
     const unknownError = () => {
         return new HttpError({
-            status: 9999,
-            message: "unknown error"
+            status: httpErrorScheme.httpCustomStatusScheme.unknownError,
+            message: httpErrorScheme.errorMessage.unknownError
         });
     };
 
     const schemeError = () => {
         return new HttpError({
-            status: 5000,
-            message: "スキームが間違っています。"
+            status: httpErrorScheme.httpCustomStatusScheme.schemeError,
+            message: httpErrorScheme.errorMessage.schemeError
         });
     };
 
-    const customError = (message: string) => {
+    const parseError = () => {
         return new HttpError({
-            status: 5001,
-            message
+            status: httpErrorScheme.httpCustomStatusScheme.parseError,
+            message: httpErrorScheme.errorMessage.parseError
         });
     };
 
@@ -95,9 +84,10 @@ export function createHttpError() {
         notFoundAPIUrl,
         unknownError,
         schemeError,
-        customError,
         returnNotFoundAPIUrl,
-        returnDifferentMethod,
-        returnBadRequest
+        returnNoPermission,
+        returnBadRequest,
+        returnInternalServerError,
+        parseError
     };
 }

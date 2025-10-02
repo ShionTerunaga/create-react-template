@@ -1,21 +1,20 @@
 import { appConfig } from "@/shared/config/config";
-import { HttpError, isHttpStatus } from "@/utils/error/http";
+import { createHttpError, HttpError } from "@/utils/error/http";
 import { OPTION_NONE } from "@/utils/option";
 import { createResult, Result } from "@/utils/result";
 import { RandomDogRes, randomDogScheme } from "../model/random-dog";
-
-import { parseScheme } from "./parce-scheme";
+import { parseScheme } from "./parse-scheme";
+import { createHttpScheme } from "@/utils/error/http-scheme";
+import { isHttpStatus } from "@/utils/error/http-is";
 
 export async function getRandomDog(): Promise<Result<RandomDogRes, HttpError>> {
+    const httpErrorScheme = createHttpScheme();
+    const createError = createHttpError();
+
     const apiURL = appConfig.apiKey2;
 
     if (apiURL.kind === OPTION_NONE) {
-        return createResult.ng(
-            new HttpError({
-                status: 4040,
-                message: "APIのURLが設定されていません"
-            })
-        );
+        return createResult.ng(createError.notFoundAPIUrl());
     }
 
     const res = await fetch(apiURL.value);
@@ -24,19 +23,21 @@ export async function getRandomDog(): Promise<Result<RandomDogRes, HttpError>> {
         const status = res.status;
 
         if (!isHttpStatus(status)) {
-            return createResult.ng(
-                new HttpError({
-                    status: 5010,
-                    message: "ステータスコードの定義が間違えています"
-                })
-            );
+            return createResult.ng(createError.unknownError());
         }
-        return createResult.ng(
-            new HttpError({
-                status: 5000, //仮で5000にしてます
-                message: "httpエラーです"
-            })
-        );
+
+        switch (status) {
+            case httpErrorScheme.httpErrorStatusResponse.notFound:
+                return createResult.ng(createError.returnNotFoundAPIUrl());
+            case httpErrorScheme.httpErrorStatusResponse.forbidden:
+                return createResult.ng(createError.returnNoPermission());
+            case httpErrorScheme.httpErrorStatusResponse.badRequest:
+                return createResult.ng(createError.returnBadRequest());
+            case httpErrorScheme.httpErrorStatusResponse.internalServerError:
+                return createResult.ng(createError.returnInternalServerError());
+            default:
+                return createResult.ng(createError.unknownError());
+        }
     }
 
     const resValue = await res.json();
@@ -44,12 +45,7 @@ export async function getRandomDog(): Promise<Result<RandomDogRes, HttpError>> {
     const judgeType = randomDogScheme.safeParse(resValue);
 
     if (judgeType.error !== undefined) {
-        return createResult.ng(
-            new HttpError({
-                status: 5000, //仮で5000にしてます
-                message: "スキームが間違っています。"
-            })
-        );
+        return createResult.ng(createError.schemeError());
     }
 
     return parseScheme(judgeType.data);

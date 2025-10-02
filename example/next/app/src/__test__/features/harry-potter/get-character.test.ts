@@ -39,6 +39,7 @@ global.fetch = vi.fn();
 const mockFetch = fetch as Mock;
 
 describe("getCharacter", () => {
+    const createError = createHttpError();
     beforeEach(() => {
         vi.clearAllMocks();
     });
@@ -54,7 +55,8 @@ describe("getCharacter", () => {
 
         if (result.kind === RESULT_OK) return;
 
-        expect(result.err).toBe(createHttpError().notFoundAPIUrl());
+        expect(result.err.status).toBe(4040);
+        expect(result.err.message).toBe("APIのURLが設定されていません");
     });
 
     it("レスポンスがerrorの場合", async () => {
@@ -76,12 +78,8 @@ describe("getCharacter", () => {
 
         if (result.kind === RESULT_OK) return;
 
-        expect(result.err).toBe(
-            new HttpError({
-                status: 5000,
-                message: "httpエラーです"
-            })
-        );
+        expect(result.err.status).toBe(5001);
+        expect(result.err.message).toBe("サーバーエラーです");
     });
 
     it("レスポンスがerrorでstatusコードが設定していないものが来た場合", async () => {
@@ -103,10 +101,8 @@ describe("getCharacter", () => {
 
         if (result.kind === RESULT_OK) return;
 
-        expect(result.err.status).toBe(501);
-        expect(result.err.message).toBe(
-            "ステータスコードの定義が間違えています"
-        );
+        expect(result.err.status).toBe(9999);
+        expect(result.err.message).toBe("unknown error");
     });
 
     it("スキームが合わない場合", async () => {
@@ -125,7 +121,7 @@ describe("getCharacter", () => {
 
         if (result.kind === RESULT_OK) return;
 
-        expect(result.err.status).toBe(500);
+        expect(result.err.status).toBe(5000);
         expect(result.err.message).toContain("スキームが間違っています");
     });
 
