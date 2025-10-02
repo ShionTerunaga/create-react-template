@@ -8,7 +8,9 @@ function HomeLayout() {
       <Heading>{ja.app.home.title}</Heading>
 
       <div>
-        <Link to="/single-dynamic-fetch">{ja.app.home.toCachePotter}</Link>
+        <Link to="/single-dynamic-fetch">
+          {ja.app.home.toSingleDynamicPotter}
+        </Link>
       </div>
     </main>
   )
