@@ -11,17 +11,17 @@ interface NG<E> {
     err: E;
 }
 
-export type Result<T, E> = OK<T> | NG<E>;
+export type Result<T, E> = OK<NonNullable<T>> | NG<NonNullable<E>>;
 
 export const createResult = {
-    ok: <T>(value: T): Result<T, never> => {
+    ok: <T>(value: NonNullable<T>): Result<T, never> => {
         return {
             kind: RESULT_OK,
             value
         };
     },
 
-    ng: <E>(err: E): Result<never, E> => {
+    ng: <E>(err: NonNullable<E>): Result<never, E> => {
         return {
             kind: RESULT_NG,
             err

@@ -6,7 +6,6 @@ import { createResult, Result } from "@/utils/result";
 import { APIView } from "../model/model-view";
 import { createHttpError, HttpError } from "@/utils/error/http";
 import { createHttpScheme } from "@/utils/error/http-scheme";
-import { isHttpStatus } from "@/utils/error/http-is";
 
 export async function getCharacter(
     cache?: RequestCache
@@ -26,10 +25,6 @@ export async function getCharacter(
 
     if (!res.ok) {
         const status = res.status;
-
-        if (!isHttpStatus(status)) {
-            return createResult.ng(createError.unknownError());
-        }
 
         switch (status) {
             case httpErrorScheme.httpErrorStatusResponse.notFound:

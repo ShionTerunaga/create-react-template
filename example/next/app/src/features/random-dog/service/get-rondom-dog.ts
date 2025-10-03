@@ -5,7 +5,6 @@ import { createResult, Result } from "@/utils/result";
 import { RandomDogRes, randomDogScheme } from "../model/random-dog";
 import { parseScheme } from "./parse-scheme";
 import { createHttpScheme } from "@/utils/error/http-scheme";
-import { isHttpStatus } from "@/utils/error/http-is";
 
 export async function getRandomDog(): Promise<Result<RandomDogRes, HttpError>> {
     const httpErrorScheme = createHttpScheme();
@@ -21,10 +20,6 @@ export async function getRandomDog(): Promise<Result<RandomDogRes, HttpError>> {
 
     if (!res.ok) {
         const status = res.status;
-
-        if (!isHttpStatus(status)) {
-            return createResult.ng(createError.unknownError());
-        }
 
         switch (status) {
             case httpErrorScheme.httpErrorStatusResponse.notFound:

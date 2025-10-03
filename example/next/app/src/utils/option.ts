@@ -10,10 +10,10 @@ interface None {
     readonly kind: typeof OPTION_NONE;
 }
 
-export type Option<T> = Some<T> | None;
+export type Option<T> = Some<NonNullable<T>> | None;
 
 export const createOption = {
-    some: <T>(value: T): Option<T> => {
+    some: <T>(value: NonNullable<T>): Option<T> => {
         return {
             kind: OPTION_SOME,
             value
