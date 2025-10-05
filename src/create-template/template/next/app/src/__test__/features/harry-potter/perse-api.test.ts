@@ -1,8 +1,7 @@
 import { describe, it, expect } from "vitest";
-
 import { createOption } from "@/utils/option";
 import { APIRes } from "@/features/harry-potter";
-import { perseApi } from "@/features/harry-potter/utils/parse-api";
+import { perseApi } from "@/features/harry-potter/service/parse-api";
 
 const mockApiData: APIRes = [
     {
@@ -66,6 +65,7 @@ describe("perseApi", () => {
         expect(result.length).toBe(1);
 
         const harry = result[0];
+
         expect(harry.name).toBe("Harry Potter");
         expect(harry.alternateNames).toEqual(["The Boy Who Lived"]);
         expect(harry.gender).toBe("male");

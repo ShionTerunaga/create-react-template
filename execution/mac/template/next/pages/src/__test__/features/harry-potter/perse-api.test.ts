@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 
 import { createOption } from "@/utils/option";
 import { APIRes } from "@/features/harry-potter";
-import { perseApi } from "@/features/harry-potter/utils/parse-api";
+import { perseApi } from "@/features/harry-potter/service/parse-api";
 
 const mockApiData: APIRes = [
     {
