@@ -1,7 +1,10 @@
+"use client";
+
 import {
     ActionDispatch,
     createContext,
     JSX,
+    use,
     useContext,
     useReducer
 } from "react";

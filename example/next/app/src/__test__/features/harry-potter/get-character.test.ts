@@ -3,7 +3,6 @@ import { createOption } from "@/utils/option";
 import { appConfig } from "@/shared/config/config";
 import { APIRes, getCharacter } from "@/features/harry-potter";
 import { RESULT_NG, RESULT_OK } from "@/utils/result";
-import { createHttpError, HttpError } from "@/utils/error/http";
 
 const mockAPIData: APIRes = [
     {
@@ -39,7 +38,6 @@ global.fetch = vi.fn();
 const mockFetch = fetch as Mock;
 
 describe("getCharacter", () => {
-    const createError = createHttpError();
     beforeEach(() => {
         vi.clearAllMocks();
     });
