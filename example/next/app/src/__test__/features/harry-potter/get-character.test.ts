@@ -33,13 +33,13 @@ const mockAPIData: APIRes = [
     }
 ];
 
-global.fetch = vi.fn();
-
-const mockFetch = fetch as Mock;
+const mockFetch = vi.fn();
 
 describe("getCharacter", () => {
     beforeEach(() => {
         vi.clearAllMocks();
+
+        vi.stubGlobal("fetch", mockFetch);
     });
 
     it("APIのURLを設定していない場合", async () => {
@@ -49,7 +49,7 @@ describe("getCharacter", () => {
 
         const result = await getCharacter();
 
-        expect(result.kind).toBe(RESULT_NG);
+        expect(result.kind).toBe("ng");
 
         if (result.kind === RESULT_OK) return;
 
@@ -120,7 +120,7 @@ describe("getCharacter", () => {
         if (result.kind === RESULT_OK) return;
 
         expect(result.err.status).toBe(5000);
-        expect(result.err.message).toContain("スキームが間違っています");
+        expect(result.err.message).toBe("スキームが間違っています。");
     });
 
     it("should return parsed characters when valid data is provided", async () => {

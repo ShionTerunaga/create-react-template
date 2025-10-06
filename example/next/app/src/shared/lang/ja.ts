@@ -12,6 +12,11 @@ export const ja = {
         },
         noStorePotter: {
             title: "no-storeでのデータ収集"
+        },
+        serverActionSample: {
+            title: "Server Action sample",
+            button: "犬の画像を取得",
+            error: "エラーが発生しました。もう一度お試しください。"
         }
     },
     features: {

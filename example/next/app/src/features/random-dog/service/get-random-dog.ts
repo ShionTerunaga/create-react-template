@@ -1,3 +1,5 @@
+"use server";
+
 import { appConfig } from "@/shared/config/config";
 import { createHttpError, HttpError } from "@/utils/error/http";
 import { OPTION_NONE } from "@/utils/option";
