@@ -1,9 +1,9 @@
+import type { ChildrenOnly } from '@/shared/types/react'
 import {
   gridBoxBaseStyles,
   gridBoxGap,
   gridBoxGridTemplate,
 } from './grid-box.css'
-import type { ChildrenOnly } from '@/shared/types/react'
 import type { CheckerProps } from '@/shared/types/object'
 
 interface Props extends ChildrenOnly {

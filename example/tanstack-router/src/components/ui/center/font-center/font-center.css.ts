@@ -1,7 +1,7 @@
-import { style } from '@vanilla-extract/css'
+import { style } from "@vanilla-extract/css";
 
 const fontCenterBaseStyle = style({
-  textAlign: 'center',
-})
+    textAlign: "center"
+});
 
-export default fontCenterBaseStyle
+export default fontCenterBaseStyle;

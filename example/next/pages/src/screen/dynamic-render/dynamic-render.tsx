@@ -1,3 +1,4 @@
+import { Box } from "@/components/ui";
 import { CardListView } from "@/components/view";
 import { useSinglePageCharacters } from "@/features/harry-potter";
 import { ja } from "@/shared/lang/ja";
@@ -7,11 +8,11 @@ function DynamicScreen() {
     const { isLoading, error, characters } = useSinglePageCharacters();
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <Box>Loading...</Box>;
     }
 
     if (error.kind === OPTION_SOME) {
-        return <div>動的取得が失敗してます。</div>;
+        return <Box>動的取得が失敗してます。</Box>;
     }
 
     return (

@@ -1,3 +1,4 @@
+import { Box } from "@/components/ui";
 import { CardListView } from "@/components/view";
 import { getCharacter } from "@/features/harry-potter";
 import { ja } from "@/shared/lang/ja";
@@ -7,7 +8,7 @@ async function ForceCachePotter() {
     const potters = await getCharacter("force-cache");
 
     if (potters.kind === RESULT_NG) {
-        return <div>error</div>;
+        return <Box>error</Box>;
     }
 
     return (

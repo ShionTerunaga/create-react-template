@@ -1,4 +1,4 @@
-import { Heading } from "@/components/ui";
+import { Box, Heading } from "@/components/ui";
 import { PopupOpenButton } from "@/components/ui/popup/popup-open-button/popup-open-button";
 import { ExplainPopup } from "@/features/about";
 import { ja } from "@/shared/lang/ja";
@@ -7,7 +7,7 @@ import Link from "next/link";
 
 export default function Home() {
     return (
-        <main>
+        <Box as="main">
             <Heading>{ja.app.home.title}</Heading>
 
             <PopupOpenButton
@@ -17,7 +17,7 @@ export default function Home() {
                 {ja.app.home.openPopup}
             </PopupOpenButton>
 
-            <div>
+            <Box>
                 <Link href="/force-cache-potter">
                     {ja.app.home.toForceCachePotter}
                 </Link>
@@ -25,7 +25,7 @@ export default function Home() {
                 <Link href="/no-store-potter">
                     {ja.app.home.toNoStorePotter}
                 </Link>
-            </div>
-        </main>
+            </Box>
+        </Box>
     );
 }

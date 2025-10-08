@@ -1,3 +1,4 @@
+import { Box } from "@/components/ui";
 import { CardListView } from "@/components/view";
 import { getCharacter } from "@/features/harry-potter";
 import { ja } from "@/shared/lang/ja";
@@ -8,7 +9,7 @@ async function NoStorePotter() {
     const potters = await getCharacter("no-store");
 
     if (potters.kind === RESULT_NG) {
-        return <div>error</div>;
+        return <Box>error</Box>;
     }
 
     return (

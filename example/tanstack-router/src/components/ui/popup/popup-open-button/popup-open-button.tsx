@@ -1,9 +1,13 @@
 'use client'
 
-import type { ButtonHTMLAttributes, DetailedHTMLProps, ReactNode } from 'react'
-import type { CheckerProps } from '@/shared/types/object'
 import { usePopup } from '@/lib/popup'
+import { type CheckerProps } from '@/shared/types/object'
 import { omitElementObject } from '@/utils/object'
+import {
+  type ButtonHTMLAttributes,
+  type DetailedHTMLProps,
+  type ReactNode,
+} from 'react'
 
 type ButtonProps = Omit<
   DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>,

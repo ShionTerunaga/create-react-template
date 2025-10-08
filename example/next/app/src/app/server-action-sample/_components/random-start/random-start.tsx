@@ -1,5 +1,6 @@
 "use client";
 
+import { Box } from "@/components/ui";
 import { getRandomDog } from "@/features/random-dog";
 import { RandomDogRes } from "@/features/random-dog/model/random-dog";
 import { ja } from "@/shared/lang/ja";
@@ -31,8 +32,8 @@ function RandomStart() {
     };
 
     return (
-        <section>
-            <div>
+        <Box as="section">
+            <Box>
                 {error ? (
                     <p>{ja.app.serverActionSample.error}</p>
                 ) : dog.kind === OPTION_SOME ? (
@@ -43,11 +44,11 @@ function RandomStart() {
                         alt=""
                     />
                 ) : null}
-            </div>
+            </Box>
             <button onClick={handleClick}>
                 {ja.app.serverActionSample.button}
             </button>
-        </section>
+        </Box>
     );
 }
 

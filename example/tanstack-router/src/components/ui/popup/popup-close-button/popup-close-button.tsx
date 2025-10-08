@@ -1,6 +1,8 @@
+'use client'
+
+import { usePopup } from '@/lib/popup'
 import type { CheckerProps } from '@/shared/types/object'
 import type { ButtonHTMLAttributes, DetailedHTMLProps } from 'react'
-import { usePopup } from '@/lib/popup'
 
 type ButtonProps = Omit<
   DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>,

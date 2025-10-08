@@ -8,4 +8,5 @@ export interface HeadingStyle {
     as?: Extract<ElementType, "h1" | "h2" | "h3">;
     fontStyle?: HeadingFont;
     color?: TextTheme;
+    style?: React.CSSProperties;
 }

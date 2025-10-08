@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { Geist, Geist_Mono } from "next/font/google";
-import { Heading } from "@/components/ui";
+import { Box, Heading } from "@/components/ui";
 import { ja } from "@/shared/lang/ja";
 import { PopupOpenButton } from "@/components/ui/popup/popup-open-button/popup-open-button";
 import { ExplainPopup } from "@/features/about";
@@ -40,7 +40,7 @@ function HomeScreen() {
                     {ja.app.home.openPopup}
                 </PopupOpenButton>
 
-                <div>
+                <Box>
                     <Link href="/server-side-render">
                         {ja.app.home.toServerSideRender}
                     </Link>
@@ -55,7 +55,7 @@ function HomeScreen() {
                     <Link href="/dynamic-render">
                         {ja.app.home.toSingleDynamicPotter}
                     </Link>
-                </div>
+                </Box>
             </main>
         </>
     );

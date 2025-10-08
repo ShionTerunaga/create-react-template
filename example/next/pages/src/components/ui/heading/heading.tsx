@@ -13,11 +13,16 @@ export function Heading<T extends HeadingProps>(
         as = "h1",
         fontStyle = "firstBig",
         color = "textNormal",
+        style,
         children
     } = props;
 
     const cn = [headingFontStyle[fontStyle], textColor[color]].join(" ");
 
     const As = as;
-    return <As className={cn}>{children}</As>;
+    return (
+        <As className={cn} style={style}>
+            {children}
+        </As>
+    );
 }

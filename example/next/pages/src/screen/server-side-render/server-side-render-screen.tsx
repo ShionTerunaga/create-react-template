@@ -1,3 +1,4 @@
+import { Box } from "@/components/ui";
 import { CardListView } from "@/components/view";
 import { APIView } from "@/features/harry-potter";
 import { ja } from "@/shared/lang/ja";
@@ -15,7 +16,7 @@ function ServerSideRenderScreen<T extends Props>(
     const { character } = props;
 
     if (character.kind === RESULT_NG) {
-        return <div>サーバーサイドレンダーが失敗してます。</div>;
+        return <Box>サーバーサイドレンダーが失敗してます。</Box>;
     }
 
     return (
