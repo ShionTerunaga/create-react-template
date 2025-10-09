@@ -25,6 +25,10 @@ export default function Home() {
                 <Link href="/no-store-potter">
                     {ja.app.home.toNoStorePotter}
                 </Link>
+                <br />
+                <Link href="/server-action-sample">
+                    {ja.app.home.toServerActionSample}
+                </Link>
             </Box>
         </Box>
     );

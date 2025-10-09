@@ -63,9 +63,16 @@ describe("perseApi", () => {
     it("適したフォーマットが返ってくる", () => {
         const result = perseApi(mockApiData);
 
-        expect(result.length).toBe(1);
+        expect(result.kind).toBe("ok");
 
-        const harry = result[0];
+        if (result.kind !== "ok") {
+            throw new Error("Result is not ok");
+        }
+
+        expect(result.value.length).toBe(1);
+
+        const harry = result.value[0];
+
         expect(harry.name).toBe("Harry Potter");
         expect(harry.alternateNames).toEqual(["The Boy Who Lived"]);
         expect(harry.gender).toBe("male");
@@ -89,7 +96,16 @@ describe("perseApi", () => {
         ];
 
         const result = perseApi(dataWithNulls);
-        const character = result[0];
+
+        expect(result.kind).toBe("ok");
+
+        if (result.kind !== "ok") {
+            throw new Error("Result is not ok");
+        }
+
+        expect(result.value.length).toBe(1);
+
+        const character = result.value[0];
 
         expect(character.dateOfBirth).toEqual(createOption.none());
         expect(character.yearOfBirth).toEqual(createOption.none());
@@ -103,6 +119,13 @@ describe("perseApi", () => {
         }));
 
         const result = perseApi(dataWithNoImages);
-        expect(result).toEqual([]);
+
+        expect(result.kind).toBe("ok");
+
+        if (result.kind !== "ok") {
+            throw new Error("Result is not ok");
+        }
+
+        expect(result.value).toEqual([]);
     });
 });

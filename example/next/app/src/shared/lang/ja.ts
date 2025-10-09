@@ -5,7 +5,8 @@ export const ja = {
             openPopup: "説明",
             toForceCachePotter: "force cacheによるデータ収集へ",
             toNoStorePotter: "no-storeによるデータ収集へ",
-            toSingleDynamicPotter: "動的データ収集へ"
+            toSingleDynamicPotter: "動的データ収集へ",
+            toServerActionSample: "Server Action sampleへ"
         },
         forceCachePotter: {
             title: "forceCache収集"

@@ -1,8 +1,10 @@
+import { createResult, Result } from "@/utils/result";
 import { APIRes } from "../model/model-res";
 import { APIView } from "../model/model-view";
 import { createOption } from "@/utils/option";
+import { HttpError } from "@/utils/error/http";
 
-export function perseApi(api: APIRes): Array<APIView> {
+export function perseApi(api: APIRes): Result<Array<APIView>, HttpError> {
     const filterList: Array<APIView> = api
         .filter((item) => item.image !== "")
         .map((item) => {
@@ -40,5 +42,5 @@ export function perseApi(api: APIRes): Array<APIView> {
             return value;
         });
 
-    return filterList;
+    return createResult.ok(filterList);
 }

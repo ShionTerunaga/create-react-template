@@ -80,6 +80,13 @@ export function createHttpError() {
         });
     };
 
+    const responseError = () => {
+        return new HttpError({
+            status: httpErrorScheme.httpCustomStatusScheme.responseError,
+            message: httpErrorScheme.errorMessage.responseError
+        });
+    };
+
     return {
         notFoundAPIUrl,
         unknownError,
@@ -88,6 +95,7 @@ export function createHttpError() {
         returnNoPermission,
         returnBadRequest,
         returnInternalServerError,
-        parseError
+        parseError,
+        responseError
     };
 }
