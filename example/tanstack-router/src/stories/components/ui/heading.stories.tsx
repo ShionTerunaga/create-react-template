@@ -1,5 +1,5 @@
 import { Heading } from '@/components/ui'
-import type { Meta, StoryObj } from '@storybook/nextjs'
+import type { Meta, StoryObj } from '@storybook/react'
 
 const meta = {
   title: 'ui/heading',
