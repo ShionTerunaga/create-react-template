@@ -1,8 +1,8 @@
 import { hasParseFetcher } from "@/service/fetcher-get/has-parse-fetcher";
 import { z } from "zod";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { createOption } from "@/utils/option";
-import { createResult } from "@/utils/result";
+import { optionUtility } from "@/utils/option";
+import { resultUtility } from "@/utils/result";
 
 const mockFetch = vi.fn();
 
@@ -11,6 +11,9 @@ describe("hasParseFetcher", () => {
         vi.clearAllMocks();
         vi.stubGlobal("fetch", mockFetch);
     });
+
+    const { createSome, createNone } = optionUtility();
+    const { createOk, createNg } = resultUtility();
 
     it("propagates ng from fetcher", async () => {
         mockFetch.mockResolvedValue({
@@ -22,9 +25,9 @@ describe("hasParseFetcher", () => {
         const schema = z.object({});
 
         const result = await hasParseFetcher({
-            url: createOption.some("https://example.com"),
+            url: createSome("https://example.com"),
             scheme: schema,
-            parse: () => createResult.ok("ok")
+            parse: () => createOk("ok")
         });
 
         expect(result.kind).toBe("ng");
@@ -41,9 +44,9 @@ describe("hasParseFetcher", () => {
         const schema = z.object({ a: z.number() });
 
         const result = await hasParseFetcher({
-            url: createOption.some("https://example.com"),
+            url: createSome("https://example.com"),
             scheme: schema,
-            parse: () => createResult.ok("parsed")
+            parse: () => createOk("parsed")
         });
 
         expect(result.kind).toBe("ok");

@@ -1,6 +1,6 @@
 import { appConfig } from "@/shared/config/config";
 import { APIScheme } from "../model/model-res";
-import { perseApi } from "./parse-api";
+import { parseApi } from "./parse-api";
 import { Result } from "@/utils/result";
 import { APIView } from "../model/model-view";
 import { HttpError } from "@/utils/error/http";
@@ -13,6 +13,6 @@ export async function getCharacter(
         url: appConfig.apiKey,
         scheme: APIScheme,
         cache,
-        parse: perseApi
+        parse: parseApi
     });
 }

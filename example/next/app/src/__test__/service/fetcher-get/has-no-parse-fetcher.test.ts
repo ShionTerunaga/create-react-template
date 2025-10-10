@@ -1,7 +1,7 @@
 import { hasNoParseFetcher } from "@/service/fetcher-get/has-no-parse-fetcher";
 import { z } from "zod";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { createOption } from "@/utils/option";
+import { optionUtility } from "@/utils/option";
 
 const mockFetch = vi.fn();
 
@@ -10,6 +10,8 @@ describe("hasNoParseFetcher", () => {
         vi.clearAllMocks();
         vi.stubGlobal("fetch", mockFetch);
     });
+
+    const { createSome, createNone } = optionUtility();
 
     it("returns ng when schema mismatch", async () => {
         mockFetch.mockResolvedValue({
@@ -21,7 +23,7 @@ describe("hasNoParseFetcher", () => {
         const schema = z.object({ y: z.string() });
 
         const result = await hasNoParseFetcher({
-            url: createOption.some("https://example.com"),
+            url: createSome("https://example.com"),
             scheme: schema
         });
 
@@ -39,7 +41,7 @@ describe("hasNoParseFetcher", () => {
         const schema = z.object({ y: z.string() });
 
         const result = await hasNoParseFetcher({
-            url: createOption.some("https://example.com"),
+            url: createSome("https://example.com"),
             scheme: schema
         });
 
