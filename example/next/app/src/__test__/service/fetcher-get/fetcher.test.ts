@@ -1,7 +1,7 @@
 import { fetcher } from "@/service/fetcher-get/fetcher";
 import { z } from "zod";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { createOption } from "@/utils/option";
+import { optionUtility } from "@/utils/option";
 
 const mockFetch = vi.fn();
 
@@ -11,9 +11,11 @@ describe("fetcher", () => {
         vi.stubGlobal("fetch", mockFetch);
     });
 
+    const { createSome, createNone } = optionUtility();
+
     it("returns ng when url is none", async () => {
         const result = await fetcher({
-            url: createOption.none(),
+            url: createNone(),
             scheme: z.object({})
         });
 
@@ -28,7 +30,7 @@ describe("fetcher", () => {
         });
 
         const result = await fetcher({
-            url: createOption.some("https://example.com"),
+            url: createSome("https://example.com"),
             scheme: z.object({})
         });
 
@@ -45,7 +47,7 @@ describe("fetcher", () => {
         const schema = z.object({ bar: z.string() });
 
         const result = await fetcher({
-            url: createOption.some("https://example.com"),
+            url: createSome("https://example.com"),
             scheme: schema
         });
 
@@ -63,7 +65,7 @@ describe("fetcher", () => {
         const schema = z.object({ bar: z.string() });
 
         const result = await fetcher({
-            url: createOption.some("https://example.com"),
+            url: createSome("https://example.com"),
             scheme: schema
         });
 

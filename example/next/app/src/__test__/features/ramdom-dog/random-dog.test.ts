@@ -1,7 +1,7 @@
 import { getRandomDog } from "@/features/random-dog";
 import { RandomDogRes } from "@/features/random-dog/model/random-dog";
 import { appConfig } from "@/shared/config/config";
-import { createOption } from "@/utils/option";
+import { optionUtility } from "@/utils/option";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const mockAPIData: RandomDogRes = {
@@ -18,10 +18,10 @@ describe("random-dog", () => {
         vi.stubGlobal("fetch", mockFetch);
     });
 
+    const { createSome, createNone } = optionUtility();
+
     it("APIのURLを設定していない場合", async () => {
-        vi.spyOn(appConfig, "apiKey2", "get").mockReturnValue(
-            createOption.none()
-        );
+        vi.spyOn(appConfig, "apiKey2", "get").mockReturnValue(createNone());
 
         const result = await getRandomDog();
 
@@ -37,7 +37,7 @@ describe("random-dog", () => {
 
     it("レスポンスがerrorの場合", async () => {
         vi.spyOn(appConfig, "apiKey2", "get").mockReturnValue(
-            createOption.some("https://mock-api.com/random-dog")
+            createSome("https://mock-api.com/random-dog")
         );
 
         mockFetch.mockResolvedValue({
@@ -61,7 +61,7 @@ describe("random-dog", () => {
 
     it("レスポンスがerrorでstatusコードが設定していないものが来た場合", async () => {
         vi.spyOn(appConfig, "apiKey2", "get").mockReturnValue(
-            createOption.some("https://mock-api.com/random-dog")
+            createSome("https://mock-api.com/random-dog")
         );
 
         mockFetch.mockResolvedValue({
@@ -85,7 +85,7 @@ describe("random-dog", () => {
 
     it("レスポンスのスキーマが違う場合", async () => {
         vi.spyOn(appConfig, "apiKey2", "get").mockReturnValue(
-            createOption.some("https://mock-api.com/random-dog")
+            createSome("https://mock-api.com/random-dog")
         );
 
         mockFetch.mockResolvedValue({

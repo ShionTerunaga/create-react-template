@@ -4,13 +4,16 @@ import { Box } from "@/components/ui";
 import { getRandomDog } from "@/features/random-dog";
 import { RandomDogRes } from "@/features/random-dog/model/random-dog";
 import { ja } from "@/shared/lang/ja";
-import { createOption, Option, OPTION_SOME } from "@/utils/option";
-import { RESULT_OK } from "@/utils/result";
+import { Option, optionUtility } from "@/utils/option";
+import { resultUtility } from "@/utils/result";
 import Image from "next/image";
 import { useState } from "react";
 
 function RandomStart() {
-    const [dog, setDog] = useState<Option<RandomDogRes>>(createOption.none());
+    const { createSome, createNone, isSome } = optionUtility();
+    const { isOK } = resultUtility();
+
+    const [dog, setDog] = useState<Option<RandomDogRes>>(createNone());
     const [error, setError] = useState<boolean>(false);
 
     const handleClick = async () => {
@@ -18,14 +21,14 @@ function RandomStart() {
             setError(false);
         }
 
-        if (dog.kind === OPTION_SOME) {
-            setDog(createOption.none());
+        if (isSome(dog)) {
+            setDog(createNone());
         }
 
         const res = await getRandomDog();
 
-        if (res.kind === RESULT_OK) {
-            setDog(createOption.some(res.value));
+        if (isOK(res)) {
+            setDog(createSome(res.value));
         } else {
             setError(true);
         }
@@ -36,7 +39,7 @@ function RandomStart() {
             <Box>
                 {error ? (
                     <p>{ja.app.serverActionSample.error}</p>
-                ) : dog.kind === OPTION_SOME ? (
+                ) : isSome(dog) ? (
                     <Image
                         src={dog.value.message}
                         width={150}

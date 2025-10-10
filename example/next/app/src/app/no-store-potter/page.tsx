@@ -2,13 +2,14 @@ import { Box } from "@/components/ui";
 import { CardListView } from "@/components/view";
 import { getCharacter } from "@/features/harry-potter";
 import { ja } from "@/shared/lang/ja";
-import { RESULT_NG } from "@/utils/result";
+import { resultUtility } from "@/utils/result";
 import { Suspense } from "react";
 
 async function NoStorePotter() {
+    const { isNG } = resultUtility();
     const potters = await getCharacter("no-store");
 
-    if (potters.kind === RESULT_NG) {
+    if (isNG(potters)) {
         return <Box>error</Box>;
     }
 

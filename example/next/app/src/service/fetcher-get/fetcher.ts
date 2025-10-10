@@ -1,6 +1,6 @@
 import { core, ZodType } from "zod";
-import { Option, OPTION_NONE } from "../../utils/option";
-import { createResult, Result } from "../../utils/result";
+import { Option, optionUtility } from "../../utils/option";
+import { Result, resultUtility } from "../../utils/result";
 import { createHttpError, HttpError } from "../../utils/error/http";
 import { createHttpScheme } from "../../utils/error/http-scheme";
 
@@ -16,8 +16,11 @@ export async function fetcher<T extends ZodType>({
     const httpErrorScheme = createHttpScheme();
     const createError = createHttpError();
 
-    if (url.kind === OPTION_NONE) {
-        return createResult.ng(createError.notFoundAPIUrl());
+    const { isNone } = optionUtility();
+    const { createNg, createOk } = resultUtility();
+
+    if (isNone(url)) {
+        return createNg(createError.notFoundAPIUrl());
     }
 
     const res = await fetch(url.value, {
@@ -29,15 +32,15 @@ export async function fetcher<T extends ZodType>({
 
         switch (status) {
             case httpErrorScheme.httpErrorStatusResponse.notFound:
-                return createResult.ng(createError.returnNotFoundAPIUrl());
+                return createNg(createError.returnNotFoundAPIUrl());
             case httpErrorScheme.httpErrorStatusResponse.forbidden:
-                return createResult.ng(createError.returnNoPermission());
+                return createNg(createError.returnNoPermission());
             case httpErrorScheme.httpErrorStatusResponse.badRequest:
-                return createResult.ng(createError.returnBadRequest());
+                return createNg(createError.returnBadRequest());
             case httpErrorScheme.httpErrorStatusResponse.internalServerError:
-                return createResult.ng(createError.returnInternalServerError());
+                return createNg(createError.returnInternalServerError());
             default:
-                return createResult.ng(createError.unknownError());
+                return createNg(createError.unknownError());
         }
     }
 
@@ -46,14 +49,14 @@ export async function fetcher<T extends ZodType>({
     const judgeType = scheme.safeParse(resValue);
 
     if (judgeType.error !== undefined) {
-        return createResult.ng(createError.schemeError());
+        return createNg(createError.schemeError());
     }
 
     const okValue = judgeType.data;
 
     if (okValue === undefined || okValue === null) {
-        return createResult.ng(createError.responseError());
+        return createNg(createError.responseError());
     }
 
-    return createResult.ok(okValue);
+    return createOk(okValue);
 }

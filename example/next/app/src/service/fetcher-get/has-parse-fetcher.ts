@@ -1,7 +1,7 @@
 import { core, ZodType } from "zod";
 import { Option } from "../../utils/option";
-import { createHttpError, HttpError } from "../../utils/error/http";
-import { createResult, Result, RESULT_NG } from "../../utils/result";
+import { HttpError } from "../../utils/error/http";
+import { resultUtility, Result } from "../../utils/result";
 import { fetcher } from "./fetcher";
 
 export async function hasParseFetcher<T extends ZodType, S>({
@@ -15,7 +15,7 @@ export async function hasParseFetcher<T extends ZodType, S>({
     cache?: RequestCache;
     parse: (scheme: core.output<T>) => Result<S, HttpError>;
 }): Promise<Result<S, HttpError>> {
-    const createError = createHttpError();
+    const { isNG } = resultUtility();
 
     const fetcherResult = await fetcher<T>({
         url,
@@ -23,7 +23,7 @@ export async function hasParseFetcher<T extends ZodType, S>({
         cache
     });
 
-    if (fetcherResult.kind === RESULT_NG) {
+    if (isNG(fetcherResult)) {
         return fetcherResult;
     }
 

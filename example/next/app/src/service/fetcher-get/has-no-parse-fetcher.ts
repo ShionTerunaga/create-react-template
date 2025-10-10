@@ -1,8 +1,7 @@
 import z from "zod";
-import { Option, OPTION_NONE } from "../../utils/option";
-import { createHttpScheme } from "../../utils/error/http-scheme";
-import { createHttpError, HttpError } from "../../utils/error/http";
-import { createResult, Result } from "../../utils/result";
+import { Option } from "../../utils/option";
+import { HttpError } from "../../utils/error/http";
+import { Result } from "../../utils/result";
 import { fetcher } from "./fetcher";
 
 export async function hasNoParseFetcher<T extends z.ZodType>({

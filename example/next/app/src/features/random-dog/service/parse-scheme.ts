@@ -1,4 +1,4 @@
-import { createResult, Result } from "@/utils/result";
+import { resultUtility, Result } from "@/utils/result";
 import { RandomDogRes } from "../model/random-dog";
 import { createHttpError, HttpError } from "@/utils/error/http";
 
@@ -6,10 +6,11 @@ export function parseScheme(
     scheme: RandomDogRes
 ): Result<RandomDogRes, HttpError> {
     const createError = createHttpError();
+    const { createOk, createNg } = resultUtility();
 
     if (scheme.status !== "success") {
-        return createResult.ng(createError.parseError());
+        return createNg(createError.parseError());
     }
 
-    return createResult.ok(scheme);
+    return createOk(scheme);
 }
