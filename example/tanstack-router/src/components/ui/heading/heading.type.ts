@@ -1,5 +1,5 @@
-import { TextTheme } from '@/shared/theme/design-system.css'
-import { ElementType } from 'react'
+import type { TextTheme } from '@/shared/theme/design-system.css'
+import type { ElementType } from 'react'
 import { headingFontStyle } from './heading.css'
 
 export type HeadingFont = keyof typeof headingFontStyle

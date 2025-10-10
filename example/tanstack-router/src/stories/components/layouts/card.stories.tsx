@@ -1,5 +1,5 @@
 import { Card } from '@/components/layout/card/card'
-import type { Meta, StoryObj } from '@storybook/nextjs'
+import type { Meta, StoryObj } from '@storybook/react'
 
 const meta = {
   title: 'layouts/card',
