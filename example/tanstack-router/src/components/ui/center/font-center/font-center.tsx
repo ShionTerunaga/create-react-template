@@ -18,9 +18,9 @@ function FontCenter<T extends Props>(
   const { className, style, children } = props
 
   return (
-    <div className={`${fontCenterBaseStyle} ${className}`} style={style}>
+    <p className={`${fontCenterBaseStyle} ${className}`} style={style}>
       {children}
-    </div>
+    </p>
   )
 }
 

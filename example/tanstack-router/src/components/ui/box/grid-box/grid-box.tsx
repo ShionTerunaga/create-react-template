@@ -5,6 +5,7 @@ import {
   gridBoxGridTemplate,
 } from './grid-box.css'
 import type { CheckerProps } from '@/shared/types/object'
+import { Box } from '../main/box'
 
 interface Props extends ChildrenOnly {
   gap?: keyof typeof gridBoxGap
@@ -22,5 +23,5 @@ export function GridBox<T extends Props>(
     gridBoxBaseStyles,
   ].join(' ')
 
-  return <div className={className}>{children}</div>
+  return <Box className={className}>{children}</Box>
 }
