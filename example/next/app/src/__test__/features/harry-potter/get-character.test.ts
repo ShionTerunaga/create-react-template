@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, Mock } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { optionUtility } from "@/utils/option";
 import { appConfig } from "@/shared/config/config";
 import { APIRes, getCharacter } from "@/features/harry-potter";

@@ -1,20 +1,31 @@
-import { createOption, type Option } from '@/utils/option'
 import { describe, expect, it } from 'vitest'
+import { optionUtility } from '@/utils/option'
 
-describe('createOption', () => {
-  it('someに値を代入したらvalueに値が入っている', () => {
-    const someOption: Option<string> = createOption.some('value')
+describe('optionUtility', () => {
+  const { createSome, createNone, isSome, isNone } = optionUtility()
 
-    if (someOption.kind === 'none') {
-      throw new Error('none')
+  it('createSome で作った値は isSome が true になる', () => {
+    const some = createSome('value')
+
+    expect(isSome(some)).toBe(true)
+    if (isSome(some)) {
+      expect(some.value).toBe('value')
     }
-
-    expect(someOption.value).toEqual('value')
   })
 
-  it('noneに値を代入したらkindがnoneになる', () => {
-    const noneOption: Option<string> = createOption.none()
+  it('createNone で作った値は isNone が true になる', () => {
+    const none = createNone()
 
-    expect(noneOption.kind).toEqual('none')
+    expect(isNone(none)).toBe(true)
+  })
+
+  it('isSome は some でない場合 false を返す', () => {
+    const none = createNone()
+    expect(isSome(none as any)).toBe(false)
+  })
+
+  it('isNone は none でない場合 false を返す', () => {
+    const some = createSome('v')
+    expect(isNone(some as any)).toBe(false)
   })
 })

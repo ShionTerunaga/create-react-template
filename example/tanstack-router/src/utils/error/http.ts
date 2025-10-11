@@ -83,6 +83,13 @@ export function createHttpError() {
     })
   }
 
+  const responseError = () => {
+    return new HttpError({
+      status: httpErrorScheme.httpCustomStatusScheme.responseError,
+      message: httpErrorScheme.errorMessage.responseError,
+    })
+  }
+
   return {
     notFoundAPIUrl,
     unknownError,
@@ -92,5 +99,6 @@ export function createHttpError() {
     returnBadRequest,
     returnInternalServerError,
     parseError,
+    responseError,
   }
 }
