@@ -6,7 +6,7 @@ import { resultUtility } from "@/utils/result";
 import { Suspense } from "react";
 
 async function NoStorePotter() {
-    const { isNG } = resultUtility();
+    const { isNG } = resultUtility;
     const potters = await getCharacter("no-store");
 
     if (isNG(potters)) {

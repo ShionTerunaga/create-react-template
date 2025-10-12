@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { optionUtility } from "@/utils/option";
 
 describe("optionUtility", () => {
-    const { createSome, createNone, isSome, isNone } = optionUtility();
+    const { createSome, createNone, isSome, isNone } = optionUtility;
 
     it("createSome で作った値は isSome が true になる", () => {
         const some = createSome("value");

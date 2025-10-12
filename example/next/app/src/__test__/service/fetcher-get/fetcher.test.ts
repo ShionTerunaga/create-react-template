@@ -11,7 +11,7 @@ describe("fetcher", () => {
         vi.stubGlobal("fetch", mockFetch);
     });
 
-    const { createSome, createNone } = optionUtility();
+    const { createSome, createNone } = optionUtility;
 
     it("returns ng when url is none", async () => {
         const result = await fetcher({

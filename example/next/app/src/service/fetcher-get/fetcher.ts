@@ -16,8 +16,8 @@ export async function fetcher<T extends ZodType>({
     const httpErrorScheme = createHttpScheme();
     const createError = createHttpError();
 
-    const { isNone } = optionUtility();
-    const { createNg, createOk } = resultUtility();
+    const { isNone } = optionUtility;
+    const { createNg, createOk } = resultUtility;
 
     if (isNone(url)) {
         return createNg(createError.notFoundAPIUrl());

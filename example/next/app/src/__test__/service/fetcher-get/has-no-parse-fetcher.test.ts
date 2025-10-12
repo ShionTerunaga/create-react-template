@@ -11,7 +11,7 @@ describe("hasNoParseFetcher", () => {
         vi.stubGlobal("fetch", mockFetch);
     });
 
-    const { createSome, createNone } = optionUtility();
+    const { createSome, createNone } = optionUtility;
 
     it("returns ng when schema mismatch", async () => {
         mockFetch.mockResolvedValue({

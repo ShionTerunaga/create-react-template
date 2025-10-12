@@ -5,7 +5,7 @@ import { ja } from "@/shared/lang/ja";
 import { resultUtility } from "@/utils/result";
 
 async function ForceCachePotter() {
-    const { isNG } = resultUtility();
+    const { isNG } = resultUtility;
 
     const potters = await getCharacter("force-cache");
 

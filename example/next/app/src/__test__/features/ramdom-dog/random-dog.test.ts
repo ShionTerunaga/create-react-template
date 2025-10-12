@@ -18,7 +18,7 @@ describe("random-dog", () => {
         vi.stubGlobal("fetch", mockFetch);
     });
 
-    const { createSome, createNone } = optionUtility();
+    const { createSome, createNone } = optionUtility;
 
     it("APIのURLを設定していない場合", async () => {
         vi.spyOn(appConfig, "apiKey2", "get").mockReturnValue(createNone());

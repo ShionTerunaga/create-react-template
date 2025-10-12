@@ -10,8 +10,8 @@ import Image from "next/image";
 import { useState } from "react";
 
 function RandomStart() {
-    const { createSome, createNone, isSome } = optionUtility();
-    const { isOK } = resultUtility();
+    const { createSome, createNone, isSome } = optionUtility;
+    const { isOK } = resultUtility;
 
     const [dog, setDog] = useState<Option<RandomDogRes>>(createNone());
     const [error, setError] = useState<boolean>(false);

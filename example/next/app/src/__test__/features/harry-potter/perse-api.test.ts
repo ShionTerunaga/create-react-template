@@ -59,7 +59,7 @@ const mockApiData: APIRes = [
 ];
 
 describe("perseApi", () => {
-    const { createSome, createNone } = optionUtility();
+    const { createSome, createNone } = optionUtility;
 
     it("適したフォーマットが返ってくる", () => {
         const result = parseApi(mockApiData);

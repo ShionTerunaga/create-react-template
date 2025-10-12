@@ -29,7 +29,7 @@ export function createReducerContext<S, D>({
     (props: Props) => JSX.Element,
     () => ReducerType<S, D>
 ] {
-    const { createNg, createOk, isNG } = resultUtility();
+    const { createNg, createOk, isNG } = resultUtility;
 
     const Context = createContext<Result<ReducerType<S, D>, Error>>(
         createNg(new Error(errorMessage))

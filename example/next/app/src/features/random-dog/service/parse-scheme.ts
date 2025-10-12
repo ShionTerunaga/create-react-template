@@ -6,7 +6,7 @@ export function parseScheme(
     scheme: RandomDogRes
 ): Result<RandomDogRes, HttpError> {
     const createError = createHttpError();
-    const { createOk, createNg } = resultUtility();
+    const { createOk, createNg } = resultUtility;
 
     if (scheme.status !== "success") {
         return createNg(createError.parseError());
