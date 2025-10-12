@@ -5,7 +5,7 @@ import { createHttpError, HttpError } from "@/utils/error/http";
 export function parseScheme(
     scheme: RandomDogRes
 ): Result<RandomDogRes, HttpError> {
-    const createError = createHttpError();
+    const createError = createHttpError;
     const { createOk, createNg } = resultUtility;
 
     if (scheme.status !== "success") {

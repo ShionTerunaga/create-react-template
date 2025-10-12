@@ -21,8 +21,8 @@ export class HttpError extends Error {
 }
 
 /**ここは仕様に応じて変更する*/
-export function createHttpError() {
-    const httpErrorScheme = createHttpScheme();
+export const createHttpError = (function () {
+    const httpErrorScheme = createHttpScheme;
 
     const notFoundAPIUrl = () => {
         return new HttpError({
@@ -98,4 +98,4 @@ export function createHttpError() {
         parseError,
         responseError
     };
-}
+})();
