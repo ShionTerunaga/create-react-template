@@ -1,4 +1,7 @@
-import { createHttpScheme, HttpCustomStatus } from "@/utils/error/http-scheme";
+import {
+    createHttpScheme,
+    type HttpCustomStatus
+} from "@/utils/error/http-scheme";
 
 export class HttpError extends Error {
     public type: string;
@@ -80,6 +83,13 @@ export function createHttpError() {
         });
     };
 
+    const responseError = () => {
+        return new HttpError({
+            status: httpErrorScheme.httpCustomStatusScheme.responseError,
+            message: httpErrorScheme.errorMessage.responseError
+        });
+    };
+
     return {
         notFoundAPIUrl,
         unknownError,
@@ -88,6 +98,7 @@ export function createHttpError() {
         returnNoPermission,
         returnBadRequest,
         returnInternalServerError,
-        parseError
+        parseError,
+        responseError
     };
 }

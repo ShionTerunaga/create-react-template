@@ -8,7 +8,7 @@ import {
     useContext,
     useReducer
 } from "react";
-import { createResult, Result, RESULT_NG } from "@/utils/result";
+import { resultUtility, Result } from "@/utils/result";
 import { ChildrenOnly } from "@/shared/types/react";
 
 interface ReducerParams<S, D> {
@@ -29,14 +29,16 @@ export function createReducerContext<S, D>({
     (props: Props) => JSX.Element,
     () => ReducerType<S, D>
 ] {
+    const { createNg, createOk, isNG } = resultUtility;
+
     const Context = createContext<Result<ReducerType<S, D>, Error>>(
-        createResult.ng(new Error(errorMessage))
+        createNg(new Error(errorMessage))
     );
 
     const Provider = ({ children }: ChildrenOnly): JSX.Element => {
         const reducerResult = useReducer<S, [action: D]>(reducer, initialState);
 
-        const result: Result<ReducerType<S, D>, Error> = createResult.ok(
+        const result: Result<ReducerType<S, D>, Error> = createOk(
             reducerResult
         );
 
@@ -46,7 +48,7 @@ export function createReducerContext<S, D>({
     const useReducerContext = (): ReducerType<S, D> => {
         const result = useContext(Context);
 
-        if (result.kind === RESULT_NG) {
+        if (isNG(result)) {
             throw result.err;
         }
 

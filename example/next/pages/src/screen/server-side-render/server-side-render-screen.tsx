@@ -4,7 +4,7 @@ import { APIView } from "@/features/harry-potter";
 import { ja } from "@/shared/lang/ja";
 import { CheckerProps } from "@/shared/types/object";
 import { HttpError } from "@/utils/error/http";
-import { Result, RESULT_NG } from "@/utils/result";
+import { Result, resultUtility } from "@/utils/result";
 
 interface Props {
     character: Result<APIView[], HttpError>;
@@ -14,8 +14,9 @@ function ServerSideRenderScreen<T extends Props>(
     props: CheckerProps<T, Props, "This props is different from Props.">
 ) {
     const { character } = props;
+    const { isNG } = resultUtility;
 
-    if (character.kind === RESULT_NG) {
+    if (isNG(character)) {
         return <Box>サーバーサイドレンダーが失敗してます。</Box>;
     }
 
