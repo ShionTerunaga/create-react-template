@@ -2,7 +2,7 @@ import { resultUtility } from "@/utils/result";
 import { describe, expect, it } from "vitest";
 
 describe("resultUtility", () => {
-    const { createNg, createOk } = resultUtility;
+    const { createNg, createOk, isNG, isOK } = resultUtility;
 
     it("resultがokだったらvalueに値が入っている", () => {
         const result = "test";
@@ -26,5 +26,21 @@ describe("resultUtility", () => {
 
         expect(ngResult.kind).toEqual("ng");
         expect(ngResult.err).toEqual(result);
+    });
+
+    it("isOKでokかどうか判定できる", () => {
+        const okResult = createOk("test");
+        const ngResult = createNg("error");
+
+        expect(isOK(okResult)).toBeTruthy();
+        expect(isOK(ngResult)).toBeFalsy();
+    });
+
+    it("isNGでngかどうか判定できる", () => {
+        const okResult = createOk("test");
+        const ngResult = createNg("error");
+
+        expect(isNG(okResult)).toBeFalsy();
+        expect(isNG(ngResult)).toBeTruthy();
     });
 });
