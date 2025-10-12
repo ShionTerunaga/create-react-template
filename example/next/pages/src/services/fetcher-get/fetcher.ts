@@ -13,8 +13,8 @@ export async function fetcher<T extends ZodType>({
     scheme: T;
     cache?: RequestCache;
 }): Promise<Result<core.output<T>, HttpError>> {
-    const httpErrorScheme = createHttpScheme();
-    const createError = createHttpError();
+    const httpErrorScheme = createHttpScheme;
+    const createError = createHttpError;
 
     const { isNone } = optionUtility;
     const { createNg, createOk } = resultUtility;
