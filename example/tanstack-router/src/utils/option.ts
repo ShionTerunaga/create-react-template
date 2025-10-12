@@ -14,7 +14,7 @@ interface None {
 
 export type Option<T> = Some<NonNullable<T>> | None
 
-export function optionUtility() {
+export const optionUtility = (function () {
   const { OPTION_SOME, OPTION_NONE } = basic
 
   const createSome = <T>(value: NonNullable<T>): Option<T> => {
@@ -49,4 +49,4 @@ export function optionUtility() {
     isSome,
     isNone,
   }
-}
+})()

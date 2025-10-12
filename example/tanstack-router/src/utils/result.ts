@@ -15,7 +15,7 @@ interface NG<E> {
 
 export type Result<T, E> = OK<NonNullable<T>> | NG<NonNullable<E>>
 
-export function resultUtility() {
+export const resultUtility = (function () {
   const { RESULT_NG, RESULT_OK } = basic
 
   const isOK = <T extends NonNullable<unknown>, E>(
@@ -50,4 +50,4 @@ export function resultUtility() {
     createOk,
     createNg,
   }
-}
+})()

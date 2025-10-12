@@ -6,8 +6,8 @@ import { resultUtility } from '@/utils/result'
 import type { HttpError } from '@/utils/error/http'
 
 export function parseApi(api: APIRes): Result<Array<APIView>, HttpError> {
-  const { createNone, createSome } = optionUtility()
-  const { createOk } = resultUtility()
+  const { createNone, createSome } = optionUtility
+  const { createOk } = resultUtility
 
   const filterList: Array<APIView> = api
     .filter((item) => item.image !== '')

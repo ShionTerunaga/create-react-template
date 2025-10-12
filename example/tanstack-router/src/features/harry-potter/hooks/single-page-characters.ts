@@ -8,8 +8,8 @@ import { optionUtility } from '@/utils/option'
 import { resultUtility } from '@/utils/result'
 
 export function useSinglePageCharacters() {
-  const { createNone, createSome, isNone } = optionUtility()
-  const { isNG } = resultUtility()
+  const { createNone, createSome, isNone } = optionUtility
+  const { isNG } = resultUtility
 
   const [fetchCharacter, setFetchCharacter] =
     useState<Option<Array<APIView>>>(createNone())

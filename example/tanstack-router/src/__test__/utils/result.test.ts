@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { resultUtility } from '@/utils/result'
 
 describe('resultUtility', () => {
-  const { isOK, isNG, createOk, createNg } = resultUtility()
+  const { isOK, isNG, createOk, createNg } = resultUtility
 
   it('createOk で作った値は isOK が true になる', () => {
     const ok = createOk('value')

@@ -6,7 +6,7 @@ import { optionUtility } from '@/utils/option'
 
 function SingleDynamicFetch() {
   const { characters, isLoading, error } = useSinglePageCharacters()
-  const { isSome } = optionUtility()
+  const { isSome } = optionUtility
 
   if (isLoading) {
     return <Box>Loading...</Box>

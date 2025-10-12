@@ -15,7 +15,7 @@ export async function hasParseFetcher<T extends ZodType, S>({
   cache?: RequestCache
   parse: (scheme: core.output<T>) => Result<S, HttpError>
 }): Promise<Result<S, HttpError>> {
-  const { isNG } = resultUtility()
+  const { isNG } = resultUtility
 
   const fetcherResult = await fetcher<T>({
     url,
