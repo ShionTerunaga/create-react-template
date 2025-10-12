@@ -1,13 +1,7 @@
 import { getRandomDog } from "@/features/random-dog";
-import { RandomDogRes } from "@/features/random-dog/model/random-dog";
 import { appConfig } from "@/shared/config/config";
 import { optionUtility } from "@/utils/option";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-
-const mockAPIData: RandomDogRes = {
-    message: "https://images.dog.ceo/breeds/hound-walker/n02089867_3484.jpg",
-    status: "success"
-};
 
 const mockFetch = vi.fn();
 

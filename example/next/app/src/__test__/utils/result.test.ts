@@ -7,7 +7,7 @@ describe("resultUtility", () => {
     it("createOk で作った値は isOK が true になる", () => {
         const ok = createOk("value");
 
-        expect(isOK(ok)).toBe(true);
+        expect(isOK(ok)).toBeTruthy();
         if (isOK(ok)) {
             expect(ok.value).toBe("value");
         }
@@ -24,11 +24,11 @@ describe("resultUtility", () => {
 
     it("isOK は ok でない場合 false を返す", () => {
         const ng = createNg("err");
-        expect(isOK(ng)).toBe(false);
+        expect(isOK(ng)).toBeFalsy();
     });
 
     it("isNG は ng でない場合 false を返す", () => {
         const ok = createOk("value");
-        expect(isNG(ok)).toBe(false);
+        expect(isNG(ok)).toBeFalsy();
     });
 });

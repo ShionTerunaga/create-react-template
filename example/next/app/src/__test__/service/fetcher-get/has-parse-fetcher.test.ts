@@ -12,8 +12,8 @@ describe("hasParseFetcher", () => {
         vi.stubGlobal("fetch", mockFetch);
     });
 
-    const { createSome, createNone } = optionUtility;
-    const { createOk, createNg } = resultUtility;
+    const { createSome } = optionUtility;
+    const { createOk } = resultUtility;
 
     it("propagates ng from fetcher", async () => {
         mockFetch.mockResolvedValue({

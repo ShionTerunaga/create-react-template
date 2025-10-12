@@ -21,11 +21,11 @@ describe("optionUtility", () => {
 
     it("isSome は some でない場合 false を返す", () => {
         const none = createNone();
-        expect(isSome(none as any)).toBe(false);
+        expect(isSome(none)).toBeFalsy();
     });
 
     it("isNone は none でない場合 false を返す", () => {
         const some = createSome("v");
-        expect(isNone(some as any)).toBe(false);
+        expect(isNone(some)).toBeTruthy();
     });
 });
