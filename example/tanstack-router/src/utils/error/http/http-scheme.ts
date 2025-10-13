@@ -49,7 +49,7 @@ export interface HttpErrorScheme {
   errorMessage: ErrorMessage
 }
 
-export const createHttpScheme = (): HttpErrorScheme => {
+export const createHttpScheme: HttpErrorScheme = (function () {
   /**API仕様で変更 */
   const httpErrorStatusResponse: HttpErrorStatusResponse = {
     notFound: 404,
@@ -88,4 +88,4 @@ export const createHttpScheme = (): HttpErrorScheme => {
     httpCustomStatusScheme: httpCustomStatusScheme,
     errorMessage: errorMessage,
   }
-}
+})()

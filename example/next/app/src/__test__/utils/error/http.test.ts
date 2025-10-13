@@ -1,4 +1,4 @@
-import { createHttpError, HttpError } from "@/utils/error/http";
+import { createHttpError, HttpError } from "@/utils/error/http/http";
 import { describe, expect, it } from "vitest";
 
 describe("http", () => {

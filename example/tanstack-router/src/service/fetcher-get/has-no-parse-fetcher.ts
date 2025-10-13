@@ -1,6 +1,6 @@
 import z from 'zod'
 import { type Option } from '../../utils/option'
-import { HttpError } from '../../utils/error/http'
+import { HttpError } from '../../utils/error/http/http'
 import { type Result } from '../../utils/result'
 import { fetcher } from './fetcher'
 

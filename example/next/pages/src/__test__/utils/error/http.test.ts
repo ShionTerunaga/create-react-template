@@ -1,4 +1,5 @@
-import { createHttpError, HttpError } from "@/utils/error/http";
+import { HttpError } from "@/utils/error/http/http";
+import httpError from "@/utils/error/http";
 import { describe, expect, it } from "vitest";
 
 describe("httpError", () => {
@@ -23,7 +24,7 @@ describe("httpError", () => {
         unknownError,
         schemeError,
         parseError
-    } = createHttpError;
+    } = httpError.createHttpError;
 
     it("createHttpErrorのnotFoundAPIUrlが正常に作られる", () => {
         const error = notFoundAPIUrl();

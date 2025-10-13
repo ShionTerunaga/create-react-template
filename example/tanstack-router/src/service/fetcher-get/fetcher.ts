@@ -1,8 +1,8 @@
 import { core, ZodType } from 'zod'
 import { type Option, optionUtility } from '../../utils/option'
 import { type Result, resultUtility } from '../../utils/result'
-import { createHttpError, HttpError } from '../../utils/error/http'
-import { createHttpScheme } from '../../utils/error/http-scheme'
+import { createHttpError, HttpError } from '../../utils/error/http/http'
+import { createHttpScheme } from '../../utils/error/http/http-scheme'
 
 export async function fetcher<T extends ZodType>({
   url,
@@ -12,8 +12,8 @@ export async function fetcher<T extends ZodType>({
   scheme: T
   cache?: RequestCache
 }): Promise<Result<core.output<T>, HttpError>> {
-  const httpErrorScheme = createHttpScheme()
-  const createError = createHttpError()
+  const httpErrorScheme = createHttpScheme
+  const createError = createHttpError
 
   const { isNone } = optionUtility
   const { createNg, createOk } = resultUtility

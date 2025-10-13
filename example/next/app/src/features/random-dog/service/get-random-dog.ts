@@ -1,7 +1,7 @@
 "use server";
 
 import { appConfig } from "@/shared/config/config";
-import { HttpError } from "@/utils/error/http";
+import { HttpError } from "@/utils/error/http/http";
 import { Result } from "@/utils/result";
 import { RandomDogRes, randomDogScheme } from "../model/random-dog";
 import { parseScheme } from "./parse-scheme";

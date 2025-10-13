@@ -2,7 +2,7 @@ import { resultUtility, Result } from "@/utils/result";
 import { APIRes } from "../model/model-res";
 import { APIView } from "../model/model-view";
 import { optionUtility } from "@/utils/option";
-import { HttpError } from "@/utils/error/http";
+import { HttpError } from "@/utils/error/http/http";
 
 export function parseApi(api: APIRes): Result<Array<APIView>, HttpError> {
     const { createOk } = resultUtility;

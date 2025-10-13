@@ -3,7 +3,7 @@ import { getCharacter } from '../service/get-character'
 import type { Option } from '@/utils/option'
 import type { APIView } from '../model/model-view'
 import type { SinglePageGetCharacters } from './characters.type'
-import type { HttpError } from '@/utils/error/http'
+import type { HttpError } from '@/utils/error/http/http'
 import { optionUtility } from '@/utils/option'
 import { resultUtility } from '@/utils/result'
 

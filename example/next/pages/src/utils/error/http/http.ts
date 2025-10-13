@@ -1,4 +1,7 @@
-import { createHttpScheme, HttpCustomStatus } from "@/utils/error/http-scheme";
+import {
+    createHttpScheme,
+    type HttpCustomStatus
+} from "@/utils/error/http/http-scheme";
 
 export class HttpError extends Error {
     public type: string;
