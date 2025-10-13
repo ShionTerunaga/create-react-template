@@ -1,4 +1,4 @@
-import { createHttpScheme } from "@/utils/error/http-scheme";
+import { createHttpScheme } from "@/utils/error/http/http-scheme";
 import { describe, expect, it } from "vitest";
 
 describe("http-scheme", () => {

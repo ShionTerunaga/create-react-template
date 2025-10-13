@@ -1,10 +1,11 @@
 import {
     createHttpScheme,
-    type HttpCustomStatus
-} from "@/utils/error/http-scheme";
+    HttpCustomStatus
+} from "@/utils/error/http/http-scheme";
+import { CustomError, ErrorType } from "../core/core-error";
 
-export class HttpError extends Error {
-    public type: string;
+export class HttpError extends CustomError {
+    public type: ErrorType;
     public status: HttpCustomStatus;
     public message: string;
 
@@ -15,7 +16,7 @@ export class HttpError extends Error {
         status: HttpCustomStatus;
         message: string;
     }) {
-        super(message);
+        super({ message, type: "httpError", name: "HttpError" });
 
         this.type = "httpError";
         this.status = status;

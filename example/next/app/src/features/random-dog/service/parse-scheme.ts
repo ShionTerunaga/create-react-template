@@ -1,6 +1,6 @@
 import { resultUtility, Result } from "@/utils/result";
 import { RandomDogRes } from "../model/random-dog";
-import { createHttpError, HttpError } from "@/utils/error/http";
+import { createHttpError, HttpError } from "@/utils/error/http/http";
 
 export function parseScheme(
     scheme: RandomDogRes

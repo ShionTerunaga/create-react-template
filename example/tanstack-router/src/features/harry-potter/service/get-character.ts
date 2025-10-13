@@ -4,7 +4,7 @@ import { APIScheme } from '../model/model-res'
 import { parseApi } from './parse-api'
 import { type Result } from '@/utils/result'
 import type { APIView } from '../model/model-view'
-import { HttpError } from '@/utils/error/http'
+import { HttpError } from '@/utils/error/http/http'
 import { hasParseFetcher } from '@/service/fetcher-get'
 
 export async function getCharacter(): Promise<

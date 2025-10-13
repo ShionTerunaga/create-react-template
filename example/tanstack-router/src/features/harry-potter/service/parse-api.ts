@@ -3,7 +3,7 @@ import type { APIRes } from '../model/model-res'
 import type { APIView } from '../model/model-view'
 import { optionUtility } from '@/utils/option'
 import { resultUtility } from '@/utils/result'
-import type { HttpError } from '@/utils/error/http'
+import type { HttpError } from '@/utils/error/http/http'
 
 export function parseApi(api: APIRes): Result<Array<APIView>, HttpError> {
   const { createNone, createSome } = optionUtility
