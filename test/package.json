@@ -1,0 +1,8 @@
+{
+    "scripts": {
+        "test:next-app": "rm -rf next-app-test && npx tsx ../src/create-template/index.ts -n next-app-test -f next/app && cd next-app-test && pnpm i && pnpm build && pnpm test",
+        "test:next-pages": "rm -rf next-pages-test && npx tsx ../src/create-template/index.ts -n next-pages-test -f next/pages && cd next-pages-test && pnpm i && pnpm build && pnpm test",
+        "test:tanstack": "rm -rf tanstack-test && npx tsx ../src/create-template/index.ts -n tanstack-test -f tanstack-router && cd tanstack-test && pnpm i && pnpm build && pnpm test"
+    },
+    "packageManager": "pnpm@10.12.2"
+}
