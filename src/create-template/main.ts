@@ -31,6 +31,11 @@ const program = new Command("create-next")
     .usage("[directory] [options]")
     .helpOption("-h, --help", "display help for command")
     .allowUnknownOption()
+    .option("-n, --name <name>", "specify the project name")
+    .option(
+        "-f, --framework <framework>",
+        "framework to use (tanstack-router | next/app | next/pages)"
+    )
     .parse(process.argv);
 
 const opts = program.opts();
@@ -40,27 +45,31 @@ let projectPath: string = "";
 export async function run(): Promise<void> {
     const conf = new Conf({ projectName: "create-react-template" });
 
-    const res = await prompts({
-        onState: onPromptState,
-        type: "text",
-        name: "path",
-        message: "What is your project named?",
-        initial: "my-project",
-        validate: (name: string): boolean | string => {
-            const validation = validateNpmName(name);
+    if (opts.name && typeof opts.name === "string") {
+        projectPath = opts.name.trim();
+    } else {
+        const res = await prompts({
+            onState: onPromptState,
+            type: "text",
+            name: "path",
+            message: "What is your project named?",
+            initial: "my-project",
+            validate: (name: string): boolean | string => {
+                const validation = validateNpmName(name);
 
-            if (validation.valid) {
-                return true;
+                if (validation.valid) {
+                    return true;
+                }
+
+                return `Invalid project name: ${validation.problems?.join(", ")}`;
             }
+        });
 
-            return `Invalid project name: ${validation.problems?.join(", ")}`;
-        }
-    });
-
-    projectPath =
-        res.path && typeof res.path === "string"
-            ? res.path.trim()
-            : "my-project";
+        projectPath =
+            res.path && typeof res.path === "string"
+                ? res.path.trim()
+                : "my-project";
+    }
 
     const appPath = resolve(projectPath);
     const appName = basename(appPath);
@@ -87,21 +96,28 @@ export async function run(): Promise<void> {
 
     const styleFramework = blue("framework");
 
-    const { framework } = await prompts({
-        onState: onPromptState,
-        type: "select",
-        name: "framework",
-        message: `Select a ${styleFramework} for your project:`,
-        choices: [
-            { title: "TanStack Router", value: "tanstack-router" },
-            { title: "Next.js (App Router)", value: "next/app" },
-            { title: "Next.js (Pages Router)", value: "next/pages" }
-        ],
-        initial: 0
-    });
+    if (
+        !opts.framework ||
+        typeof opts.framework !== "string" ||
+        !["tanstack-router", "next/app", "next/pages"].includes(opts.framework)
+    ) {
+        const { framework } = await prompts({
+            onState: onPromptState,
+            type: "select",
+            name: "framework",
+            message: `Select a ${styleFramework} for your project:`,
+            choices: [
+                { title: "TanStack Router", value: "tanstack-router" },
+                { title: "Next.js (App Router)", value: "next/app" },
+                { title: "Next.js (Pages Router)", value: "next/pages" }
+            ],
+            initial: 0
+        });
+        opts.framework = framework;
+    }
 
     const templateInfo: unknown = {
-        framework
+        framework: opts.framework
     };
 
     if (!isTemplateInfo(templateInfo)) {
@@ -109,8 +125,6 @@ export async function run(): Promise<void> {
 
         process.exit(1);
     }
-
-    opts.framework = framework;
 
     try {
         await createApp({

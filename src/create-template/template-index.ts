@@ -60,11 +60,16 @@ export async function installTemplate({
                 );
             }
         }
-    } catch (err: any) {
-        console.error(
-            "Failed to update package.json name:",
-            err?.message ?? err
-        );
+    } catch (err) {
+        if (err instanceof Error) {
+            console.error(
+                "Failed to update package.json name:",
+                err?.message ?? err
+            );
+        } else {
+            console.error("Failed to update package.json name:", err);
+        }
+
         process.exit(1);
     }
 }
