@@ -1,9 +1,17 @@
 import { CheckerProps } from "@/shared/types/object";
-import { HeadingStyle } from "./heading.type";
 import { headingFontStyle } from "./heading.css";
-import { textColor } from "@/shared/theme/design-system.css";
+import { textColor, TextTheme } from "@/shared/theme/design-system.css";
 import { ChildrenOnly } from "@/shared/types/react";
+import { ElementType } from "react";
+import classMerger from "@/utils/class-merger";
 
+type HeadingFont = keyof typeof headingFontStyle;
+interface HeadingStyle {
+    as?: Extract<ElementType, "h1" | "h2" | "h3">;
+    fontStyle?: HeadingFont;
+    color?: TextTheme;
+    style?: React.CSSProperties;
+}
 interface HeadingProps extends HeadingStyle, ChildrenOnly {}
 
 export function Heading<T extends HeadingProps>(
@@ -17,7 +25,7 @@ export function Heading<T extends HeadingProps>(
         children
     } = props;
 
-    const cn = [headingFontStyle[fontStyle], textColor[color]].join(" ");
+    const cn = classMerger([headingFontStyle[fontStyle], textColor[color]]);
 
     const As = as;
     return (

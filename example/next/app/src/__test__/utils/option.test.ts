@@ -25,7 +25,7 @@ describe("optionUtility", () => {
     });
 
     it("isNone は none でない場合 false を返す", () => {
-        const some = createSome("v");
+        const some = createNone();
         expect(isNone(some)).toBeTruthy();
     });
 });
