@@ -11,7 +11,8 @@ async function copyDir(src: string, dest: string, rel = ""): Promise<void> {
         if (
             name === "node_modules" ||
             name === ".next" ||
-            name === "pnpm-lock.yaml"
+            name === "pnpm-lock.yaml" ||
+            name === "dist"
         ) {
             continue;
         }
