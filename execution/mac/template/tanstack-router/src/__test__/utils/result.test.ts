@@ -1,28 +1,34 @@
-import { createResult } from '@/utils/result'
 import { describe, expect, it } from 'vitest'
+import { resultUtility } from '@/utils/result'
 
-describe('createResult', () => {
-  it('resultがokだったらvalueに値が入っている', () => {
-    const result = 'test'
-    const okResult = createResult.ok(result)
+describe('resultUtility', () => {
+  const { isOK, isNG, createOk, createNg } = resultUtility
 
-    if (okResult.kind === 'ng') {
-      throw new Error('ng')
+  it('createOk で作った値は isOK が true になる', () => {
+    const ok = createOk('value')
+
+    expect(isOK(ok)).toBe(true)
+    if (isOK(ok)) {
+      expect(ok.value).toBe('value')
     }
-
-    expect(okResult.kind).toEqual('ok')
-    expect(okResult.value).toEqual(result)
   })
 
-  it('resultがngだったらerrに値が入っている', () => {
-    const result = 'error'
-    const ngResult = createResult.ng(result)
+  it('createNg で作った値は isNG が true になる', () => {
+    const ng = createNg('err')
 
-    if (ngResult.kind === 'ok') {
-      throw new Error('ok')
+    expect(isNG(ng)).toBe(true)
+    if (isNG(ng)) {
+      expect(ng.err).toBe('err')
     }
+  })
 
-    expect(ngResult.kind).toEqual('ng')
-    expect(ngResult.err).toEqual(result)
+  it('isOK は ok でない場合 false を返す', () => {
+    const ng = createNg('err')
+    expect(isOK(ng)).toBe(false)
+  })
+
+  it('isNG は ng でない場合 false を返す', () => {
+    const ok = createOk('value')
+    expect(isNG(ok)).toBe(false)
   })
 })

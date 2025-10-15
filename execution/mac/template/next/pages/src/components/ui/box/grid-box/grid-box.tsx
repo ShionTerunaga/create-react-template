@@ -5,6 +5,8 @@ import {
     gridBoxGridTemplate
 } from "./grid-box.css";
 import { CheckerProps } from "@/shared/types/object";
+import classMerger from "@/utils/class-merger";
+import { Box } from "../main/box";
 
 interface Props extends ChildrenOnly {
     gap?: keyof typeof gridBoxGap;
@@ -16,11 +18,11 @@ export function GridBox<T extends Props>(
 ) {
     const { children, gap = "large", gridTemplateColumns = "three" } = props;
 
-    const className: string = [
+    const className: string = classMerger([
         gridBoxGap[gap],
         gridBoxGridTemplate[gridTemplateColumns],
         gridBoxBaseStyles
-    ].join(" ");
+    ]);
 
-    return <div className={className}>{children}</div>;
+    return <Box className={className}>{children}</Box>;
 }

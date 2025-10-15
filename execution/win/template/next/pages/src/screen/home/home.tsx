@@ -1,8 +1,7 @@
 import Head from "next/head";
 import { Geist, Geist_Mono } from "next/font/google";
-import { Heading } from "@/components/ui";
+import { Box, Heading } from "@/components/ui";
 import { ja } from "@/shared/lang/ja";
-import homeStyles from "./home.css";
 import Link from "next/link";
 
 const geistSans = Geist({
@@ -28,10 +27,13 @@ function HomeScreen() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <main className={`${geistSans.variable} ${geistMono.variable}`}>
+            <Box
+                as="main"
+                className={`${geistSans.variable} ${geistMono.variable}`}
+            >
                 <Heading>{ja.app.home.title}</Heading>
 
-                <div>
+                <Box>
                     <Link href="/server-side-render">
                         {ja.app.home.toServerSideRender}
                     </Link>
@@ -46,8 +48,8 @@ function HomeScreen() {
                     <Link href="/dynamic-render">
                         {ja.app.home.toSingleDynamicPotter}
                     </Link>
-                </div>
-            </main>
+                </Box>
+            </Box>
         </>
     );
 }

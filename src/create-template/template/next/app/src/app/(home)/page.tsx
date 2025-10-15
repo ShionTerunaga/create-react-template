@@ -1,13 +1,13 @@
-import { Heading } from "@/components/ui";
+import { Box, Heading } from "@/components/ui";
 import { ja } from "@/shared/lang/ja";
 import Link from "next/link";
 
 export default function Home() {
     return (
-        <main>
+        <Box as="main">
             <Heading>{ja.app.home.title}</Heading>
 
-            <div>
+            <Box>
                 <Link href="/force-cache-potter">
                     {ja.app.home.toForceCachePotter}
                 </Link>
@@ -15,7 +15,11 @@ export default function Home() {
                 <Link href="/no-store-potter">
                     {ja.app.home.toNoStorePotter}
                 </Link>
-            </div>
-        </main>
+                <br />
+                <Link href="/server-action-sample">
+                    {ja.app.home.toServerActionSample}
+                </Link>
+            </Box>
+        </Box>
     );
 }

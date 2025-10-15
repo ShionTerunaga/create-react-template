@@ -1,9 +1,9 @@
-import { createHttpScheme } from "@/utils/error/http-scheme";
+import { createHttpScheme } from "@/utils/error/http/http-scheme";
 import { describe, expect, it } from "vitest";
 
 describe("http-scheme", () => {
     it("createHttpSchemeにおいてhttpErrorStatusResponseの正常な値が返ってくる", () => {
-        const httpErrorScheme = createHttpScheme();
+        const httpErrorScheme = createHttpScheme;
 
         expect(httpErrorScheme.httpErrorStatusResponse.notFound).toEqual(404);
         expect(
@@ -14,7 +14,7 @@ describe("http-scheme", () => {
     });
 
     it("createHttpSchemeにおいてhttpCustomStatusScheme", () => {
-        const httpErrorScheme = createHttpScheme();
+        const httpErrorScheme = createHttpScheme;
 
         expect(httpErrorScheme.httpCustomStatusScheme.notFoundAPIUrl).toEqual(
             4040
@@ -41,7 +41,7 @@ describe("http-scheme", () => {
     });
 
     it("createHttpSchemeにおいてerrorMessage", () => {
-        const httpErrorScheme = createHttpScheme();
+        const httpErrorScheme = createHttpScheme;
 
         expect(httpErrorScheme.errorMessage.notFoundAPIUrl).toEqual(
             "APIのURLが設定されていません"

@@ -1,8 +1,8 @@
-import { describe, it, expect, vi, beforeEach, Mock } from "vitest";
-import { createOption } from "@/utils/option";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { optionUtility } from "@/utils/option";
 import { appConfig } from "@/shared/config/config";
 import { APIRes, getCharacter } from "@/features/harry-potter";
-import { RESULT_NG, RESULT_OK } from "@/utils/result";
+import { resultUtility } from "@/utils/result";
 
 const mockAPIData: APIRes = [
     {
@@ -33,25 +33,25 @@ const mockAPIData: APIRes = [
     }
 ];
 
-global.fetch = vi.fn();
-
-const mockFetch = fetch as Mock;
+const mockFetch = vi.fn();
 
 describe("getCharacter", () => {
     beforeEach(() => {
         vi.clearAllMocks();
+
+        vi.stubGlobal("fetch", mockFetch);
     });
+    const { createSome, createNone } = optionUtility;
+    const { isOK, isNG } = resultUtility;
 
     it("APIのURLを設定していない場合", async () => {
-        vi.spyOn(appConfig, "apiKey", "get").mockReturnValue(
-            createOption.none()
-        );
+        vi.spyOn(appConfig, "apiKey", "get").mockReturnValue(createNone());
 
         const result = await getCharacter();
 
-        expect(result.kind).toBe(RESULT_NG);
+        expect(result.kind).toBe("ng");
 
-        if (result.kind === RESULT_OK) return;
+        if (result.kind === "ok") return;
 
         expect(result.err.status).toBe(4040);
         expect(result.err.message).toBe("APIのURLが設定されていません");
@@ -59,7 +59,7 @@ describe("getCharacter", () => {
 
     it("レスポンスがerrorの場合", async () => {
         vi.spyOn(appConfig, "apiKey", "get").mockReturnValue(
-            createOption.some("https://mock-api.com/characters")
+            createSome("https://mock-api.com/characters")
         );
 
         mockFetch.mockResolvedValue({
@@ -72,9 +72,9 @@ describe("getCharacter", () => {
 
         const result = await getCharacter();
 
-        expect(result.kind).toBe(RESULT_NG);
+        expect(result.kind).toBe("ng");
 
-        if (result.kind === RESULT_OK) return;
+        if (isOK(result)) return;
 
         expect(result.err.status).toBe(5001);
         expect(result.err.message).toBe("サーバーエラーです");
@@ -82,7 +82,7 @@ describe("getCharacter", () => {
 
     it("レスポンスがerrorでstatusコードが設定していないものが来た場合", async () => {
         vi.spyOn(appConfig, "apiKey", "get").mockReturnValue(
-            createOption.some("https://mock-api.com/characters")
+            createSome("https://mock-api.com/characters")
         );
 
         mockFetch.mockResolvedValue({
@@ -95,9 +95,9 @@ describe("getCharacter", () => {
 
         const result = await getCharacter();
 
-        expect(result.kind).toBe(RESULT_NG);
+        expect(result.kind).toBe("ng");
 
-        if (result.kind === RESULT_OK) return;
+        if (isOK(result)) return;
 
         expect(result.err.status).toBe(9999);
         expect(result.err.message).toBe("unknown error");
@@ -105,7 +105,7 @@ describe("getCharacter", () => {
 
     it("スキームが合わない場合", async () => {
         vi.spyOn(appConfig, "apiKey", "get").mockReturnValue(
-            createOption.some("https://mock-api.com/characters")
+            createSome("https://mock-api.com/characters")
         );
 
         mockFetch.mockResolvedValue({
@@ -115,17 +115,17 @@ describe("getCharacter", () => {
 
         const result = await getCharacter();
 
-        expect(result.kind).toBe(RESULT_NG);
+        expect(result.kind).toBe("ng");
 
-        if (result.kind === RESULT_OK) return;
+        if (isOK(result)) return;
 
         expect(result.err.status).toBe(5000);
-        expect(result.err.message).toContain("スキームが間違っています");
+        expect(result.err.message).toBe("スキームが間違っています。");
     });
 
     it("should return parsed characters when valid data is provided", async () => {
         vi.spyOn(appConfig, "apiKey", "get").mockReturnValue(
-            createOption.some("https://mock-api.com/characters")
+            createSome("https://mock-api.com/characters")
         );
 
         mockFetch.mockResolvedValue({
@@ -135,9 +135,9 @@ describe("getCharacter", () => {
 
         const result = await getCharacter();
 
-        expect(result.kind).toBe(RESULT_OK);
+        expect(result.kind).toBe("ok");
 
-        if (result.kind === RESULT_NG) return;
+        if (isNG(result)) return;
 
         expect(result.value.length).toBe(1);
 

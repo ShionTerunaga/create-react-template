@@ -3,16 +3,18 @@ import { getCharacter } from '../service/get-character'
 import type { Option } from '@/utils/option'
 import type { APIView } from '../model/model-view'
 import type { SinglePageGetCharacters } from './characters.type'
-import type { HttpError } from '@/utils/error/http'
-import { OPTION_NONE, createOption } from '@/utils/option'
-import { RESULT_NG } from '@/utils/result'
+import type { HttpError } from '@/utils/error/http/http'
+import { optionUtility } from '@/utils/option'
+import { resultUtility } from '@/utils/result'
 
 export function useSinglePageCharacters() {
-  const [fetchCharacter, setFetchCharacter] = useState<Option<Array<APIView>>>(
-    createOption.none(),
-  )
+  const { createNone, createSome, isNone } = optionUtility
+  const { isNG } = resultUtility
 
-  const [error, setError] = useState<Option<HttpError>>(createOption.none())
+  const [fetchCharacter, setFetchCharacter] =
+    useState<Option<Array<APIView>>>(createNone())
+
+  const [error, setError] = useState<Option<HttpError>>(createNone())
 
   useEffect(() => {
     let isMounted = true
@@ -23,12 +25,12 @@ export function useSinglePageCharacters() {
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (!isMounted) return
 
-      if (result.kind === RESULT_NG) {
-        setError(createOption.some(result.err))
+      if (isNG(result)) {
+        setError(createSome(result.err))
         return
       }
 
-      setFetchCharacter(createOption.some(result.value))
+      setFetchCharacter(createSome(result.value))
     })()
 
     return () => {
@@ -37,11 +39,11 @@ export function useSinglePageCharacters() {
   }, [])
 
   const isLoading: boolean = useMemo(() => {
-    return fetchCharacter.kind === OPTION_NONE && error.kind === OPTION_NONE
+    return isNone(fetchCharacter) && isNone(error)
   }, [fetchCharacter, error])
 
   const characters: Array<SinglePageGetCharacters> = useMemo(() => {
-    if (fetchCharacter.kind === OPTION_NONE) {
+    if (isNone(fetchCharacter)) {
       return []
     }
 
