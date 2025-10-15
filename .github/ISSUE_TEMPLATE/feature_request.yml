@@ -1,5 +1,5 @@
 name: Feature request
-about:
+description: |
     Suggest a new feature or an enhancement to the project. Describe the
     motivation, use case, and possible alternatives.
 title: "[FEATURE] "

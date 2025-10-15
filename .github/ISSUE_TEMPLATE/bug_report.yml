@@ -1,5 +1,5 @@
 name: Bug report
-about:
+description: |
     Create an issue to report a bug. Please include steps to reproduce, expected
     and actual behavior, and environment details.
 title: "[BUG] "
