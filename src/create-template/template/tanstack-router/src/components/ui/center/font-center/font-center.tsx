@@ -1,7 +1,7 @@
+import { type CheckerProps } from '@/shared/types/object'
+import { type ChildrenOnly } from '@/shared/types/react'
+import { type CSSProperties } from 'react'
 import fontCenterBaseStyle from './font-center.css'
-import type { CheckerProps } from '@/shared/types/object'
-import type { ChildrenOnly } from '@/shared/types/react'
-import type { CSSProperties } from 'react'
 
 interface Props extends ChildrenOnly {
   className?: string
@@ -18,9 +18,9 @@ function FontCenter<T extends Props>(
   const { className, style, children } = props
 
   return (
-    <div className={`${fontCenterBaseStyle} ${className}`} style={style}>
+    <p className={`${fontCenterBaseStyle} ${className}`} style={style}>
       {children}
-    </div>
+    </p>
   )
 }
 

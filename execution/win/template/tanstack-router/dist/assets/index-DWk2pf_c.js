@@ -1,0 +1,1 @@
+import{j as o,L as n}from"./index-CagAXRx2.js";import{B as t,H as s,j as e}from"./ja-CzLzQx0l.js";function a(){return o.jsxs(t,{as:"main",children:[o.jsx(s,{children:e.app.home.title}),o.jsx(t,{children:o.jsx(n,{to:"/single-dynamic-fetch",children:e.app.home.toCachePotter})})]})}const m=a;export{m as component};

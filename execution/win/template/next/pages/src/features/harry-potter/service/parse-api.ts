@@ -1,8 +1,13 @@
+import { Result, resultUtility } from "@/utils/result";
 import { APIRes } from "../model/model-res";
 import { APIView } from "../model/model-view";
-import { createOption } from "@/utils/option";
+import { optionUtility } from "@/utils/option";
+import { HttpError } from "@/utils/error/http";
 
-export function perseApi(api: APIRes): Array<APIView> {
+export function parseApi(api: APIRes): Result<Array<APIView>, HttpError> {
+    const { createNone, createSome } = optionUtility;
+    const { createOk } = resultUtility;
+
     const filterList: Array<APIView> = api
         .filter((item) => item.image !== "")
         .map((item) => {
@@ -21,24 +26,24 @@ export function perseApi(api: APIRes): Array<APIView> {
                 alternateActors: alternate_actors,
                 dateOfBirth:
                     dateOfBirth === null
-                        ? createOption.none()
-                        : createOption.some(dateOfBirth),
+                        ? createNone()
+                        : createSome(dateOfBirth),
                 yearOfBirth:
                     yearOfBirth === null
-                        ? createOption.none()
-                        : createOption.some(yearOfBirth),
+                        ? createNone()
+                        : createSome(yearOfBirth),
                 wand: {
                     wood: wand.wood,
                     core: wand.core,
                     length:
                         wand.length == null
-                            ? createOption.none()
-                            : createOption.some(wand.length)
+                            ? createNone()
+                            : createSome(wand.length)
                 }
             };
 
             return value;
         });
 
-    return filterList;
+    return createOk(filterList);
 }

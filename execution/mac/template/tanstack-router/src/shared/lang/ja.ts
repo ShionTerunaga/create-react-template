@@ -3,6 +3,7 @@ export const ja = {
     home: {
       title: 'こんにちは、tanstack-router！',
       openPopup: '説明',
+      toCachePotter: '静的データ収集へ',
       toSingleDynamicPotter: '動的データ収集へ',
     },
     cachePotter: {

@@ -1,10 +1,12 @@
+import type { ChildrenOnly } from '@/shared/types/react'
 import {
   gridBoxBaseStyles,
   gridBoxGap,
   gridBoxGridTemplate,
 } from './grid-box.css'
-import type { ChildrenOnly } from '@/shared/types/react'
 import type { CheckerProps } from '@/shared/types/object'
+import { Box } from '../main/box'
+import classMerger from '@/utils/class-merger'
 
 interface Props extends ChildrenOnly {
   gap?: keyof typeof gridBoxGap
@@ -16,11 +18,11 @@ export function GridBox<T extends Props>(
 ) {
   const { children, gap = 'large', gridTemplateColumns = 'three' } = props
 
-  const className: string = [
+  const className: string = classMerger([
     gridBoxGap[gap],
     gridBoxGridTemplate[gridTemplateColumns],
     gridBoxBaseStyles,
-  ].join(' ')
+  ])
 
-  return <div className={className}>{children}</div>
+  return <Box className={className}>{children}</Box>
 }

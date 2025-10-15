@@ -1,9 +1,11 @@
-import { Option, createOption } from "./option";
+import { Option, optionUtility } from "./option";
 
 export function envParse(env: string | undefined): Option<string> {
+    const { createSome, createNone } = optionUtility;
+
     if (env === undefined || env === null) {
-        return createOption.none();
+        return createNone();
     }
 
-    return createOption.some<string>(env);
+    return createSome<string>(env);
 }

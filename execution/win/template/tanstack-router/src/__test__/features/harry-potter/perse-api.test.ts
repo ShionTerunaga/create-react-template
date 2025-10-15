@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import { createOption } from '@/utils/option'
+import { optionUtility } from '@/utils/option'
 import { type APIRes } from '@/features/harry-potter'
-import { perseApi } from '@/features/harry-potter/service/parse-api'
+import { parseApi } from '@/features/harry-potter/service/parse-api'
 
 const mockApiData: APIRes = [
   {
@@ -59,19 +59,27 @@ const mockApiData: APIRes = [
 ]
 
 describe('perseApi', () => {
+  const { createSome, createNone } = optionUtility
+
   it('適したフォーマットが返ってくる', () => {
-    const result = perseApi(mockApiData)
+    const result = parseApi(mockApiData)
 
-    expect(result.length).toBe(1)
+    expect(result.kind).toBe('ok')
 
-    const harry = result[0]
+    if (result.kind !== 'ok') {
+      throw new Error('Result is not ok')
+    }
+
+    expect(result.value.length).toBe(1)
+
+    const harry = result.value[0]
 
     expect(harry.name).toBe('Harry Potter')
     expect(harry.alternateNames).toEqual(['The Boy Who Lived'])
     expect(harry.gender).toBe('male')
-    expect(harry.dateOfBirth).toEqual(createOption.some('31-07-1980'))
-    expect(harry.yearOfBirth).toEqual(createOption.some(1980))
-    expect(harry.wand.length).toEqual(createOption.some(11))
+    expect(harry.dateOfBirth).toEqual(createSome('31-07-1980'))
+    expect(harry.yearOfBirth).toEqual(createSome(1980))
+    expect(harry.wand.length).toEqual(createSome(11))
   })
 
   it('nullをOptionに変換できているか', () => {
@@ -88,12 +96,21 @@ describe('perseApi', () => {
       },
     ]
 
-    const result = perseApi(dataWithNulls)
-    const character = result[0]
+    const result = parseApi(dataWithNulls)
 
-    expect(character.dateOfBirth).toEqual(createOption.none())
-    expect(character.yearOfBirth).toEqual(createOption.none())
-    expect(character.wand.length).toEqual(createOption.none())
+    expect(result.kind).toBe('ok')
+
+    if (result.kind !== 'ok') {
+      throw new Error('Result is not ok')
+    }
+
+    expect(result.value.length).toBe(1)
+
+    const character = result.value[0]
+
+    expect(character.dateOfBirth).toEqual(createNone())
+    expect(character.yearOfBirth).toEqual(createNone())
+    expect(character.wand.length).toEqual(createNone())
   })
 
   it('imageが空文字の時は要素が省かれる', () => {
@@ -102,7 +119,14 @@ describe('perseApi', () => {
       image: '',
     }))
 
-    const result = perseApi(dataWithNoImages)
-    expect(result).toEqual([])
+    const result = parseApi(dataWithNoImages)
+
+    expect(result.kind).toBe('ok')
+
+    if (result.kind !== 'ok') {
+      throw new Error('Result is not ok')
+    }
+
+    expect(result.value).toEqual([])
   })
 })

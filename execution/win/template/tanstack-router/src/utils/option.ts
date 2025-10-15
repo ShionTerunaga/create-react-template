@@ -1,31 +1,52 @@
-const OPTION_SOME = 'some' as const
-const OPTION_NONE = 'none' as const
+const basic = {
+  OPTION_SOME: 'some',
+  OPTION_NONE: 'none',
+} as const
 
 interface Some<T> {
-  readonly kind: typeof OPTION_SOME
+  readonly kind: typeof basic.OPTION_SOME
   value: T
 }
 
 interface None {
-  readonly kind: typeof OPTION_NONE
+  readonly kind: typeof basic.OPTION_NONE
 }
 
-type Option<T> = Some<T> | None
+export type Option<T> = Some<NonNullable<T>> | None
 
-const createOption = {
-  some: <T>(value: T): Option<T> => {
+export const optionUtility = (function () {
+  const { OPTION_SOME, OPTION_NONE } = basic
+
+  const createSome = <T>(value: NonNullable<T>): Option<T> => {
     return {
       kind: OPTION_SOME,
       value,
     }
-  },
-  none: () => {
+  }
+
+  const createNone = (): Option<never> => {
     return {
       kind: OPTION_NONE,
     }
-  },
-}
+  }
 
-export type { Option }
+  const isSome = <T extends NonNullable<unknown>>(
+    opt: Option<T>,
+  ): opt is Some<T> => {
+    return (
+      (opt.kind === OPTION_SOME && opt.value !== undefined) ||
+      (opt.kind === OPTION_SOME && opt.value !== null)
+    )
+  }
 
-export { createOption, OPTION_SOME, OPTION_NONE }
+  const isNone = <T>(opt: Option<T>): opt is None => {
+    return opt.kind === OPTION_NONE
+  }
+
+  return {
+    createSome,
+    createNone,
+    isSome,
+    isNone,
+  }
+})()

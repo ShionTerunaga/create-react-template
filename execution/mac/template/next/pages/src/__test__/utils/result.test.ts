@@ -1,10 +1,12 @@
-import { createResult } from "@/utils/result";
+import { resultUtility } from "@/utils/result";
 import { describe, expect, it } from "vitest";
 
-describe("createResult", () => {
+describe("resultUtility", () => {
+    const { createNg, createOk, isNG, isOK } = resultUtility;
+
     it("resultがokだったらvalueに値が入っている", () => {
         const result = "test";
-        const okResult = createResult.ok(result);
+        const okResult = createOk(result);
 
         if (okResult.kind === "ng") {
             throw new Error("ng");
@@ -16,7 +18,7 @@ describe("createResult", () => {
 
     it("resultがngだったらerrに値が入っている", () => {
         const result = "error";
-        const ngResult = createResult.ng(result);
+        const ngResult = createNg(result);
 
         if (ngResult.kind === "ok") {
             throw new Error("ok");
@@ -24,5 +26,21 @@ describe("createResult", () => {
 
         expect(ngResult.kind).toEqual("ng");
         expect(ngResult.err).toEqual(result);
+    });
+
+    it("isOKでokかどうか判定できる", () => {
+        const okResult = createOk("test");
+        const ngResult = createNg("error");
+
+        expect(isOK(okResult)).toBeTruthy();
+        expect(isOK(ngResult)).toBeFalsy();
+    });
+
+    it("isNGでngかどうか判定できる", () => {
+        const okResult = createOk("test");
+        const ngResult = createNg("error");
+
+        expect(isNG(okResult)).toBeFalsy();
+        expect(isNG(ngResult)).toBeTruthy();
     });
 });

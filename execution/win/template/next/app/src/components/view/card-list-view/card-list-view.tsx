@@ -1,5 +1,5 @@
 import { Card } from "@/components/layout";
-import { GridBox, Heading } from "@/components/ui";
+import { Box, GridBox, Heading } from "@/components/ui";
 import FontCenter from "@/components/ui/center/font-center/font-center";
 import { APIView } from "@/features/harry-potter";
 import { CheckerProps } from "@/shared/types/object";
@@ -15,7 +15,7 @@ export function CardListView<T extends Props>(
     const { potters, title } = props;
 
     return (
-        <section>
+        <Box as="section">
             <FontCenter>
                 <Heading>{title}</Heading>
             </FontCenter>
@@ -33,6 +33,6 @@ export function CardListView<T extends Props>(
                     />
                 ))}
             </GridBox>
-        </section>
+        </Box>
     );
 }

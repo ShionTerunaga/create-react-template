@@ -1,17 +1,19 @@
 import { useEffect, useMemo, useState } from "react";
 import { SinglePageGetCharacters } from "./characters.type";
-import { createOption, Option, OPTION_NONE } from "@/utils/option";
+import { optionUtility, Option } from "@/utils/option";
 import { getCharacter } from "../service/get-character";
-import { RESULT_NG } from "@/utils/result";
+import { resultUtility } from "@/utils/result";
 import { APIView } from "../model/model-view";
 import { HttpError } from "@/utils/error/http";
 
 export function useSinglePageCharacters() {
-    const [fetchCharacter, setFetchCharacter] = useState<
-        Option<Array<APIView>>
-    >(createOption.none());
+    const { isNG } = resultUtility;
+    const { createSome, createNone, isNone } = optionUtility;
 
-    const [error, setError] = useState<Option<HttpError>>(createOption.none());
+    const [fetchCharacter, setFetchCharacter] =
+        useState<Option<Array<APIView>>>(createNone());
+
+    const [error, setError] = useState<Option<HttpError>>(createNone());
 
     useEffect(() => {
         let isMounted = true;
@@ -21,12 +23,12 @@ export function useSinglePageCharacters() {
 
             if (!isMounted) return;
 
-            if (result.kind === RESULT_NG) {
-                setError(createOption.some(result.err));
+            if (isNG(result)) {
+                setError(createSome(result.err));
                 return;
             }
 
-            setFetchCharacter(createOption.some(result.value));
+            setFetchCharacter(createSome(result.value));
         })();
 
         return () => {
@@ -35,13 +37,11 @@ export function useSinglePageCharacters() {
     }, []);
 
     const isLoading: boolean = useMemo(() => {
-        return (
-            fetchCharacter.kind === OPTION_NONE && error.kind === OPTION_NONE
-        );
+        return isNone(fetchCharacter) && isNone(error);
     }, [fetchCharacter, error]);
 
     const characters: Array<SinglePageGetCharacters> = useMemo(() => {
-        if (fetchCharacter.kind === OPTION_NONE) {
+        if (isNone(fetchCharacter)) {
             return [];
         }
 
