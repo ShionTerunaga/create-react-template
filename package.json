@@ -13,7 +13,8 @@
         "create-template-win:pkg": "pkg dist/react-tmp/index.js --targets node18-win-x64 --output execution/win/create-react-tmp && pnpm copy-only:win",
         "cp-only:mac": "rm -rf execution/mac/template && cp -R src/create-template/template execution/mac",
         "cp-only:win": "rm -rf execution/win/template && cp -R src/create-template/template execution/win",
-        "generate-csstype": "tsx ./scripts/css/generate-css-type.ts"
+        "generate-csstype": "tsx ./scripts/css/generate-css-type.ts",
+        "create:env": "cd scripts/create-env && npx tsx create-env.ts"
     },
     "keywords": [],
     "author": "",
