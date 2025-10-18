@@ -47,14 +47,14 @@ git clone https://github.com/ShionTerunaga/create-react-template.git
 
 ```
 #.zprofile
-export PATH="$PATH:/Users/terashieishion/tools/create-react-template/execution/mac"
+export PATH="$PATH:/Users/<username>/tools/create-react-template/execution/mac"
 ```
 
 or
 
 ```
 # .bash_profile
-export PATH="$PATH:/Users/terashieishion/tools/create-react-template/execution/mac"
+export PATH="$PATH:/Users/<username>/tools/create-react-template/execution/mac"
 ```
 
 ### windows
