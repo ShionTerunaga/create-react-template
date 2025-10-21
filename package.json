@@ -32,6 +32,7 @@
         "@types/react": "^19.1.12",
         "@types/react-dom": "^19.1.9",
         "@types/validate-npm-package-name": "^4.0.2",
+        "@vanilla-extract/vite-plugin": "^5.1.1",
         "commander": "^14.0.1",
         "conf": "^14.0.0",
         "csstype": "^3.1.3",
