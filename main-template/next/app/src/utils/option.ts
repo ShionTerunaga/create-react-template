@@ -20,16 +20,16 @@ export const optionUtility = (function () {
     const { OPTION_SOME, OPTION_NONE } = basic;
 
     const createSome = <T>(value: NonNullable<T>): Option<T> => {
-        return {
+        return Object.freeze({
             kind: OPTION_SOME,
             value
-        };
+        });
     };
 
     const createNone = (): Option<never> => {
-        return {
+        return Object.freeze({
             kind: OPTION_NONE
-        };
+        });
     };
 
     const optionConversion = <T extends NonNullable<unknown>>(
@@ -54,11 +54,11 @@ export const optionUtility = (function () {
         return opt.kind === OPTION_NONE;
     };
 
-    return {
+    return Object.freeze({
         createSome,
         createNone,
         isSome,
         isNone,
         optionConversion
-    };
+    });
 })();
