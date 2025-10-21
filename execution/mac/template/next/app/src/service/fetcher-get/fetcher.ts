@@ -17,18 +17,23 @@ export async function fetcher<T extends ZodType>({
     const createError = httpError.createHttpError;
 
     const { isNone } = optionUtility;
-    const { createNg, createOk } = resultUtility;
+    const { isNG, createNg, createOk, checkPromiseReturn } = resultUtility;
 
     if (isNone(url)) {
         return createNg(createError.notFoundAPIUrl());
     }
 
-    const res = await fetch(url.value, {
-        cache
+    const res = await checkPromiseReturn({
+        fn: () => fetch(url.value, { cache }),
+        err: createError.fetchError()
     });
 
-    if (!res.ok) {
-        const status = res.status;
+    if (isNG(res)) {
+        return res;
+    }
+
+    if (!res.value.ok) {
+        const status = res.value.status;
 
         switch (status) {
             case httpErrorScheme.httpErrorStatusResponse.notFound:
@@ -44,7 +49,7 @@ export async function fetcher<T extends ZodType>({
         }
     }
 
-    const resValue = await res.json();
+    const resValue = await res.value.json();
 
     const judgeType = scheme.safeParse(resValue);
 

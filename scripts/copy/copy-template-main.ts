@@ -6,7 +6,7 @@ function main() {
     const srcAppDir = path.join(root, "main-template", "next", "app");
     const destAppBase = path.join(
         root,
-        "src",
+        "packages",
         "create-template",
         "template",
         "next",
@@ -18,7 +18,7 @@ function main() {
     const srcPagesDir = path.join(root, "main-template", "next", "pages");
     const destPagesBase = path.join(
         root,
-        "src",
+        "packages",
         "create-template",
         "template",
         "next",
@@ -30,7 +30,7 @@ function main() {
     const srcSrcDir = path.join(root, "main-template", "tanstack-router");
     const destSrcTanstackBase = path.join(
         root,
-        "src",
+        "packages",
         "create-template",
         "template",
         "tanstack-router"

@@ -1,7 +1,7 @@
 import { core, ZodType } from "zod";
-import { Option } from "../../utils/option";
-import { HttpError } from "../../utils/error/http";
-import { resultUtility, Result } from "../../utils/result";
+import { Option } from "@/utils/option";
+import { HttpError } from "@/utils/error/http";
+import { resultUtility, Result } from "@/utils/result";
 import { fetcher } from "./fetcher";
 
 export async function hasParseFetcher<T extends ZodType, S>({

@@ -10,7 +10,6 @@ describe('http', () => {
     expect(error.status).toBe(4040)
     expect(error.message).toBe('APIのURLが設定されていません')
   })
-
   it('createHttpErrorのreturnNotFoundAPIUrlが正常に作られる', () => {
     const { returnNotFoundAPIUrl } = createHttpError
     const error = returnNotFoundAPIUrl()
@@ -55,6 +54,7 @@ describe('http', () => {
     expect(error.status).toBe(9999)
     expect(error.message).toBe('unknown error')
   })
+
   it('createHttpErrorのschemeErrorが正常に作られる', () => {
     const { schemeError } = createHttpError
     const error = schemeError()
