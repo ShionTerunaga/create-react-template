@@ -35,9 +35,6 @@ importers:
       css-loader:
         specifier: ^7.1.2
         version: 7.1.2(webpack@5.101.3(esbuild@0.25.9))
-      css-types:
-        specifier: ^1.1.0
-        version: 1.1.0
       csstype:
         specifier: ^3.1.3
         version: 3.1.3
@@ -2277,10 +2274,6 @@ packages:
 
   css-select@4.3.0:
     resolution: {integrity: sha512-wPpOYtnsVontu2mODhA19JrqWxNsfdatRKd64kmpRbQgh1KtItko5sTnEpPdpSaJszTOhEMlF/RPz28qj4HqhQ==}
-
-  css-types@1.1.0:
-    resolution: {integrity: sha512-2Z7B/oM+PYb4jmMOQzU5EIF5q6zZNMWzuLxo27QN+ZeKNQBI8AZpaEKP5i+EQR00i/BI3Uq8weTkhhNnxgUvyA==}
-    hasBin: true
 
   css-what@6.2.2:
     resolution: {integrity: sha512-u/O3vwbptzhMs3L1fQE82ZSLHQQfto5gyZzwteVIEyeaY5Fc7R4dapF/BvRoSYFeqfBk4m0V1Vafq5Pjv25wvA==}
@@ -6819,6 +6812,7 @@ snapshots:
   chokidar@4.0.3:
     dependencies:
       readdirp: 4.1.2
+    optional: true
 
   chrome-trace-event@1.0.4: {}
 
@@ -6983,10 +6977,6 @@ snapshots:
       domhandler: 4.3.1
       domutils: 2.8.0
       nth-check: 2.1.1
-
-  css-types@1.1.0:
-    dependencies:
-      sass: 1.93.2
 
   css-what@6.2.2: {}
 
@@ -7856,7 +7846,8 @@ snapshots:
 
   image-size@2.0.2: {}
 
-  immutable@5.1.4: {}
+  immutable@5.1.4:
+    optional: true
 
   import-fresh@3.3.1:
     dependencies:
@@ -8701,7 +8692,8 @@ snapshots:
     dependencies:
       picomatch: 2.3.1
 
-  readdirp@4.1.2: {}
+  readdirp@4.1.2:
+    optional: true
 
   recast@0.23.11:
     dependencies:
@@ -8885,6 +8877,7 @@ snapshots:
       source-map-js: 1.2.1
     optionalDependencies:
       '@parcel/watcher': 2.5.1
+    optional: true
 
   saxes@6.0.0:
     dependencies:

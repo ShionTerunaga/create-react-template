@@ -1,38 +1,55 @@
-import { optionUtility, Option } from "@/utils/option";
 import { describe, expect, it } from "vitest";
+import { optionUtility } from "@/utils/option";
 
 describe("optionUtility", () => {
-    const { createSome, createNone, isNone, isSome } = optionUtility;
+    const { createSome, createNone, optionConversion, isSome, isNone } =
+        optionUtility;
 
-    it("someに値を代入したらvalueに値が入っている", () => {
-        const someOption: Option<string> = createSome("value");
+    it("createSome で作った値は isSome が true になる", () => {
+        const some = createSome("value");
 
-        if (someOption.kind === "none") {
-            throw new Error("none");
+        expect(isSome(some)).toBe(true);
+        if (isSome(some)) {
+            expect(some.value).toBe("value");
+        }
+    });
+
+    it("string型を与えたらSome型が返ってくる", () => {
+        const result = optionConversion("string");
+        expect(result.kind).toBe("some");
+
+        if (result.kind === "none") {
+            throw new Error("not expect");
         }
 
-        expect(someOption.value).toEqual("value");
+        expect(result.value).toBe("string");
     });
 
-    it("noneに値を代入したらkindがnoneになる", () => {
-        const noneOption: Option<string> = createNone();
+    it("nullを渡したらNone型が返ってくる", () => {
+        const result = optionConversion(null);
 
-        expect(noneOption.kind).toEqual("none");
+        expect(result.kind).toBe("none");
     });
 
-    it("isSomeでsomeかどうか判定できる", () => {
-        const someOption: Option<string> = createSome("value");
-        const noneOption: Option<string> = createNone();
+    it("undefinedを渡したらNone型が返ってくる", () => {
+        const result = optionConversion(undefined);
 
-        expect(isSome(someOption)).toBeTruthy();
-        expect(isSome(noneOption)).toBeFalsy();
+        expect(result.kind).toBe("none");
     });
 
-    it("isNoneでnoneかどうか判定できる", () => {
-        const someOption: Option<string> = createSome("value");
-        const noneOption: Option<string> = createNone();
+    it("createNone で作った値は isNone が true になる", () => {
+        const none = createNone();
 
-        expect(isNone(someOption)).toBeFalsy();
-        expect(isNone(noneOption)).toBeTruthy();
+        expect(isNone(none)).toBe(true);
+    });
+
+    it("isSome は some でない場合 false を返す", () => {
+        const none = createNone();
+        expect(isSome(none)).toBeFalsy();
+    });
+
+    it("isNone は none でない場合 false を返す", () => {
+        const some = createNone();
+        expect(isNone(some)).toBeTruthy();
     });
 });

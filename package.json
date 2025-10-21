@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "copy:template": "cd scripts/copy && npx tsx copy-template-main.ts",
+        "cp:template": "cd scripts/copy && npx tsx copy-template-main.ts",
         "git-pull:build": "cd scripts/git && tsc",
         "build:ncc-tmp": "ncc build ./packages/create-template/index.ts -o ./dist/react-tmp",
         "git-pull-mac:pkg": "pkg dist/scripts/git-pull/react-template-pull.js --targets node18-macos-arm64 --output execution/mac/react-tmp-pull",

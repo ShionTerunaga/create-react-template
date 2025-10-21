@@ -1,11 +1,12 @@
 import {
     createHttpScheme,
-    type HttpCustomStatus
+    HttpCustomStatus
 } from "@/utils/error/http/http-scheme";
 import { CustomError } from "../core/core-error";
 
 export interface HttpError extends CustomError {
     status: HttpCustomStatus;
+    message: string;
 }
 
 /**ここは仕様に応じて変更する*/
@@ -24,6 +25,13 @@ export const createHttpError = (function () {
             status,
             message
         };
+    };
+
+    const fetchError = () => {
+        return createHttpError({
+            status: httpErrorScheme.httpCustomStatusScheme.fetchError,
+            message: httpErrorScheme.errorMessage.fetchError
+        });
     };
 
     const notFoundAPIUrl = () => {
@@ -97,6 +105,7 @@ export const createHttpError = (function () {
         returnNoPermission,
         returnBadRequest,
         returnInternalServerError,
+        fetchError,
         parseError,
         responseError
     };

@@ -1,3 +1,5 @@
+import { isNull, isUndefined } from './is'
+
 const basic = {
   OPTION_SOME: 'some',
   OPTION_NONE: 'none',
@@ -5,7 +7,7 @@ const basic = {
 
 interface Some<T> {
   readonly kind: typeof basic.OPTION_SOME
-  value: T
+  readonly value: T
 }
 
 interface None {
@@ -18,35 +20,43 @@ export const optionUtility = (function () {
   const { OPTION_SOME, OPTION_NONE } = basic
 
   const createSome = <T>(value: NonNullable<T>): Option<T> => {
-    return {
+    return Object.freeze({
       kind: OPTION_SOME,
       value,
-    }
+    })
   }
 
   const createNone = (): Option<never> => {
-    return {
+    return Object.freeze({
       kind: OPTION_NONE,
+    })
+  }
+
+  const optionConversion = <T extends NonNullable<unknown>>(
+    value: T | null | undefined,
+  ): Option<T> => {
+    if (isNull(value) || isUndefined(value)) {
+      return createNone()
     }
+
+    return createSome(value)
   }
 
   const isSome = <T extends NonNullable<unknown>>(
     opt: Option<T>,
   ): opt is Some<T> => {
-    return (
-      (opt.kind === OPTION_SOME && opt.value !== undefined) ||
-      (opt.kind === OPTION_SOME && opt.value !== null)
-    )
+    return opt.kind === OPTION_SOME
   }
 
   const isNone = <T>(opt: Option<T>): opt is None => {
     return opt.kind === OPTION_NONE
   }
 
-  return {
+  return Object.freeze({
     createSome,
     createNone,
     isSome,
     isNone,
-  }
+    optionConversion,
+  })
 })()
