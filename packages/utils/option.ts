@@ -35,6 +35,8 @@ export const optionUtility = (function () {
     const optionConversion = <T extends NonNullable<unknown>>(
         value: T | null | undefined
     ): Option<T> => {
+        const { createNone, createSome } = optionUtility;
+
         if (isNull(value) || isUndefined(value)) {
             return createNone();
         }
