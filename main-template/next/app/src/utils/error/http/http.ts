@@ -27,6 +27,13 @@ export const createHttpError = (function () {
         };
     };
 
+    const fetchError = () => {
+        return createHttpError({
+            status: httpErrorScheme.httpCustomStatusScheme.fetchError,
+            message: httpErrorScheme.errorMessage.fetchError
+        });
+    };
+
     const notFoundAPIUrl = () => {
         return createHttpError({
             status: httpErrorScheme.httpCustomStatusScheme.notFoundAPIUrl,
@@ -98,6 +105,7 @@ export const createHttpError = (function () {
         returnNoPermission,
         returnBadRequest,
         returnInternalServerError,
+        fetchError,
         parseError,
         responseError
     };
