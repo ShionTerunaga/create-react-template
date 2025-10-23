@@ -1,23 +1,16 @@
 //import { invoke } from "@tauri-apps/api/core";
-import { Sidebar, SidebarProvider, useSidebar } from "./features/sidebar";
+import { Sidebar, useSidebar } from "./features/sidebar";
 import appStyle from "./App.css";
 import { useMemo } from "react";
+import { ExportButton } from "./features/export/ExportButton";
 
 function App() {
-    //const [greetMsg, setGreetMsg] = useState("");
-    //const [name, setName] = useState("");
-
     const { sidebarState } = useSidebar();
-
-    async function greet() {
-        // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-        //setGreetMsg(await invoke("greet", { name }));
-    }
 
     const MainComponent = useMemo(() => {
         switch (sidebarState) {
             case "cli":
-                return <div>CLI Tool Component</div>;
+                return <ExportButton />;
             case "gui-react":
                 return <div>React Template Component</div>;
             default:

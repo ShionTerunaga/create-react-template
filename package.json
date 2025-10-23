@@ -27,6 +27,7 @@
         "@commitlint/cli": "^19.8.1",
         "@commitlint/config-conventional": "^19.8.1",
         "@tanstack/react-router-devtools": "^1.132.51",
+        "@tauri-apps/plugin-dialog": "^2.4.0",
         "@types/node": "^24.0.3",
         "@types/prompts": "^2.4.9",
         "@types/react": "^19.1.12",

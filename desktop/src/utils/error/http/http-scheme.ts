@@ -6,6 +6,7 @@ interface HttpCustomStatusScheme {
     schemeError: 5000;
     serverError: 5001;
     parseError: 8888;
+    fetchError: 8889;
     responseError: 9998;
     unknownError: 9999;
 }
@@ -24,6 +25,7 @@ interface ErrorMessage {
     schemeError: string;
     serverError: string;
     parseError: string;
+    fetchError: string;
     responseError: string;
     unknownError: string;
 }
@@ -40,6 +42,7 @@ export type HttpCustomStatus =
     | 5000 //スキームが間違っている
     | 5001 // サーバーエラー
     | 8888 //パースエラー
+    | 8889 //フェッチエラー
     | 9998 //レスポンスエラー
     | 9999; //unknown
 
@@ -66,6 +69,7 @@ export const createHttpScheme: HttpErrorScheme = (function () {
         schemeError: 5000,
         serverError: 5001,
         parseError: 8888,
+        fetchError: 8889,
         responseError: 9998,
         unknownError: 9999
     };
@@ -79,6 +83,7 @@ export const createHttpScheme: HttpErrorScheme = (function () {
         schemeError: "スキームが間違っています。",
         serverError: "サーバーエラーです",
         parseError: "パースエラーです",
+        fetchError: "フェッチエラーです",
         responseError: "レスポンスエラーです",
         unknownError: "unknown error"
     };
