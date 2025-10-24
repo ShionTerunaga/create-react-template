@@ -28,7 +28,7 @@ export function useSinglePageCharacters() {
                 return;
             }
 
-            setFetchCharacter(createSome(result.value));
+            setFetchCharacter(result.value);
         })();
 
         return () => {

@@ -12,11 +12,11 @@ export async function fetcher<T extends ZodType>({
     url: Option<string>;
     scheme: T;
     cache?: RequestCache;
-}): Promise<Result<core.output<T>, HttpError>> {
+}): Promise<Result<Option<core.output<T>>, HttpError>> {
     const httpErrorScheme = error.createHttpScheme;
     const createError = httpError.createHttpError;
 
-    const { isNone } = optionUtility;
+    const { isNone, createNone, createSome } = optionUtility;
     const { isNG, createNg, createOk, checkPromiseReturn } = resultUtility;
 
     if (isNone(url)) {
@@ -60,8 +60,8 @@ export async function fetcher<T extends ZodType>({
     const okValue = judgeType.data;
 
     if (okValue === undefined || okValue === null) {
-        return createNg(createError.responseError());
+        return createOk(createNone());
     }
 
-    return createOk(okValue);
+    return createOk(createSome(okValue));
 }

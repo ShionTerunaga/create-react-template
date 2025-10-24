@@ -2,10 +2,12 @@ import { Box } from "@/components/ui";
 import { CardListView } from "@/components/view";
 import { getCharacter } from "@/features/harry-potter";
 import { ja } from "@/shared/lang/ja";
+import { optionUtility } from "@/utils/option";
 import { resultUtility } from "@/utils/result";
 
 async function ForceCachePotter() {
     const { isNG } = resultUtility;
+    const { isNone } = optionUtility;
 
     const potters = await getCharacter("force-cache");
 
@@ -13,9 +15,13 @@ async function ForceCachePotter() {
         return <Box>error</Box>;
     }
 
+    if (isNone(potters.value)) {
+        return <Box>no data</Box>;
+    }
+
     return (
         <CardListView
-            potters={potters.value}
+            potters={potters.value.value}
             title={ja.app.forceCachePotter.title}
         />
     );

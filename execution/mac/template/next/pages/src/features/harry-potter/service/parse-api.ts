@@ -1,10 +1,13 @@
 import { Result, resultUtility } from "@/utils/result";
 import { APIRes } from "../model/model-res";
 import { APIView } from "../model/model-view";
-import { optionUtility } from "@/utils/option";
+import { Option, optionUtility } from "@/utils/option";
 import { HttpError } from "@/utils/error/http";
+import { isNull } from "@/utils/is";
 
-export function parseApi(api: APIRes): Result<Array<APIView>, HttpError> {
+export function parseApi(
+    api: APIRes
+): Result<Option<Array<APIView>>, HttpError> {
     const { createNone, createSome } = optionUtility;
     const { createOk } = resultUtility;
 
@@ -24,26 +27,23 @@ export function parseApi(api: APIRes): Result<Array<APIView>, HttpError> {
                 ...rest,
                 alternateNames: alternate_names,
                 alternateActors: alternate_actors,
-                dateOfBirth:
-                    dateOfBirth === null
-                        ? createNone()
-                        : createSome(dateOfBirth),
-                yearOfBirth:
-                    yearOfBirth === null
-                        ? createNone()
-                        : createSome(yearOfBirth),
+                dateOfBirth: isNull(dateOfBirth)
+                    ? createNone()
+                    : createSome(dateOfBirth),
+                yearOfBirth: isNull(yearOfBirth)
+                    ? createNone()
+                    : createSome(yearOfBirth),
                 wand: {
                     wood: wand.wood,
                     core: wand.core,
-                    length:
-                        wand.length == null
-                            ? createNone()
-                            : createSome(wand.length)
+                    length: isNull(wand.length)
+                        ? createNone()
+                        : createSome(wand.length)
                 }
             };
 
             return value;
         });
 
-    return createOk(filterList);
+    return createOk(createSome(filterList));
 }

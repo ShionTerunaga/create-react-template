@@ -6,8 +6,11 @@ import { Result } from "@/utils/result";
 import { RandomDogRes, randomDogScheme } from "../model/random-dog";
 import { parseScheme } from "./parse-scheme";
 import { hasParseFetcher } from "@/service/fetcher-get";
+import { Option } from "@/utils/option";
 
-export async function getRandomDog(): Promise<Result<RandomDogRes, HttpError>> {
+export async function getRandomDog(): Promise<
+    Result<Option<RandomDogRes>, HttpError>
+> {
     return await hasParseFetcher({
         url: appConfig.apiKey2,
         scheme: randomDogScheme,

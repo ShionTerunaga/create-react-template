@@ -12,7 +12,7 @@ export async function hasNoParseFetcher<T extends z.ZodType>({
     url: Option<string>;
     scheme: T;
     cache?: RequestCache;
-}): Promise<Result<z.infer<T>, HttpError>> {
+}): Promise<Result<Option<z.infer<T>>, HttpError>> {
     return await fetcher<T>({
         url,
         scheme,
