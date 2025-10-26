@@ -1,5 +1,5 @@
 export interface SinglePageGetCharacters {
-  id: string
-  name: string
-  image: string
+    id: string;
+    name: string;
+    image: string;
 }
