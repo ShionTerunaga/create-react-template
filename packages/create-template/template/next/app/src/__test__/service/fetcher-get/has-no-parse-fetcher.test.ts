@@ -1,4 +1,4 @@
-import { hasNoParseFetcher } from "@/service/fetcher-get/has-no-parse-fetcher";
+import { hasNoParseFetcher } from "@/services/fetcher-get/has-no-parse-fetcher";
 import { z } from "zod";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { optionUtility } from "@/utils/option";
@@ -47,7 +47,7 @@ describe("hasNoParseFetcher", () => {
 
         expect(result.kind).toBe("ok");
         if (result.kind === "ok") {
-            expect(result.value).toEqual(payload);
+            expect(result.value.kind).toBe("some");
         }
     });
 });

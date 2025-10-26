@@ -2,14 +2,14 @@ import { appConfig } from "@/shared/config/config";
 import { APIScheme } from "../model/model-res";
 import { parseApi } from "./parse-api";
 import { Result } from "@/utils/result";
-import { Option } from "@/utils/option";
 import { APIView } from "../model/model-view";
-import { HttpError } from "@/utils/error/http";
 import { hasParseFetcher } from "@/services/fetcher-get";
+import { Option } from "@/utils/option";
+import { FetcherError } from "@/utils/error/fetcher";
 
 export async function getCharacter(
     cache?: RequestCache
-): Promise<Result<Option<Array<APIView>>, HttpError>> {
+): Promise<Result<Option<Array<APIView>>, FetcherError>> {
     return await hasParseFetcher({
         url: appConfig.apiKey,
         scheme: APIScheme,

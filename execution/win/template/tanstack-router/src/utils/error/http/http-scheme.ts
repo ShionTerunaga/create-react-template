@@ -1,96 +1,71 @@
-interface HttpCustomStatusScheme {
-  notFoundAPIUrl: 4040
-  returnNotFoundAPIUrl: 4041
-  returnNoPermission: 4030
-  returnBadRequest: 4000
-  schemeError: 5000
-  serverError: 5001
-  parseError: 8888
-  fetchError: 8889
-  responseError: 9998
-  unknownError: 9999
+export interface HttpCustomStatusScheme {
+    returnNotFoundAPIUrl: 4041;
+    returnNoPermission: 4031;
+    returnBadRequest: 4001;
+    returnInternalServerError: 5001;
 }
-interface HttpErrorStatusResponse {
-  notFound: 404
-  internalServerError: 500
-  forbidden: 403
-  badRequest: 400
+export interface HttpErrorStatusResponse {
+    notFound: 404;
+    internalServerError: 500;
+    forbidden: 403;
+    badRequest: 400;
 }
 
-interface ErrorMessage {
-  notFoundAPIUrl: string
-  returnNotFoundAPIUrl: string
-  returnNoPermission: string
-  returnBadRequest: string
-  schemeError: string
-  serverError: string
-  parseError: string
-  fetchError: string
-  responseError: string
-  unknownError: string
+export interface HttpErrorStatusErrorMessage {
+    returnNotFoundAPIUrl: string;
+    returnNoPermission: string;
+    returnBadRequest: string;
+    returnInternalServerError: string;
 }
 
 /**
  * 適宜必要なステータスを追加する
  */
-export type HttpStatus = 404 | 500 | 403 | 400
+export type HttpStatus =
+    | HttpErrorStatusResponse["notFound"]
+    | HttpErrorStatusResponse["internalServerError"]
+    | HttpErrorStatusResponse["forbidden"]
+    | HttpErrorStatusResponse["badRequest"];
+
 export type HttpCustomStatus =
-  | 4040 //URLが設定されていない
-  | 4041 //httpからのレスポンスで404が返ってきた
-  | 4030 //権限がない
-  | 4000 //不正なリクエスト
-  | 5000 //スキームが間違っている
-  | 5001 // サーバーエラー
-  | 8888 //パースエラー
-  | 8889 //フェッチエラー
-  | 9998 //レスポンスエラー
-  | 9999 //unknown
+    | HttpCustomStatusScheme["returnNotFoundAPIUrl"] //httpからのレスポンスで404が返ってきた
+    | HttpCustomStatusScheme["returnNoPermission"] //権限がない
+    | HttpCustomStatusScheme["returnBadRequest"] //不正なリクエスト
+    | HttpCustomStatusScheme["returnInternalServerError"]; // サーバーエラー
 
 export interface HttpErrorScheme {
-  httpErrorStatusResponse: HttpErrorStatusResponse
-  httpCustomStatusScheme: HttpCustomStatusScheme
-  errorMessage: ErrorMessage
+    httpErrorStatusResponse: HttpErrorStatusResponse;
+    httpCustomStatusScheme: HttpCustomStatusScheme;
+    httpErrorMessage: HttpErrorStatusErrorMessage;
 }
 
 export const createHttpScheme: HttpErrorScheme = (function () {
-  /**API仕様で変更 */
-  const httpErrorStatusResponse: HttpErrorStatusResponse = {
-    notFound: 404,
-    internalServerError: 500,
-    forbidden: 403,
-    badRequest: 400,
-  }
-  /**API仕様で変更 */
-  const httpCustomStatusScheme: HttpCustomStatusScheme = {
-    notFoundAPIUrl: 4040,
-    returnNotFoundAPIUrl: 4041,
-    returnNoPermission: 4030,
-    returnBadRequest: 4000,
-    schemeError: 5000,
-    serverError: 5001,
-    parseError: 8888,
-    fetchError: 8889,
-    responseError: 9998,
-    unknownError: 9999,
-  }
+    /**API仕様で変更 */
+    const httpErrorStatusResponse: HttpErrorStatusResponse = {
+        notFound: 404,
+        internalServerError: 500,
+        forbidden: 403,
+        badRequest: 400
+    };
+    /**API仕様で変更 */
+    const httpCustomStatusScheme: HttpCustomStatusScheme = {
+        returnNotFoundAPIUrl: 4041,
+        returnNoPermission: 4031,
+        returnBadRequest: 4001,
+        returnInternalServerError: 5001
+    };
 
-  /**API仕様や画面仕様で変更 */
-  const errorMessage: ErrorMessage = {
-    notFoundAPIUrl: 'APIのURLが設定されていません',
-    returnNotFoundAPIUrl: 'APIのURLが見つかりません',
-    returnNoPermission: '権限がありません',
-    returnBadRequest: '不正なリクエストです',
-    schemeError: 'スキームが間違っています。',
-    serverError: 'サーバーエラーです',
-    parseError: 'パースエラーです',
-    fetchError: 'フェッチエラーです',
-    responseError: 'レスポンスエラーです',
-    unknownError: 'unknown error',
-  }
+    /**API仕様や画面仕様で変更 */
+    const httpErrorMessage: HttpErrorStatusErrorMessage = {
+        returnNotFoundAPIUrl: "APIのURLが見つかりません",
+        returnNoPermission: "権限がありません",
+        returnBadRequest: "不正なリクエストです",
+        returnInternalServerError: "サーバーエラーです"
+    };
 
-  return {
-    httpErrorStatusResponse: httpErrorStatusResponse,
-    httpCustomStatusScheme: httpCustomStatusScheme,
-    errorMessage: errorMessage,
-  }
-})()
+    return {
+        httpErrorStatusResponse: httpErrorStatusResponse,
+        httpCustomStatusScheme: httpCustomStatusScheme,
+        httpErrorMessage: httpErrorMessage
+    };
+})();

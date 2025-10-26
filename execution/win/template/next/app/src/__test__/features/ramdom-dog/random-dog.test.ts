@@ -74,7 +74,7 @@ describe("random-dog", () => {
         }
 
         expect(result.err.status).toBe(9999);
-        expect(result.err.message).toBe("unknown error");
+        expect(result.err.message).toBe("不明なエラーが発生しました");
     });
 
     it("レスポンスのスキーマが違う場合", async () => {
@@ -100,6 +100,6 @@ describe("random-dog", () => {
         }
 
         expect(result.err.status).toBe(5000);
-        expect(result.err.message).toBe("スキームが間違っています。");
+        expect(result.err.message).toBe("スキームエラーが発生しました");
     });
 });

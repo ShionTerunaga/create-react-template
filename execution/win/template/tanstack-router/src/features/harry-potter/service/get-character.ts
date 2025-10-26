@@ -1,20 +1,19 @@
 import { appConfig } from '@/shared/config/config'
-import { type Option } from '@/utils/option'
 import { APIScheme } from '../model/model-res'
 import { parseApi } from './parse-api'
-import { type Result } from '@/utils/result'
+import type { Result } from '@/utils/result'
 import type { APIView } from '../model/model-view'
-import type { HttpError } from '@/utils/error/http/http'
-import { hasParseFetcher } from '@/service/fetcher-get'
+import { hasParseFetcher } from '@/services/fetcher-get'
+import type { Option } from '@/utils/option'
+import type { FetcherError } from '@/utils/error/fetcher'
 
-export async function getCharacter(): Promise<
-  Result<Array<APIView>, HttpError>
-> {
-  const url: Option<string> = appConfig.apiKey
-
+export async function getCharacter(
+  cache?: RequestCache,
+): Promise<Result<Option<Array<APIView>>, FetcherError>> {
   return await hasParseFetcher({
-    url,
+    url: appConfig.apiKey,
     scheme: APIScheme,
+    cache,
     parse: parseApi,
   })
 }

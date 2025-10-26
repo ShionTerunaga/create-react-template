@@ -1,19 +1,20 @@
 import { useEffect, useMemo, useState } from "react";
-import { SinglePageGetCharacters } from "./characters.type";
-import { optionUtility, Option } from "@/utils/option";
 import { getCharacter } from "../service/get-character";
+import type { Option } from "@/utils/option";
+import type { APIView } from "../model/model-view";
+import type { SinglePageGetCharacters } from "./characters.type";
+import { optionUtility } from "@/utils/option";
 import { resultUtility } from "@/utils/result";
-import { APIView } from "../model/model-view";
-import { HttpError } from "@/utils/error/http";
+import { FetcherError } from "@/utils/error/fetcher";
 
 export function useSinglePageCharacters() {
+    const { createNone, createSome, isNone } = optionUtility;
     const { isNG } = resultUtility;
-    const { createSome, createNone, isNone } = optionUtility;
 
     const [fetchCharacter, setFetchCharacter] =
         useState<Option<Array<APIView>>>(createNone());
 
-    const [error, setError] = useState<Option<HttpError>>(createNone());
+    const [error, setError] = useState<Option<FetcherError>>(createNone());
 
     useEffect(() => {
         let isMounted = true;
@@ -21,6 +22,7 @@ export function useSinglePageCharacters() {
         (async () => {
             const result = await getCharacter();
 
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
             if (!isMounted) return;
 
             if (isNG(result)) {
@@ -28,7 +30,11 @@ export function useSinglePageCharacters() {
                 return;
             }
 
-            setFetchCharacter(result.value);
+            if (isNone(result.value)) {
+                return;
+            }
+
+            setFetchCharacter(createSome(result.value.value));
         })();
 
         return () => {
@@ -45,14 +51,14 @@ export function useSinglePageCharacters() {
             return [];
         }
 
-        const characters: Array<SinglePageGetCharacters> =
+        const mappedCharacters: Array<SinglePageGetCharacters> =
             fetchCharacter.value.map((item) => ({
                 id: item.id,
                 name: item.name,
                 image: item.image
             }));
 
-        return characters;
+        return mappedCharacters;
     }, [fetchCharacter]);
 
     return {

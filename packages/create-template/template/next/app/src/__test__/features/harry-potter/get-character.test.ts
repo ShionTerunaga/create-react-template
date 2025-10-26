@@ -100,7 +100,7 @@ describe("getCharacter", () => {
         if (isOK(result)) return;
 
         expect(result.err.status).toBe(9999);
-        expect(result.err.message).toBe("unknown error");
+        expect(result.err.message).toBe("不明なエラーが発生しました");
     });
 
     it("スキームが合わない場合", async () => {
@@ -120,7 +120,7 @@ describe("getCharacter", () => {
         if (isOK(result)) return;
 
         expect(result.err.status).toBe(5000);
-        expect(result.err.message).toBe("スキームが間違っています。");
+        expect(result.err.message).toBe("スキームエラーが発生しました");
     });
 
     it("should return parsed characters when valid data is provided", async () => {
@@ -137,10 +137,18 @@ describe("getCharacter", () => {
 
         expect(result.kind).toBe("ok");
 
-        if (isNG(result)) return;
+        if (result.kind !== "ok") {
+            throw new Error("Result is not ok");
+        }
 
-        expect(result.value.length).toBe(1);
+        expect(result.value.kind).toBe("some");
 
-        expect(result.value[0].name).toBe("Harry Potter");
+        if (result.value.kind !== "some") {
+            throw new Error("Option is not some");
+        }
+
+        expect(result.value.value.length).toBe(1);
+
+        expect(result.value.value[0].name).toBe("Harry Potter");
     });
 });

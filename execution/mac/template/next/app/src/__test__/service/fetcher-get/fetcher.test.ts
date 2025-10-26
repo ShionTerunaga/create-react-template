@@ -1,4 +1,4 @@
-import { fetcher } from "@/service/fetcher-get/fetcher";
+import { fetcher } from "@/services/fetcher-get/fetcher";
 import { z } from "zod";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { optionUtility } from "@/utils/option";
@@ -71,7 +71,10 @@ describe("fetcher", () => {
 
         expect(result.kind).toBe("ok");
         if (result.kind === "ok") {
-            expect(result.value).toEqual(body);
+            expect(result.value.kind).toBe("some");
+            if (result.value.kind === "some") {
+                expect(result.value.value).toEqual(body);
+            }
         }
     });
 });

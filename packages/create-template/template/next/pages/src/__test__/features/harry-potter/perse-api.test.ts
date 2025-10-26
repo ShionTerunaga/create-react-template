@@ -1,6 +1,5 @@
 import { describe, it, expect } from "vitest";
 import { optionUtility } from "@/utils/option";
-import { resultUtility } from "@/utils/result";
 import { APIRes } from "@/features/harry-potter";
 import { parseApi } from "@/features/harry-potter/service/parse-api";
 
@@ -60,19 +59,26 @@ const mockApiData: APIRes = [
 ];
 
 describe("perseApi", () => {
-    const { createNone, createSome } = optionUtility;
-    const { isNG } = resultUtility;
+    const { createSome, createNone } = optionUtility;
 
     it("適したフォーマットが返ってくる", () => {
         const result = parseApi(mockApiData);
 
-        if (isNG(result)) {
-            throw new Error("ng");
+        expect(result.kind).toBe("ok");
+
+        if (result.kind !== "ok") {
+            throw new Error("Result is not ok");
         }
 
-        expect(result.value.length).toBe(1);
+        expect(result.value.kind).toBe("some");
 
-        const harry = result.value[0];
+        if (result.value.kind !== "some") {
+            throw new Error("Option is not some");
+        }
+
+        expect(result.value.value.length).toBe(1);
+
+        const harry = result.value.value[0];
 
         expect(harry.name).toBe("Harry Potter");
         expect(harry.alternateNames).toEqual(["The Boy Who Lived"]);
@@ -98,11 +104,21 @@ describe("perseApi", () => {
 
         const result = parseApi(dataWithNulls);
 
-        if (isNG(result)) {
-            throw new Error("ng");
+        expect(result.kind).toBe("ok");
+
+        if (result.kind !== "ok") {
+            throw new Error("Result is not ok");
         }
 
-        const character = result.value[0];
+        expect(result.value.kind).toBe("some");
+
+        if (result.value.kind !== "some") {
+            throw new Error("Option is not some");
+        }
+
+        expect(result.value.value.length).toBe(1);
+
+        const character = result.value.value[0];
 
         expect(character.dateOfBirth).toEqual(createNone());
         expect(character.yearOfBirth).toEqual(createNone());
@@ -117,10 +133,12 @@ describe("perseApi", () => {
 
         const result = parseApi(dataWithNoImages);
 
-        if (isNG(result)) {
-            throw new Error("ng");
+        expect(result.kind).toBe("ok");
+
+        if (result.kind !== "ok") {
+            throw new Error("Result is not ok");
         }
 
-        expect(result.value).toEqual([]);
+        expect(result.value.kind).toBe("some");
     });
 });

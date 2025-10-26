@@ -1,4 +1,4 @@
-import { hasParseFetcher } from "@/service/fetcher-get/has-parse-fetcher";
+import { hasParseFetcher } from "@/services/fetcher-get/has-parse-fetcher";
 import { z } from "zod";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { optionUtility } from "@/utils/option";
@@ -27,7 +27,7 @@ describe("hasParseFetcher", () => {
         const result = await hasParseFetcher({
             url: createSome("https://example.com"),
             scheme: schema,
-            parse: () => createOk("ok")
+            parse: () => createOk(createSome("ok"))
         });
 
         expect(result.kind).toBe("ng");
@@ -46,10 +46,12 @@ describe("hasParseFetcher", () => {
         const result = await hasParseFetcher({
             url: createSome("https://example.com"),
             scheme: schema,
-            parse: () => createOk("parsed")
+            parse: () => createOk(createSome("parsed"))
         });
 
         expect(result.kind).toBe("ok");
-        if (result.kind === "ok") expect(result.value).toBe("parsed");
+        if (result.kind === "ok") expect(result.value.kind).toBe("some");
+        if (result.kind === "ok" && result.value.kind === "some")
+            expect(result.value.value).toBe("parsed");
     });
 });
