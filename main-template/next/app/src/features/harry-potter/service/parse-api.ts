@@ -2,12 +2,12 @@ import { resultUtility, Result } from "@/utils/result";
 import { APIRes } from "../model/model-res";
 import { APIView } from "../model/model-view";
 import { Option, optionUtility } from "@/utils/option";
-import { HttpError } from "@/utils/error/http/http";
 import { isNull } from "@/utils/is";
+import { FetcherError } from "@/utils/error/fetcher";
 
 export function parseApi(
     api: APIRes
-): Result<Option<Array<APIView>>, HttpError> {
+): Result<Option<Array<APIView>>, FetcherError> {
     const { createOk } = resultUtility;
     const { createNone, createSome } = optionUtility;
     const filterList: Array<APIView> = api

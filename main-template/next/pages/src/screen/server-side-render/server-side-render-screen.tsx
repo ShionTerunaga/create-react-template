@@ -6,9 +6,10 @@ import { CheckerProps } from "@/shared/types/object";
 import { HttpError } from "@/utils/error/http";
 import { Result, resultUtility } from "@/utils/result";
 import { Option, optionUtility } from "@/utils/option";
+import { FetcherError } from "@/utils/error/fetcher";
 
 interface Props {
-    character: Result<Option<APIView[]>, HttpError>;
+    character: Result<Option<APIView[]>, FetcherError>;
 }
 
 function ServerSideRenderScreen<T extends Props>(
