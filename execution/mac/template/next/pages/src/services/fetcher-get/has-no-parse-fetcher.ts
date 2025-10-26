@@ -1,8 +1,8 @@
 import z from "zod";
 import { Option } from "@/utils/option";
-import { HttpError } from "@/utils/error/http";
 import { Result } from "@/utils/result";
 import { fetcher } from "./fetcher";
+import { FetcherError } from "@/utils/error/fetcher";
 
 export async function hasNoParseFetcher<T extends z.ZodType>({
     url,
@@ -12,7 +12,7 @@ export async function hasNoParseFetcher<T extends z.ZodType>({
     url: Option<string>;
     scheme: T;
     cache?: RequestCache;
-}): Promise<Result<z.infer<T>, HttpError>> {
+}): Promise<Result<Option<z.infer<T>>, FetcherError>> {
     return await fetcher<T>({
         url,
         scheme,

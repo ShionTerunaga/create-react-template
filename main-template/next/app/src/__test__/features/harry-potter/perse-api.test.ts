@@ -70,9 +70,15 @@ describe("perseApi", () => {
             throw new Error("Result is not ok");
         }
 
-        expect(result.value.length).toBe(1);
+        expect(result.value.kind).toBe("some");
 
-        const harry = result.value[0];
+        if (result.value.kind !== "some") {
+            throw new Error("Option is not some");
+        }
+
+        expect(result.value.value.length).toBe(1);
+
+        const harry = result.value.value[0];
 
         expect(harry.name).toBe("Harry Potter");
         expect(harry.alternateNames).toEqual(["The Boy Who Lived"]);
@@ -104,9 +110,15 @@ describe("perseApi", () => {
             throw new Error("Result is not ok");
         }
 
-        expect(result.value.length).toBe(1);
+        expect(result.value.kind).toBe("some");
 
-        const character = result.value[0];
+        if (result.value.kind !== "some") {
+            throw new Error("Option is not some");
+        }
+
+        expect(result.value.value.length).toBe(1);
+
+        const character = result.value.value[0];
 
         expect(character.dateOfBirth).toEqual(createNone());
         expect(character.yearOfBirth).toEqual(createNone());
@@ -127,6 +139,6 @@ describe("perseApi", () => {
             throw new Error("Result is not ok");
         }
 
-        expect(result.value).toEqual([]);
+        expect(result.value.kind).toBe("some");
     });
 });

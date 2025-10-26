@@ -18,9 +18,9 @@ describe("parseScheme", () => {
             throw new Error("Unexpected ok result");
         }
 
-        expect(res.err.status).toBe(8888);
+        expect(res.err.status).toBe(8000);
 
-        expect(res.err.message).toBe("パースエラーです");
+        expect(res.err.message).toBe("データのパースに失敗しました");
     });
 
     it("statusがsuccessだったとき", () => {
@@ -38,6 +38,10 @@ describe("parseScheme", () => {
             throw new Error("Unexpected ng result");
         }
 
-        expect(res.value).toEqual(sample);
+        expect(res.value.kind).toBe("some");
+
+        if (res.value.kind === "some") {
+            expect(res.value.value).toEqual(sample);
+        }
     });
 });

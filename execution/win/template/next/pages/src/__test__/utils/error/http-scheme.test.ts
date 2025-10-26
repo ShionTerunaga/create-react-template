@@ -1,4 +1,4 @@
-import { createHttpScheme } from "@/utils/error/http/http-scheme";
+import { createHttpScheme } from "@/utils/error/http";
 import { describe, expect, it } from "vitest";
 
 describe("http-scheme", () => {
@@ -16,56 +16,32 @@ describe("http-scheme", () => {
     it("createHttpSchemeにおいてhttpCustomStatusScheme", () => {
         const httpErrorScheme = createHttpScheme;
 
-        expect(httpErrorScheme.httpCustomStatusScheme.notFoundAPIUrl).toEqual(
-            4040
-        );
         expect(
             httpErrorScheme.httpCustomStatusScheme.returnNotFoundAPIUrl
         ).toEqual(4041);
         expect(
             httpErrorScheme.httpCustomStatusScheme.returnNoPermission
-        ).toEqual(4030);
+        ).toEqual(4031);
         expect(httpErrorScheme.httpCustomStatusScheme.returnBadRequest).toEqual(
-            4000
-        );
-        expect(httpErrorScheme.httpCustomStatusScheme.schemeError).toEqual(
-            5000
-        );
-        expect(httpErrorScheme.httpCustomStatusScheme.serverError).toEqual(
-            5001
-        );
-        expect(httpErrorScheme.httpCustomStatusScheme.parseError).toEqual(8888);
-        expect(httpErrorScheme.httpCustomStatusScheme.unknownError).toEqual(
-            9999
+            4001
         );
     });
 
     it("createHttpSchemeにおいてerrorMessage", () => {
         const httpErrorScheme = createHttpScheme;
 
-        expect(httpErrorScheme.errorMessage.notFoundAPIUrl).toEqual(
-            "APIのURLが設定されていません"
-        );
-        expect(httpErrorScheme.errorMessage.returnNotFoundAPIUrl).toEqual(
+        expect(httpErrorScheme.httpErrorMessage.returnNotFoundAPIUrl).toEqual(
             "APIのURLが見つかりません"
         );
-        expect(httpErrorScheme.errorMessage.returnNoPermission).toEqual(
+        expect(httpErrorScheme.httpErrorMessage.returnNoPermission).toEqual(
             "権限がありません"
         );
-        expect(httpErrorScheme.errorMessage.returnBadRequest).toEqual(
+        expect(httpErrorScheme.httpErrorMessage.returnBadRequest).toEqual(
             "不正なリクエストです"
         );
-        expect(httpErrorScheme.errorMessage.schemeError).toEqual(
-            "スキームが間違っています。"
-        );
-        expect(httpErrorScheme.errorMessage.serverError).toEqual(
-            "サーバーエラーです"
-        );
-        expect(httpErrorScheme.errorMessage.parseError).toEqual(
-            "パースエラーです"
-        );
-        expect(httpErrorScheme.errorMessage.unknownError).toEqual(
-            "unknown error"
-        );
+
+        expect(
+            httpErrorScheme.httpErrorMessage.returnInternalServerError
+        ).toEqual("サーバーエラーです");
     });
 });

@@ -10,7 +10,7 @@ import Image from "next/image";
 import { useState } from "react";
 
 function RandomStart() {
-    const { createSome, createNone, isSome } = optionUtility;
+    const { createNone, isSome, isNone } = optionUtility;
     const { isOK } = resultUtility;
 
     const [dog, setDog] = useState<Option<RandomDogRes>>(createNone());
@@ -27,8 +27,10 @@ function RandomStart() {
 
         const res = await getRandomDog();
 
-        if (isOK(res)) {
-            setDog(createSome(res.value));
+        if (isOK(res) && isSome(res.value)) {
+            setDog(res.value);
+        } else if (isOK(res) && isNone(res.value)) {
+            setDog(createNone());
         } else {
             setError(true);
         }

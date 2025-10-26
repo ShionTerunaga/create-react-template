@@ -1,11 +1,12 @@
 import { APIView, getCharacter } from "@/features/harry-potter";
 import StaticGeneratorScreen from "@/screen/static-generator/static-generator";
-import { HttpError } from "@/utils/error/http";
 import { Result } from "@/utils/result";
+import { Option } from "@/utils/option";
 import type { InferGetStaticPropsType, GetStaticProps } from "next";
+import { FetcherError } from "@/utils/error/fetcher";
 
 interface Props {
-    character: Result<APIView[], HttpError>;
+    character: Result<Option<APIView[]>, FetcherError>;
 }
 
 export const getStaticProps = (async () => {

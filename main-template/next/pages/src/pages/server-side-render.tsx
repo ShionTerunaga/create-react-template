@@ -1,11 +1,12 @@
 import { APIView, getCharacter } from "@/features/harry-potter";
 import { Result } from "@/utils/result";
-import { HttpError } from "@/utils/error/http";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import ServerSideRenderScreen from "@/screen/server-side-render/server-side-render-screen";
+import { Option } from "@/utils/option";
+import { FetcherError } from "@/utils/error/fetcher";
 
 interface Props {
-    character: Result<APIView[], HttpError>;
+    character: Result<Option<APIView[]>, FetcherError>;
 }
 
 export const getServerSideProps = (async () => {

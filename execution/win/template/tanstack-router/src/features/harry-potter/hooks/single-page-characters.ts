@@ -3,9 +3,9 @@ import { getCharacter } from '../service/get-character'
 import type { Option } from '@/utils/option'
 import type { APIView } from '../model/model-view'
 import type { SinglePageGetCharacters } from './characters.type'
-import type { HttpError } from '@/utils/error/http/http'
 import { optionUtility } from '@/utils/option'
 import { resultUtility } from '@/utils/result'
+import { type FetcherError } from '@/utils/error/fetcher'
 
 export function useSinglePageCharacters() {
   const { createNone, createSome, isNone } = optionUtility
@@ -14,7 +14,7 @@ export function useSinglePageCharacters() {
   const [fetchCharacter, setFetchCharacter] =
     useState<Option<Array<APIView>>>(createNone())
 
-  const [error, setError] = useState<Option<HttpError>>(createNone())
+  const [error, setError] = useState<Option<FetcherError>>(createNone())
 
   useEffect(() => {
     let isMounted = true
@@ -30,7 +30,11 @@ export function useSinglePageCharacters() {
         return
       }
 
-      setFetchCharacter(createSome(result.value))
+      if (isNone(result.value)) {
+        return
+      }
+
+      setFetchCharacter(createSome(result.value.value))
     })()
 
     return () => {

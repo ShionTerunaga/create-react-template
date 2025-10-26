@@ -5,9 +5,11 @@ import { ja } from "@/shared/lang/ja";
 import { CheckerProps } from "@/shared/types/object";
 import { HttpError } from "@/utils/error/http";
 import { Result, resultUtility } from "@/utils/result";
+import { Option, optionUtility } from "@/utils/option";
+import { FetcherError } from "@/utils/error/fetcher";
 
 interface Props {
-    character: Result<APIView[], HttpError>;
+    character: Result<Option<APIView[]>, FetcherError>;
 }
 
 function ServerSideRenderScreen<T extends Props>(
@@ -15,14 +17,19 @@ function ServerSideRenderScreen<T extends Props>(
 ) {
     const { character } = props;
     const { isNG } = resultUtility;
+    const { isNone } = optionUtility;
 
     if (isNG(character)) {
         return <Box>サーバーサイドレンダーが失敗してます。</Box>;
     }
 
+    if (isNone(character.value)) {
+        return <Box>表示するデータがありません。</Box>;
+    }
+
     return (
         <CardListView
-            potters={character.value}
+            potters={character.value.value}
             title={ja.app.serverSideRenderPotter.title}
         />
     );

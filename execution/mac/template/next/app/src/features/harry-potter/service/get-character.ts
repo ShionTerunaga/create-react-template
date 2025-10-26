@@ -3,12 +3,13 @@ import { APIScheme } from "../model/model-res";
 import { parseApi } from "./parse-api";
 import { Result } from "@/utils/result";
 import { APIView } from "../model/model-view";
-import { HttpError } from "@/utils/error/http/http";
-import { hasParseFetcher } from "@/service/fetcher-get";
+import { hasParseFetcher } from "@/services/fetcher-get";
+import { Option } from "@/utils/option";
+import { FetcherError } from "@/utils/error/fetcher";
 
 export async function getCharacter(
     cache?: RequestCache
-): Promise<Result<Array<APIView>, HttpError>> {
+): Promise<Result<Option<Array<APIView>>, FetcherError>> {
     return await hasParseFetcher({
         url: appConfig.apiKey,
         scheme: APIScheme,
