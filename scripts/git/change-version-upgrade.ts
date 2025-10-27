@@ -15,9 +15,6 @@ import AdmZip from "adm-zip";
 const OWNER = "ShionTerunaga";
 const REPO = "create-react-template";
 const BRANCH = "release";
-const MAC = "execution/mac"; // ← ここを変えると他フォルダもOK
-const WIN = "execution/win"; // ← ここを変えると他フォルダもOK
-// =============
 
 export async function main(TARGET_DIR_IN_ZIP: string) {
     const cwd = process.cwd();
