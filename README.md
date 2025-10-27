@@ -37,17 +37,36 @@ mkdir tools
 cd tools
 ```
 
-5. Clone this project
+5. Get template files
 
 ```bash
-git clone https://github.com/ShionTerunaga/create-react-template.git
+curl -L "https://github.com/ShionTerunaga/create-react-template/archive/refs/heads/release.zip" -o repo.zip
+```
+
+6. Unzip
+
+```bash
+unzip repo.zip "*/execution/mac/*" -d .
+```
+
+7. Move files
+
+```bash
+ mv /Users/<username>/tools/create-react-template-release/execution/mac/* /Users/<username>/tools/
+```
+
+8. Remove files
+
+```bash
+rm repo.zip
+rm -rf create-react-template-release
 ```
 
 6. pass through
 
 ```
 #.zprofile
-export PATH="$PATH:/Users/<username>/tools/create-react-template/execution/mac"
+export PATH="$PATH:/Users/<username>/tools/"
 ```
 
 or
@@ -72,5 +91,5 @@ create-react-tmp
 ### new update
 
 ```bash
-react-tmp-pull
+upgrade-tmp
 ```
