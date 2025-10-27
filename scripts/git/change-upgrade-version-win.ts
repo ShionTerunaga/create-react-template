@@ -1,133 +1,84 @@
-import { tmpdir, homedir } from "node:os";
-import { createWriteStream, unlinkSync } from "node:fs";
-import {
-    mkdirSync,
-    rmSync,
-    readdirSync,
-    renameSync,
-    existsSync,
-    statSync
-} from "node:fs";
-import { join, basename } from "node:path";
+import fs from "fs";
+import path from "path";
 import AdmZip from "adm-zip";
+import { homedir } from "node:os";
 
 // === 設定 ===
-const DIR = "tools";
-const OWNER = "ShionTerunaga";
-const REPO = "create-react-template";
-const BRANCH = "release";
+const ZIP_URL =
+    "https://github.com/ShionTerunaga/create-react-template/archive/refs/heads/release.zip";
+const ZIP_PATH = path.resolve("repo.zip");
+const TEMP_DIR = path.resolve("repo");
+const EXEC_DIR = path.join(
+    TEMP_DIR,
+    "create-react-template-release",
+    "execution",
+    "win"
+);
 
-export async function main(TARGET_DIR_IN_ZIP: string) {
-    const tmpBase = join(tmpdir(), `upgrade-tmp-${Date.now()}`);
-    const zipPath = join(tmpBase, `${REPO}.zip`);
-    const extractDir = join(tmpBase, "extract");
-    const toolsDir = join(homedir(), DIR);
+// === 関数群 ===
+async function downloadZip(url: string, dest: string) {
+    console.log(`📦 Downloading ZIP from ${url}`);
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`Download failed: ${res.statusText}`);
+    const buffer = Buffer.from(await res.arrayBuffer());
+    fs.writeFileSync(dest, buffer);
+    console.log(`✅ Saved to ${dest}`);
+}
 
-    mkdirSync(tmpBase, { recursive: true });
-    mkdirSync(extractDir, { recursive: true });
-
-    console.log("📦 Downloading ZIP...");
-    const zipUrl = `https://github.com/${OWNER}/${REPO}/archive/refs/heads/${BRANCH}.zip`;
-    // use Node http(s) download to avoid external curl/Schannel issues on Windows
-    await downloadFile(zipUrl, zipPath);
-
-    console.log("🧩 Extracting...");
+function extractZip(zipPath: string, extractTo: string) {
+    console.log(`🗜️ Extracting ${zipPath} ...`);
     const zip = new AdmZip(zipPath);
-    zip.extractAllTo(extractDir, true);
-
-    // 展開後フォルダ（例: create-react-template-release）
-    const [rootFolder] = readdirSync(extractDir);
-    const extractedRoot = join(extractDir, rootFolder);
-    const sourceDir = join(extractedRoot, TARGET_DIR_IN_ZIP);
-
-    if (!existsSync(sourceDir)) {
-        throw new Error(`❌ target directory not found in zip: ${sourceDir}`);
-    }
-
-    for (const item of readdirSync(toolsDir)) {
-        if (item === basename(__filename)) continue; // 自分自身は消さない
-        if (item === ".git") continue;
-        const p = join(toolsDir, item);
-        rmSync(p, { recursive: true, force: true });
-        console.log("removed:", p);
-    }
-
-    console.log("📁 Copying files from:", sourceDir);
-    copyRecursive(sourceDir, toolsDir);
-
-    console.log("🧹 Cleaning temp files...");
-    rmSync(tmpBase, { recursive: true, force: true });
-
-    console.log("✅ Upgrade complete!");
+    zip.extractAllTo(extractTo, true);
+    console.log(`✅ Extracted to ${extractTo}`);
 }
 
-function copyRecursive(src: string, dest: string) {
-    for (const item of readdirSync(src)) {
-        const s = join(src, item);
-        const d = join(dest, item);
-        const st = statSync(s);
-        if (st.isDirectory()) {
-            mkdirSync(d, { recursive: true });
-            copyRecursive(s, d);
-        } else {
-            renameSync(s, d);
-            console.log(`copied: ${d}`);
+function moveContents(srcDir: string, destDir: string) {
+    console.log(`📁 Moving files from ${srcDir} to ${destDir}`);
+    if (!fs.existsSync(srcDir))
+        throw new Error(`Source directory not found: ${srcDir}`);
+
+    const items = fs.readdirSync(srcDir);
+    for (const item of items) {
+        if (item === "upgrade-tmp.exe") continue;
+
+        const srcPath = path.join(srcDir, item);
+        const destPath = path.join(destDir, item);
+
+        // 既に同名ファイルがある場合、削除してから移動
+        if (fs.existsSync(destPath)) {
+            fs.rmSync(destPath, { force: true, recursive: true });
         }
+
+        fs.renameSync(srcPath, destPath);
+    }
+    console.log(`✅ Moved all files`);
+}
+
+function removeDir(dir: string) {
+    if (fs.existsSync(dir)) {
+        fs.rmSync(dir, { recursive: true, force: true });
+        console.log(`🗑️ Removed: ${dir}`);
     }
 }
 
-async function downloadFile(url: string, destPath: string): Promise<void> {
-    const maxRedirects = 10;
-    const httpModule = url.startsWith("https")
-        ? await import("node:https")
-        : await import("node:http");
+async function main() {
+    try {
+        await downloadZip(ZIP_URL, ZIP_PATH);
 
-    return new Promise((resolve, reject) => {
-        const doRequest = (u: string, redirectsLeft: number) => {
-            const req = httpModule.get(u, (res: any) => {
-                // handle redirect
-                if (
-                    res.statusCode &&
-                    res.statusCode >= 300 &&
-                    res.statusCode < 400 &&
-                    res.headers.location
-                ) {
-                    if (redirectsLeft <= 0)
-                        return reject(new Error("Too many redirects"));
-                    const loc = res.headers.location.startsWith("http")
-                        ? res.headers.location
-                        : new URL(res.headers.location, u).toString();
-                    res.resume();
-                    return doRequest(loc, redirectsLeft - 1);
-                }
+        // 2. 解凍
+        extractZip(ZIP_PATH, TEMP_DIR);
 
-                if (res.statusCode !== 200) {
-                    res.resume();
-                    return reject(
-                        new Error(`Download failed: ${res.statusCode}`)
-                    );
-                }
+        // 3. exection/win の中身を現在のディレクトリに移動
+        moveContents(EXEC_DIR, path.join(homedir(), "tools"));
 
-                const file = createWriteStream(destPath);
-                res.pipe(file);
-                file.on("finish", () => file.close(() => resolve()));
-                file.on("error", (err) => {
-                    try {
-                        unlinkSync(destPath);
-                    } catch (_) {}
-                    reject(err);
-                });
-            });
-            req.on("error", (err: Error) => reject(err));
-        };
+        // 4. ZIPとTEMP削除
+        removeDir(TEMP_DIR);
+        removeDir(ZIP_PATH);
 
-        doRequest(url, maxRedirects);
-    });
+        console.log("🎉 Done!");
+    } catch (err) {
+        console.error("❌ Error:", err);
+    }
 }
 
-const WIN = "execution/win";
-
-main(WIN).catch((e) => {
-    console.error("❌ Upgrade failed:", e);
-    process.exit(1);
-});
+main();
