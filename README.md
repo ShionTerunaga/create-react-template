@@ -62,7 +62,13 @@ rm repo.zip
 rm -rf create-react-template-release
 ```
 
-6. pass through
+9. Authorization
+
+```bash
+chmod 755 ~/tools/*
+```
+
+10. pass through
 
 ```
 #.zprofile
@@ -91,5 +97,5 @@ create-react-tmp
 ### new update
 
 ```bash
-upgrade-tmp
+upgrade-tmp && chmod 755 ~/tools/*
 ```
