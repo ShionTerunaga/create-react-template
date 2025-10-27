@@ -1,9 +1,9 @@
 {
-  "extends": "../../tsconfig.json",
-  "compilerOptions": {
-    "outDir": "../../dist/scripts/git-pull",
-    "rootDir": "./",
-    "composite": false
-  },
-  "include": ["./"]
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "outDir": "../../dist/scripts/upgrade",
+        "rootDir": "./",
+        "composite": false
+    },
+    "include": ["./"]
 }
