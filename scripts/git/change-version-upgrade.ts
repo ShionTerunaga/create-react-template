@@ -49,7 +49,7 @@ export async function main(TARGET_DIR_IN_ZIP: string) {
     for (const item of readdirSync(cwd)) {
         if (item === basename(__filename)) continue; // 自分自身は消さない
         if (item === ".git") continue;
-        const p = join(cwd, item);
+        const p = "~/tools";
         rmSync(p, { recursive: true, force: true });
         console.log("removed:", p);
     }
