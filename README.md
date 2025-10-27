@@ -73,7 +73,7 @@ or
 
 ```
 # .bash_profile
-export PATH="$PATH:/Users/<username>/tools/create-react-template/execution/mac"
+export PATH="$PATH:/Users/<username>/tools/"
 ```
 
 ### windows
