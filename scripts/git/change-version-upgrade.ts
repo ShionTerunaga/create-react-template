@@ -1,5 +1,5 @@
 import { execSync } from "node:child_process";
-import { tmpdir } from "node:os";
+import { tmpdir, homedir } from "node:os";
 import {
     mkdirSync,
     rmSync,
@@ -18,10 +18,10 @@ const REPO = "create-react-template";
 const BRANCH = "release";
 
 export async function main(TARGET_DIR_IN_ZIP: string) {
-    const cwd = process.cwd();
     const tmpBase = join(tmpdir(), `upgrade-tmp-${Date.now()}`);
     const zipPath = join(tmpBase, `${REPO}.zip`);
     const extractDir = join(tmpBase, "extract");
+    const toolsDir = join(homedir(), DIR);
 
     mkdirSync(tmpBase, { recursive: true });
     mkdirSync(extractDir, { recursive: true });
@@ -43,16 +43,16 @@ export async function main(TARGET_DIR_IN_ZIP: string) {
         throw new Error(`❌ target directory not found in zip: ${sourceDir}`);
     }
 
-    for (const item of readdirSync(DIR)) {
+    for (const item of readdirSync(toolsDir)) {
         if (item === basename(__filename)) continue; // 自分自身は消さない
         if (item === ".git") continue;
-        const p = join(DIR, item);
+        const p = join(toolsDir, item);
         rmSync(p, { recursive: true, force: true });
         console.log("removed:", p);
     }
 
     console.log("📁 Copying files from:", sourceDir);
-    copyRecursive(sourceDir, cwd);
+    copyRecursive(sourceDir, toolsDir);
 
     console.log("🧹 Cleaning temp files...");
     rmSync(tmpBase, { recursive: true, force: true });
