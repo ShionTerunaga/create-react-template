@@ -12,6 +12,7 @@ import { join, basename } from "node:path";
 import AdmZip from "adm-zip";
 
 // === 設定 ===
+const DIR = "tools";
 const OWNER = "ShionTerunaga";
 const REPO = "create-react-template";
 const BRANCH = "release";
@@ -42,11 +43,10 @@ export async function main(TARGET_DIR_IN_ZIP: string) {
         throw new Error(`❌ target directory not found in zip: ${sourceDir}`);
     }
 
-    console.log(`🗑️  Cleaning current directory: ${cwd}`);
-    for (const item of readdirSync(cwd)) {
+    for (const item of readdirSync(DIR)) {
         if (item === basename(__filename)) continue; // 自分自身は消さない
         if (item === ".git") continue;
-        const p = "~/tools";
+        const p = join(DIR, item);
         rmSync(p, { recursive: true, force: true });
         console.log("removed:", p);
     }
