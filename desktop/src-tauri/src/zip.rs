@@ -68,7 +68,7 @@ fn zip_download(
 
 
 #[tauri::command]
-pub fn zip_template(src: &str, dest_dir: &str, name: &str) -> Result<String, String> {
+pub fn zip_template(src: &str, dest_dir: &str) -> Result<String, String> {
     let template_type = match src {
         "win_cli" => TemplateFileType::WINCLI,
         "mac_cli" => TemplateFileType::MACCLI,
@@ -78,10 +78,10 @@ pub fn zip_template(src: &str, dest_dir: &str, name: &str) -> Result<String, Str
         _ => return Err("unsupported template type".to_string()),
     };
 
-    let result = zip_download(template_type, &format!("{}/{}", dest_dir, name));
+    let result = zip_download(template_type, &format!("{}", dest_dir));
 
     if result.is_ok() {
-        Ok(format!("{}/{}", dest_dir, name))
+        Ok(format!("{}", dest_dir))
     } else {
         Err(result.err().unwrap_or("unknown error".to_string()))
     }
