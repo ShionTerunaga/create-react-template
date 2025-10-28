@@ -1,4 +1,8 @@
-export type ErrorType = "httpError" | "objectError" | "customError";
+export type ErrorType =
+    | "httpError"
+    | "objectError"
+    | "invokeError"
+    | "saveError";
 
 export interface CustomError {
     type: ErrorType;

@@ -1,8 +1,7 @@
-//import { invoke } from "@tauri-apps/api/core";
 import { Sidebar, useSidebar } from "./features/sidebar";
 import appStyle from "./App.css";
 import { useMemo } from "react";
-import { ExportButton } from "./features/export/ExportButton";
+import { CliDownloadsPage } from "./pages/cli-downloads";
 
 function App() {
     const { sidebarState } = useSidebar();
@@ -10,7 +9,7 @@ function App() {
     const MainComponent = useMemo(() => {
         switch (sidebarState) {
             case "cli":
-                return <ExportButton />;
+                return <CliDownloadsPage />;
             case "gui-react":
                 return <div>React Template Component</div>;
             default:
