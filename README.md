@@ -158,8 +158,16 @@ rm extract -Recurse -Force
 create-react-tmp
 ```
 
-### new update
+## new update
+
+### mac os
 
 ```bash
 upgrade-tmp && chmod 755 ~/tools/*
+```
+
+### windows os
+
+```bash
+upgrade-tmp
 ```
