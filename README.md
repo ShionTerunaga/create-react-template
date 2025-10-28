@@ -82,9 +82,73 @@ or
 export PATH="$PATH:/Users/<username>/tools/"
 ```
 
-### windows
+### windows os
 
-coming soon...
+1. Go to root directory.
+
+```bash
+cd ~
+```
+
+2. Check your location
+
+```bash
+pwd
+```
+
+It should be as follows
+
+```
+C:\Users\<yourname>
+```
+
+3. Make `tools` directory
+
+```bash
+mkdir tools
+```
+
+4. Go to `tools` directory
+
+```bash
+cd tools
+```
+
+5. Get template files
+
+```bash
+Invoke-WebRequest -Uri "https://github.com/ShionTerunaga/create-react-template/archive/refs/heads/release.zip" -OutFile "repo.zip"
+```
+
+6. Unzip
+
+```bash
+Expand-Archive -Path "repo.zip" -DestinationPath ".\extract" -Force
+$root = Get-ChildItem -Directory .\extract | Where-Object { Test-Path (Join-Path $_.FullName "execution\win") } | Select-Object -First 1
+Move-Item -Path (Join-Path $root.FullName "execution\win\*") -Destination "$env:USERPROFILE\tools" -Force
+```
+
+7. Remove "repo.zip"
+
+```bash
+Remove-Item "repo.zip" -Force
+```
+
+8. Remove extract
+
+```bash
+rm extract -Recurse -Force
+```
+
+9. set Environment Variable
+
+```bash
+[Environment]::SetEnvironmentVariable(
+  "Path",
+  $env:Path + ";C:\Users\<yourname>\tools",
+  "User"
+)
+```
 
 ## usage
 
@@ -94,8 +158,16 @@ coming soon...
 create-react-tmp
 ```
 
-### new update
+## new update
+
+### mac os
 
 ```bash
 upgrade-tmp && chmod 755 ~/tools/*
+```
+
+### windows os
+
+```bash
+upgrade-tmp
 ```
