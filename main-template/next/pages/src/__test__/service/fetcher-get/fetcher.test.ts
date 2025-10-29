@@ -1,4 +1,4 @@
-import { fetcher } from "@/services/fetcher-get";
+import { fetcher } from "@/services/fetcher-get/fetcher";
 import { z } from "zod";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { optionUtility } from "@/utils/option";
