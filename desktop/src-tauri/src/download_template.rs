@@ -6,8 +6,6 @@ use walkdir::WalkDir;
 use zip::write::FileOptions;
 
 pub enum TemplateFileType {
-    WINCLI,
-    MACCLI,
     APP,
     PAGES,
     TANSTACK
@@ -22,8 +20,6 @@ fn zip_download(
     let template_dir_base = Path::new(manifest_dir).join("..").join("export");
 
     let template_path = match template_type {
-        TemplateFileType::MACCLI => template_dir_base.join("execution").join("mac"),
-        TemplateFileType::WINCLI => template_dir_base.join("execution").join("win"),
         TemplateFileType::APP => template_dir_base.join("template").join("next"),
         TemplateFileType::PAGES => template_dir_base.join("template").join("pages"),
         TemplateFileType::TANSTACK => template_dir_base.join("template").join("tanstack-router"),
@@ -70,8 +66,6 @@ fn zip_download(
 #[tauri::command]
 pub fn zip_template(src: &str, dest_dir: &str) -> Result<String, String> {
     let template_type = match src {
-        "win_cli" => TemplateFileType::WINCLI,
-        "mac_cli" => TemplateFileType::MACCLI,
         "next/app" => TemplateFileType::APP,
         "next/pages" => TemplateFileType::PAGES,
         "tanstack-router" => TemplateFileType::TANSTACK,
