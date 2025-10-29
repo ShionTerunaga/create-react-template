@@ -9,7 +9,9 @@ const nextConfig: NextConfig = {
             new URL("https://ik.imagekit.io/**"),
             new URL("https://images.dog.ceo/**")
         ]
-    }
+    },
+    /* config options here */
+    reactCompiler: true
 };
 
 export default withVanillaExtract(nextConfig);
