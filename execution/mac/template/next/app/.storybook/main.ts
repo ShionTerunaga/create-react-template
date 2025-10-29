@@ -1,12 +1,16 @@
 import type { StorybookConfig } from "@storybook/nextjs";
 import path from "path";
+import { fileURLToPath } from "url";
+
+// ESM-safe __dirname replacement
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 import { VanillaExtractPlugin } from "@vanilla-extract/webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 
 const config: StorybookConfig = {
-    stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
+    stories: ["../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
     addons: [
-        "@storybook/addon-styling-webpack",
         {
             name: "@storybook/addon-styling-webpack",
             options: {
@@ -19,9 +23,9 @@ const config: StorybookConfig = {
                         test: /\.css$/,
                         sideEffects: true,
                         use: [
-                            require.resolve("style-loader"),
+                            "style-loader",
                             {
-                                loader: require.resolve("css-loader"),
+                                loader: "css-loader",
                                 options: {}
                             }
                         ],
@@ -34,9 +38,9 @@ const config: StorybookConfig = {
                         use: [
                             MiniCssExtractPlugin.loader,
                             {
-                                loader: require.resolve("css-loader"),
+                                loader: "css-loader",
                                 options: {
-                                    // Required as image imports should be handled via JS/TS import statements
+                                    // image imports should be handled via JS/TS import statements
                                     url: false
                                 }
                             }
@@ -52,14 +56,15 @@ const config: StorybookConfig = {
     },
     staticDirs: ["../public"],
     webpackFinal: async (config) => {
-        if (config.resolve != null) {
+        if (config.resolve) {
             config.resolve.alias = {
-                ...config.resolve.alias,
-                "@": path.resolve(__dirname, "./src")
+                ...(config.resolve.alias as Record<string, string>),
+                "@": path.resolve(__dirname, "../src")
             };
         }
 
         return config;
     }
 };
+
 export default config;
