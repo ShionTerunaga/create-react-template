@@ -42,7 +42,7 @@ describe("getCharacter", () => {
         vi.stubGlobal("fetch", mockFetch);
     });
     const { createSome, createNone } = optionUtility;
-    const { isOK } = resultUtility;
+    const { isOK, isNG } = resultUtility;
 
     it("APIのURLを設定していない場合", async () => {
         vi.spyOn(appConfig, "apiKey", "get").mockReturnValue(createNone());
