@@ -8,11 +8,13 @@ export async function hasParseFetcher<T extends ZodType, S>({
   url,
   scheme,
   cache,
+  maxRetry,
   parse,
 }: {
   url: Option<string>
   scheme: T
   cache?: RequestCache
+  maxRetry?: number
   parse: (scheme: core.output<T>) => Result<Option<S>, FetcherError>
 }): Promise<Result<Option<S>, FetcherError>> {
   const { isNG, createOk } = resultUtility
@@ -25,6 +27,15 @@ export async function hasParseFetcher<T extends ZodType, S>({
   })
 
   if (isNG(fetcherResult)) {
+    if (maxRetry && maxRetry > 0) {
+      return hasParseFetcher({
+        url,
+        scheme,
+        cache,
+        maxRetry: maxRetry - 1,
+        parse,
+      })
+    }
     return fetcherResult
   }
 
