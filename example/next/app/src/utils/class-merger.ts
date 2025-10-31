@@ -3,7 +3,7 @@ export default function classMerger(classes: Array<string>): string {
     const out: string[] = [];
 
     for (const cls of classes) {
-        if (!cls) continue;
+        if (cls == "") continue;
 
         if (!seen.has(cls)) {
             seen.add(cls);
