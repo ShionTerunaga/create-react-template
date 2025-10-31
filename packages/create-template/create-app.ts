@@ -7,10 +7,12 @@ import { installTemplate } from "./template-index";
 
 export async function createApp({
     appPath,
-    templateInfo
+    templateInfo,
+    tailwind
 }: {
     appPath: string;
     templateInfo: TemplateInfo;
+    tailwind: boolean;
 }) {
     const root = resolve(appPath);
     const appName = basename(appPath);
@@ -29,6 +31,7 @@ export async function createApp({
     await installTemplate({
         appName,
         root,
-        framework: templateInfo.framework
+        framework: templateInfo.framework,
+        tailwind
     });
 }
