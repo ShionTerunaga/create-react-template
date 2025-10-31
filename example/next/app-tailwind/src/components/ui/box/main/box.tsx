@@ -1,6 +1,7 @@
 import { ChildrenOnly } from "@/shared/types/react";
 import { CheckerProps } from "@/shared/types/object";
-import { boxVariants } from "./box.css";
+// Tailwind class variants imported from box.css.ts (converted from vanilla-extract)
+import { boxVariants } from "./box.style";
 import { ElementType } from "react";
 import classMerger from "@/utils/class-merger";
 
@@ -42,19 +43,19 @@ export function Box<T extends BoxProps>(
     } = props;
 
     const cn = classMerger([
-        className,
         boxVariants.boxWidthStyle[width],
         boxVariants.boxHeightStyle[height],
         boxVariants.boxShadowStyle[boxShadow],
         boxVariants.colorStyle[color],
         boxVariants.border[border],
-        boxVariants.boxBorderRadiusStyle[borderRadius]
+        boxVariants.boxBorderRadiusStyle[borderRadius],
+        className
     ]);
 
     const As = as;
 
     return (
-        <As className={cn} style={style}>
+        <As className={`${cn}`} style={style}>
             {children}
         </As>
     );
