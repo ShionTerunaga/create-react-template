@@ -36,6 +36,8 @@ const program = new Command("create-next")
         "-f, --framework <framework>",
         "framework to use (tanstack-router | next/app | next/pages)"
     )
+    .option("--use-tailwind", "set up Tailwind CSS")
+    .option("--use-vanilla-extract", "set up Vanilla Extract")
     .parse(process.argv);
 
 const opts = program.opts();
@@ -44,6 +46,7 @@ let projectPath: string = "";
 
 export async function run(): Promise<void> {
     const conf = new Conf({ projectName: "create-react-template" });
+    let isTailwind = false;
 
     if (opts.name && typeof opts.name === "string") {
         projectPath = opts.name.trim();
@@ -126,10 +129,28 @@ export async function run(): Promise<void> {
         process.exit(1);
     }
 
+    if (
+        templateInfo.framework === "next/app" ||
+        templateInfo.framework === "next/pages"
+    ) {
+        const { tailwind } = await prompts({
+            onState: onPromptState,
+            type: "toggle",
+            name: "tailwind",
+            message: `Would you like to use tailwindCSS?`,
+            initial: false,
+            active: "Yes",
+            inactive: "No"
+        });
+
+        isTailwind = Boolean(tailwind);
+    }
+
     try {
         await createApp({
             appPath,
-            templateInfo
+            templateInfo,
+            tailwind: isTailwind
         });
     } catch (e) {
         console.error(red("An error occurred while creating the project."));

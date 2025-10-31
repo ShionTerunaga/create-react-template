@@ -1,9 +1,9 @@
 {
     "scripts": {
-        "test:next-app": "rm -rf next-app-test && npx tsx ../packages/create-template/index.ts -n next-app-test -f next/app && cd next-app-test && pnpm i && pnpm build && pnpm test",
-        "test:next-pages": "rm -rf next-pages-test && npx tsx ../packages/create-template/index.ts -n next-pages-test -f next/pages && cd next-pages-test && pnpm i && pnpm build && pnpm test",
-        "test:tanstack": "rm -rf tanstack-test && npx tsx ../packages/create-template/index.ts -n tanstack-test -f tanstack-router && cd tanstack-test && pnpm i && pnpm build && pnpm test",
-        "test:all": "pnpm test:next-app && pnpm test:next-pages && pnpm test:tanstack"
+        "test:next-app-vanilla": "rm -rf next-app-vanilla && npx tsx ../packages/create-template/index.ts -n next-app-vanilla -f next/app --use-vanilla-extract && cd next-app-vanilla && pnpm i && pnpm build && pnpm test",
+        "test:next-pages-vanilla": "rm -rf next-pages-vanilla && npx tsx ../packages/create-template/index.ts -n next-pages-vanilla -f next/pages --use-vanilla-extract && cd next-pages-vanilla && pnpm i && pnpm build && pnpm test",
+        "test:tanstack": "rm -rf tanstack-vanilla && npx tsx ../packages/create-template/index.ts -n tanstack-vanilla -f tanstack-router --use-vanilla-extract && cd tanstack-vanilla && pnpm i && pnpm build && pnpm test",
+        "test:all": "pnpm test:next-app-vanilla && pnpm test:next-pages-vanilla && pnpm test:tanstack"
     },
     "packageManager": "pnpm@10.12.2"
 }
