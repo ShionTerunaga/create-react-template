@@ -15,7 +15,12 @@ export async function installTemplate({
     const copySource = ["**/*"];
     const templatePath =
         "pkg" in process && process.pkg
-            ? path.join(path.dirname(process.execPath), "template", framework)
+            ? path.join(
+                  path.dirname(process.execPath),
+                  "template",
+                  framework,
+                  css
+              )
             : path.join(__dirname, "template", framework, css);
 
     const res = await copy(copySource, root, {
