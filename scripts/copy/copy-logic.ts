@@ -13,7 +13,8 @@ async function copyDir(src: string, dest: string, rel = ""): Promise<void> {
             name === ".next" ||
             name === "pnpm-lock.yaml" ||
             name === "dist" ||
-            name === "coverage"
+            name === "coverage" ||
+            name === ".tanstack"
         ) {
             continue;
         }

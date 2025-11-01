@@ -10,13 +10,7 @@ export async function installTemplate({
     framework,
     tailwind
 }: InstallTemplateArgs) {
-    //To be revised later
-    const css =
-        framework === "tanstack-router"
-            ? ""
-            : tailwind
-              ? "tailwind"
-              : "vanilla-extract";
+    const css = tailwind ? "tailwind" : "vanilla-extract";
 
     const copySource = ["**/*"];
     const templatePath =

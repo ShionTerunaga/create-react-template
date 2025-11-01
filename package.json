@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "cp:template": "cd scripts/copy && npx tsx copy-template-main.ts",
+        "cp:template": "cd scripts/copy && rm -rf next && rm -rf tanstack-router && npx tsx copy-template-main.ts",
         "upgrade:build": "cd scripts/git && tsc",
         "build:ncc-tmp": "ncc build ./packages/create-template/index.ts -o ./dist/react-tmp",
         "upgrade:mac": "pkg dist/scripts/upgrade/change-upgrade-version-mac.js --targets node18-macos-arm64 --output execution/mac/upgrade-tmp",
