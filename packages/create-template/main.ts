@@ -129,22 +129,17 @@ export async function run(): Promise<void> {
         process.exit(1);
     }
 
-    if (
-        templateInfo.framework === "next/app" ||
-        templateInfo.framework === "next/pages"
-    ) {
-        const { tailwind } = await prompts({
-            onState: onPromptState,
-            type: "toggle",
-            name: "tailwind",
-            message: `Would you like to use tailwindCSS?`,
-            initial: false,
-            active: "Yes",
-            inactive: "No"
-        });
+    const { tailwind } = await prompts({
+        onState: onPromptState,
+        type: "toggle",
+        name: "tailwind",
+        message: `Would you like to use tailwindCSS?`,
+        initial: false,
+        active: "Yes",
+        inactive: "No"
+    });
 
-        isTailwind = Boolean(tailwind);
-    }
+    isTailwind = Boolean(tailwind);
 
     try {
         await createApp({

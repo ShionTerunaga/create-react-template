@@ -79,16 +79,39 @@ function main() {
 
     run(srcPagesVanillaExtractDir, destPagesVanillaExtractBase);
 
-    const srcSrcDir = path.join(root, "main-template", "tanstack-router");
-    const destSrcTanstackBase = path.join(
+    const srcTailwindSrcDir = path.join(
+        root,
+        "main-template",
+        "tanstack-router",
+        "tailwind"
+    );
+    const destTailWindSrcTanstackBase = path.join(
         root,
         "packages",
         "create-template",
         "template",
-        "tanstack-router"
+        "tanstack-router",
+        "tailwind"
     );
 
-    run(srcSrcDir, destSrcTanstackBase);
+    run(srcTailwindSrcDir, destTailWindSrcTanstackBase);
+
+    const srcVanillaExtractSrcDir = path.join(
+        root,
+        "main-template",
+        "tanstack-router",
+        "vanilla-extract"
+    );
+    const destVanillaExtractSrcTanstackBase = path.join(
+        root,
+        "packages",
+        "create-template",
+        "template",
+        "tanstack-router",
+        "vanilla-extract"
+    );
+
+    run(srcVanillaExtractSrcDir, destVanillaExtractSrcTanstackBase);
 }
 
 main();
