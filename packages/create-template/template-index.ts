@@ -7,13 +7,16 @@ import fs from "fs/promises";
 export async function installTemplate({
     appName,
     root,
-    framework
+    framework,
+    tailwind
 }: InstallTemplateArgs) {
+    const css = tailwind ? "tailwind" : "vanilla-extract";
+
     const copySource = ["**/*"];
     const templatePath =
         "pkg" in process && process.pkg
             ? path.join(path.dirname(process.execPath), "template", framework)
-            : path.join(__dirname, "template", framework);
+            : path.join(__dirname, "template", framework, css);
 
     const res = await copy(copySource, root, {
         parents: true,

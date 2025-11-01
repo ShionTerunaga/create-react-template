@@ -3,40 +3,115 @@ import { run } from "./copy-logic";
 
 function main() {
     const root = path.resolve(__dirname, "..", ".."); // repo root
-    const srcAppDir = path.join(root, "main-template", "next", "app");
-    const destAppBase = path.join(
+    const srcAppVanillaExtractDir = path.join(
+        root,
+        "main-template",
+        "next",
+        "app",
+        "vanilla-extract"
+    );
+    const destAppVanillaExtractBase = path.join(
         root,
         "packages",
         "create-template",
         "template",
         "next",
-        "app"
+        "app",
+        "vanilla-extract"
     );
 
-    run(srcAppDir, destAppBase);
+    run(srcAppVanillaExtractDir, destAppVanillaExtractBase);
 
-    const srcPagesDir = path.join(root, "main-template", "next", "pages");
-    const destPagesBase = path.join(
+    const srcAppTailwindDir = path.join(
+        root,
+        "main-template",
+        "next",
+        "app",
+        "tailwind"
+    );
+    const destAppTailwindBase = path.join(
         root,
         "packages",
         "create-template",
         "template",
         "next",
-        "pages"
+        "app",
+        "tailwind"
     );
 
-    run(srcPagesDir, destPagesBase);
+    run(srcAppTailwindDir, destAppTailwindBase);
 
-    const srcSrcDir = path.join(root, "main-template", "tanstack-router");
-    const destSrcTanstackBase = path.join(
+    const srcPagesDir = path.join(
+        root,
+        "main-template",
+        "next",
+        "pages",
+        "tailwind"
+    );
+    const destPagesTailwindBase = path.join(
         root,
         "packages",
         "create-template",
         "template",
-        "tanstack-router"
+        "next",
+        "pages",
+        "tailwind"
     );
 
-    run(srcSrcDir, destSrcTanstackBase);
+    run(srcPagesDir, destPagesTailwindBase);
+
+    const srcPagesVanillaExtractDir = path.join(
+        root,
+        "main-template",
+        "next",
+        "pages",
+        "vanilla-extract"
+    );
+    const destPagesVanillaExtractBase = path.join(
+        root,
+        "packages",
+        "create-template",
+        "template",
+        "next",
+        "pages",
+        "vanilla-extract"
+    );
+
+    run(srcPagesVanillaExtractDir, destPagesVanillaExtractBase);
+
+    const srcTailwindSrcDir = path.join(
+        root,
+        "main-template",
+        "tanstack-router",
+        "tailwind"
+    );
+    const destTailWindSrcTanstackBase = path.join(
+        root,
+        "packages",
+        "create-template",
+        "template",
+        "tanstack-router",
+        "tailwind"
+    );
+
+    run(srcTailwindSrcDir, destTailWindSrcTanstackBase);
+
+    const srcVanillaExtractSrcDir = path.join(
+        root,
+        "main-template",
+        "tanstack-router",
+        "vanilla-extract"
+    );
+    const destVanillaExtractSrcTanstackBase = path.join(
+        root,
+        "packages",
+        "create-template",
+        "template",
+        "tanstack-router",
+        "vanilla-extract"
+    );
+
+    run(srcVanillaExtractSrcDir, destVanillaExtractSrcTanstackBase);
 }
 
 main();

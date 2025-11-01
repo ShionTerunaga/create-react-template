@@ -1,7 +1,8 @@
-next-app-test
-next-pages-test
-tanstack-test
-
+next-app-vanilla
+next-app-tailwind
+next-pages-vanilla
+next-pages-tailwind
+tanstack-vanilla
 
 node_modules
 .DS_Store
