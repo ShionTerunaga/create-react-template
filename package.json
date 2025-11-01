@@ -10,9 +10,10 @@
         "upgrade:mac": "pkg dist/scripts/upgrade/change-upgrade-version-mac.js --targets node18-macos-arm64 --output execution/mac/upgrade-tmp",
         "upgrade:win": "pkg dist/scripts/upgrade/change-upgrade-version-win.js --targets node18-win-x64 --output execution/win/upgrade-tmp",
         "create-template-mac:pkg": "pkg dist/react-tmp/index.js --targets node18-macos-arm64 --output execution/mac/create-react-tmp && pnpm cp-only:mac",
-        "create-template-win:pkg": "pkg dist/react-tmp/index.js --targets node18-win-x64 --output execution/win/create-react-tmp && pnpm cp-only:win",
+        "create-template-win:pkg": "pkg dist/react-tmp/index.js --targets node18-win-x64 --output execution/win/create-react-tmp && pnpm cp:win",
         "cp-only:mac": "rm -rf execution/mac/template && cp -R packages/create-template/template execution/mac",
         "cp-only:win": "rm -rf execution/win/template && cp -R packages/create-template/template execution/win",
+        "cp:win": "rmdir /s /q execution\\win\\template && xcopy packages\\create-template\\template execution\\win /E /I /Y",
         "generate-csstype": "tsx ./scripts/css/generate-css-type.ts",
         "create:env": "cd scripts/create-env && npx tsx create-env.ts"
     },
