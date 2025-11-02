@@ -68,6 +68,12 @@ rm -rf create-react-template-release
 npm install -g .
 ```
 
+10. Authentication
+
+```bash
+chmod +x ~/tools/tmp/index.js && chmod +x ~/tools/upgrade-tmp.js
+```
+
 ### windows os
 
 1. Go to root directory.
