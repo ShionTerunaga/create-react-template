@@ -62,24 +62,10 @@ rm repo.zip
 rm -rf create-react-template-release
 ```
 
-9. Authorization
+9. Local Package Installation
 
 ```bash
-chmod 755 ~/tools/*
-```
-
-10. pass through
-
-```
-#.zprofile
-export PATH="$PATH:/Users/<username>/tools/"
-```
-
-or
-
-```
-# .bash_profile
-export PATH="$PATH:/Users/<username>/tools/"
+npm link -g .
 ```
 
 ### windows os
@@ -140,14 +126,10 @@ Remove-Item "repo.zip" -Force
 rm extract -Recurse -Force
 ```
 
-9. set Environment Variable
+9. Local Package Installation
 
 ```bash
-[Environment]::SetEnvironmentVariable(
-  "Path",
-  $env:Path + ";C:\Users\<yourname>\tools",
-  "User"
-)
+npm link -g .
 ```
 
 ## usage

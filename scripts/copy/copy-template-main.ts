@@ -1,8 +1,95 @@
+import fs from "fs";
 import path from "path";
 import { run } from "./copy-logic";
 
 function main() {
     const root = path.resolve(__dirname, "..", ".."); // repo root
+    // Remove existing generated template/next to avoid stale files
+    const destNextRoot = path.join(
+        root,
+        "packages",
+        "create-template",
+        "template",
+        "next"
+    );
+
+    if (fs.existsSync(destNextRoot)) {
+        console.log(`Cleaning existing template directory: ${destNextRoot}`);
+        fs.rmSync(destNextRoot, { recursive: true, force: true });
+    }
+
+    const destTanstackRoot = path.join(
+        root,
+        "packages",
+        "create-template",
+        "template",
+        "tanstack-router"
+    );
+
+    if (fs.existsSync(destTanstackRoot)) {
+        console.log(
+            `Cleaning existing template directory: ${destTanstackRoot}`
+        );
+        fs.rmSync(destTanstackRoot, { recursive: true, force: true });
+    }
+
+    const destNextMacRoot = path.join(
+        root,
+        "execution",
+        "mac",
+        "tmp",
+        "template",
+        "next"
+    );
+
+    if (fs.existsSync(destNextMacRoot)) {
+        console.log(`Cleaning existing template directory: ${destNextMacRoot}`);
+        fs.rmSync(destNextMacRoot, { recursive: true, force: true });
+    }
+    const destTanstackMacRoot = path.join(
+        root,
+        "execution",
+        "mac",
+        "tmp",
+        "template",
+        "tanstack-router"
+    );
+
+    if (fs.existsSync(destTanstackMacRoot)) {
+        console.log(
+            `Cleaning existing template directory: ${destTanstackMacRoot}`
+        );
+        fs.rmSync(destTanstackMacRoot, { recursive: true, force: true });
+    }
+    const destNextWinRoot = path.join(
+        root,
+        "execution",
+        "win",
+        "tmp",
+        "template",
+        "next"
+    );
+
+    if (fs.existsSync(destNextWinRoot)) {
+        console.log(`Cleaning existing template directory: ${destNextWinRoot}`);
+        fs.rmSync(destNextWinRoot, { recursive: true, force: true });
+    }
+    const destTanstackWinRoot = path.join(
+        root,
+        "execution",
+        "win",
+        "tmp",
+        "template",
+        "tanstack-router"
+    );
+
+    if (fs.existsSync(destTanstackWinRoot)) {
+        console.log(
+            `Cleaning existing template directory: ${destTanstackWinRoot}`
+        );
+        fs.rmSync(destTanstackWinRoot, { recursive: true, force: true });
+    }
+
     const srcAppVanillaExtractDir = path.join(
         root,
         "main-template",
@@ -10,7 +97,7 @@ function main() {
         "app",
         "vanilla-extract"
     );
-    const destAppVanillaExtractBase = path.join(
+    const destAppVanillaExtractPack = path.join(
         root,
         "packages",
         "create-template",
@@ -20,7 +107,31 @@ function main() {
         "vanilla-extract"
     );
 
-    run(srcAppVanillaExtractDir, destAppVanillaExtractBase);
+    const destAppVanillaExtractMac = path.join(
+        root,
+        "execution",
+        "mac",
+        "tmp",
+        "template",
+        "next",
+        "app",
+        "vanilla-extract"
+    );
+
+    const destAppVanillaExtractExe = path.join(
+        root,
+        "execution",
+        "win",
+        "tmp",
+        "template",
+        "next",
+        "app",
+        "vanilla-extract"
+    );
+
+    run(srcAppVanillaExtractDir, destAppVanillaExtractPack);
+    run(srcAppVanillaExtractDir, destAppVanillaExtractMac);
+    run(srcAppVanillaExtractDir, destAppVanillaExtractExe);
 
     const srcAppTailwindDir = path.join(
         root,
@@ -29,7 +140,7 @@ function main() {
         "app",
         "tailwind"
     );
-    const destAppTailwindBase = path.join(
+    const destAppTailwindPack = path.join(
         root,
         "packages",
         "create-template",
@@ -39,7 +150,31 @@ function main() {
         "tailwind"
     );
 
-    run(srcAppTailwindDir, destAppTailwindBase);
+    const destAppTailwindMac = path.join(
+        root,
+        "execution",
+        "mac",
+        "tmp",
+        "template",
+        "next",
+        "app",
+        "tailwind"
+    );
+
+    const destAppTailwindExe = path.join(
+        root,
+        "execution",
+        "win",
+        "tmp",
+        "template",
+        "next",
+        "app",
+        "tailwind"
+    );
+
+    run(srcAppTailwindDir, destAppTailwindPack);
+    run(srcAppTailwindDir, destAppTailwindMac);
+    run(srcAppTailwindDir, destAppTailwindExe);
 
     const srcPagesDir = path.join(
         root,
@@ -48,7 +183,7 @@ function main() {
         "pages",
         "tailwind"
     );
-    const destPagesTailwindBase = path.join(
+    const destPagesTailwindPack = path.join(
         root,
         "packages",
         "create-template",
@@ -57,8 +192,30 @@ function main() {
         "pages",
         "tailwind"
     );
+    const destPagesTailwindMac = path.join(
+        root,
+        "execution",
+        "mac",
+        "tmp",
+        "template",
+        "next",
+        "pages",
+        "tailwind"
+    );
+    const destPagesTailwindExe = path.join(
+        root,
+        "execution",
+        "win",
+        "tmp",
+        "template",
+        "next",
+        "pages",
+        "tailwind"
+    );
 
-    run(srcPagesDir, destPagesTailwindBase);
+    run(srcPagesDir, destPagesTailwindPack);
+    run(srcPagesDir, destPagesTailwindMac);
+    run(srcPagesDir, destPagesTailwindExe);
 
     const srcPagesVanillaExtractDir = path.join(
         root,
@@ -67,7 +224,7 @@ function main() {
         "pages",
         "vanilla-extract"
     );
-    const destPagesVanillaExtractBase = path.join(
+    const destPagesVanillaExtractPack = path.join(
         root,
         "packages",
         "create-template",
@@ -76,8 +233,30 @@ function main() {
         "pages",
         "vanilla-extract"
     );
+    const destPagesVanillaExtractMac = path.join(
+        root,
+        "execution",
+        "mac",
+        "tmp",
+        "template",
+        "next",
+        "pages",
+        "vanilla-extract"
+    );
+    const destPagesVanillaExtractExe = path.join(
+        root,
+        "execution",
+        "win",
+        "tmp",
+        "template",
+        "next",
+        "pages",
+        "vanilla-extract"
+    );
 
-    run(srcPagesVanillaExtractDir, destPagesVanillaExtractBase);
+    run(srcPagesVanillaExtractDir, destPagesVanillaExtractPack);
+    run(srcPagesVanillaExtractDir, destPagesVanillaExtractMac);
+    run(srcPagesVanillaExtractDir, destPagesVanillaExtractExe);
 
     const srcTailwindSrcDir = path.join(
         root,
@@ -85,7 +264,7 @@ function main() {
         "tanstack-router",
         "tailwind"
     );
-    const destTailWindSrcTanstackBase = path.join(
+    const destTailWindSrcTanstackPack = path.join(
         root,
         "packages",
         "create-template",
@@ -94,7 +273,29 @@ function main() {
         "tailwind"
     );
 
-    run(srcTailwindSrcDir, destTailWindSrcTanstackBase);
+    const destTailWindSrcTanstackMac = path.join(
+        root,
+        "execution",
+        "mac",
+        "tmp",
+        "template",
+        "tanstack-router",
+        "tailwind"
+    );
+
+    const destTailWindSrcTanstackExe = path.join(
+        root,
+        "execution",
+        "win",
+        "tmp",
+        "template",
+        "tanstack-router",
+        "tailwind"
+    );
+
+    run(srcTailwindSrcDir, destTailWindSrcTanstackPack);
+    run(srcTailwindSrcDir, destTailWindSrcTanstackMac);
+    run(srcTailwindSrcDir, destTailWindSrcTanstackExe);
 
     const srcVanillaExtractSrcDir = path.join(
         root,
@@ -102,7 +303,7 @@ function main() {
         "tanstack-router",
         "vanilla-extract"
     );
-    const destVanillaExtractSrcTanstackBase = path.join(
+    const destVanillaExtractSrcTanstackPack = path.join(
         root,
         "packages",
         "create-template",
@@ -111,7 +312,29 @@ function main() {
         "vanilla-extract"
     );
 
-    run(srcVanillaExtractSrcDir, destVanillaExtractSrcTanstackBase);
+    const destVanillaExtractSrcTanstackMac = path.join(
+        root,
+        "execution",
+        "mac",
+        "tmp",
+        "template",
+        "tanstack-router",
+        "vanilla-extract"
+    );
+
+    const destVanillaExtractSrcTanstackExe = path.join(
+        root,
+        "execution",
+        "win",
+        "tmp",
+        "template",
+        "tanstack-router",
+        "vanilla-extract"
+    );
+
+    run(srcVanillaExtractSrcDir, destVanillaExtractSrcTanstackPack);
+    run(srcVanillaExtractSrcDir, destVanillaExtractSrcTanstackMac);
+    run(srcVanillaExtractSrcDir, destVanillaExtractSrcTanstackExe);
 }
 
 main();
