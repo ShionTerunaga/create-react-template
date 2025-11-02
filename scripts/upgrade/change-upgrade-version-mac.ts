@@ -59,15 +59,15 @@ export async function main(TARGET_DIR_IN_ZIP: string) {
 
     // Try to make the new tools directory available as a global CLI via npm link
     try {
-        console.log("🔗 Running `npm link -g .` in", toolsDir);
-        execSync("npm link -g .", { stdio: "inherit", cwd: toolsDir });
-        console.log("✅ npm link completed");
+        console.log("🔗 Running `npm install -g .` in", toolsDir);
+        execSync("npm install -g .", { stdio: "inherit", cwd: toolsDir });
+        console.log("✅ npm install completed");
     } catch (e) {
         console.error(
-            "⚠️ npm link failed:",
+            "⚠️ npm install failed:",
             e instanceof Error ? e.message : e
         );
-        console.error("You can run `npm link -g .` manually in", toolsDir);
+        console.error("You can run `npm install -g .` manually in", toolsDir);
     }
 
     console.log("✅ Upgrade complete!");
