@@ -65,7 +65,7 @@ rm -rf create-react-template-release
 9. Local Package Installation
 
 ```bash
-npm link -g .
+npm install -g .
 ```
 
 ### windows os
@@ -129,7 +129,7 @@ rm extract -Recurse -Force
 9. Local Package Installation
 
 ```bash
-npm link -g .
+npm install -g .
 ```
 
 ## usage
