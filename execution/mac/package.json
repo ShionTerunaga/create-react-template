@@ -1,0 +1,6 @@
+{
+    "bin": {
+        "create-react-tmp": "./tmp/index.js",
+        "upgrade-tmp": "./upgrade-tmp.js"
+    }
+}
