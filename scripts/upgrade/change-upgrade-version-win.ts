@@ -82,16 +82,16 @@ async function main() {
         // 5. Try to link the copied tools as a global CLI so the user can run `create-react-tmp`
         try {
             console.log(
-                `🔗 Attempting to run: npm link -g . (cwd=${TOOLS_DIR})`
+                `🔗 Attempting to run: npm install -g . (cwd=${TOOLS_DIR})`
             );
-            execSync("npm link -g .", { stdio: "inherit", cwd: TOOLS_DIR });
+            execSync("npm install -g .", { stdio: "inherit", cwd: TOOLS_DIR });
             console.log(
-                "✅ Successfully linked tools globally (npm link -g .)"
+                "✅ Successfully linked tools globally (npm install -g .)"
             );
         } catch (err) {
-            console.warn("⚠️ Failed to run 'npm link -g .' automatically.");
+            console.warn("⚠️ Failed to run 'npm install -g .' automatically.");
             console.warn("You can link the tools manually by running:");
-            console.warn(`  cd ${TOOLS_DIR} && npm link -g .`);
+            console.warn(`  cd ${TOOLS_DIR} && npm install -g .`);
             console.warn(
                 "Or use pnpm/npm to install the package globally if preferred."
             );
