@@ -52,7 +52,7 @@ unzip repo.zip "*/execution/mac/*" -d .
 7. Move files
 
 ```bash
- mv /Users/<username>/tools/create-react-template-release/execution/mac/* /Users/<username>/tools/
+ mv ~/tools/create-react-template-release/execution/mac/* ~/tools/
 ```
 
 8. Remove files
@@ -65,7 +65,13 @@ rm -rf create-react-template-release
 9. Local Package Installation
 
 ```bash
-npm link -g .
+npm install -g .
+```
+
+10. Authentication
+
+```bash
+chmod +x ~/tools/tmp/index.js && chmod +x ~/tools/upgrade-tmp.js
 ```
 
 ### windows os
@@ -129,7 +135,7 @@ rm extract -Recurse -Force
 9. Local Package Installation
 
 ```bash
-npm link -g .
+npm install -g .
 ```
 
 ## usage
@@ -145,7 +151,7 @@ create-react-tmp
 ### mac os
 
 ```bash
-upgrade-tmp && chmod 755 ~/tools/*
+upgrade-tmp && chmod +x ~/tools/tmp/index.js && chmod +x ~/tools/upgrade-tmp.js
 ```
 
 ### windows os
