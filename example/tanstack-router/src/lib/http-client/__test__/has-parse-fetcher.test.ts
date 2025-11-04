@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { optionUtility } from '../utils/option'
 import { resultUtility } from '../utils/result'
+import { createHttpError } from '../utils/error/http/http'
 
 const mockFetch = vi.fn()
 
@@ -14,6 +15,12 @@ describe('hasParseFetcher', () => {
 
   const { createSome } = optionUtility
   const { createOk } = resultUtility
+  const defaultErrorHandler = (status: number) => {
+    switch (status) {
+      default:
+        return createHttpError.returnInternalServerError
+    }
+  }
 
   it('propagates ng from fetcher', async () => {
     mockFetch.mockResolvedValue({
@@ -28,6 +35,7 @@ describe('hasParseFetcher', () => {
       url: createSome('https://example.com'),
       scheme: schema,
       parse: () => createOk(createSome('ok')),
+      errorHandler: defaultErrorHandler,
     })
 
     expect(result.kind).toBe('ng')
@@ -47,6 +55,7 @@ describe('hasParseFetcher', () => {
       url: createSome('https://example.com'),
       scheme: schema,
       parse: () => createOk(createSome('parsed')),
+      errorHandler: defaultErrorHandler,
     })
 
     expect(result.kind).toBe('ok')
@@ -75,6 +84,7 @@ describe('hasParseFetcher', () => {
       scheme: schema,
       maxRetry: 1,
       parse: () => createOk(createSome('retried')),
+      errorHandler: defaultErrorHandler,
     })
 
     expect(result.kind).toBe('ok')
@@ -97,6 +107,7 @@ describe('hasParseFetcher', () => {
       scheme: schema,
       maxRetry: 1,
       parse: () => createOk(createSome('nope')),
+      errorHandler: defaultErrorHandler,
     })
 
     expect(result.kind).toBe('ng')

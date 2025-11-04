@@ -2,30 +2,21 @@ import { core, ZodType } from 'zod'
 import { type Option, optionUtility } from '../utils/option'
 import { type Result, resultUtility } from '../utils/result'
 import { createFetcherError, type FetcherError } from '../utils/error/fetcher'
-import { createHttpScheme } from '../utils/error/http'
+import { type HttpError } from '../utils/error/http'
 
 export async function fetcher<T extends ZodType>({
   url,
   scheme,
   cache,
+  errorHandler,
 }: {
   url: Option<string>
   scheme: T
   cache?: RequestCache
+  errorHandler: (status: number) => HttpError
 }): Promise<Result<Option<core.output<T>>, FetcherError>> {
-  const { notFound, forbidden, badRequest, internalServerError } =
-    createHttpScheme.httpErrorStatusResponse
-
-  const {
-    returnNotSetApiUrl,
-    returnNotFoundAPIUrl,
-    returnNoPermission,
-    returnBadRequest,
-    returnSchemeError,
-    returnUnknownError,
-    returnFetchFunctionError,
-    returnInternalServerError,
-  } = createFetcherError
+  const { returnNotSetApiUrl, returnSchemeError, returnFetchFunctionError } =
+    createFetcherError
 
   const { isNone, createNone, createSome } = optionUtility
   const { isNG, createNg, createOk, checkPromiseReturn } = resultUtility
@@ -45,19 +36,9 @@ export async function fetcher<T extends ZodType>({
 
   if (!res.value.ok) {
     const status = res.value.status
+    const httpError = errorHandler(status)
 
-    switch (status) {
-      case notFound:
-        return createNg(returnNotFoundAPIUrl)
-      case forbidden:
-        return createNg(returnNoPermission)
-      case badRequest:
-        return createNg(returnBadRequest)
-      case internalServerError:
-        return createNg(returnInternalServerError)
-      default:
-        return createNg(returnUnknownError)
-    }
+    return createNg(httpError)
   }
 
   const resValue = await res.value.json()
