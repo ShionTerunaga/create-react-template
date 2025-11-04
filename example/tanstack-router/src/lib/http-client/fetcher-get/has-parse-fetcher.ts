@@ -9,6 +9,7 @@ export async function hasParseFetcher<T extends ZodType, S>({
   url,
   scheme,
   cache,
+  headers,
   maxRetry,
   parse,
   errorHandler,
@@ -16,6 +17,7 @@ export async function hasParseFetcher<T extends ZodType, S>({
   url: Option<string>
   scheme: T
   cache?: RequestCache
+  headers?: Record<string, string>
   maxRetry?: number
   parse: (scheme: core.output<T>) => Result<Option<S>, FetcherError>
   errorHandler: (status: number) => HttpError
@@ -27,6 +29,7 @@ export async function hasParseFetcher<T extends ZodType, S>({
     url,
     scheme,
     cache,
+    headers,
     errorHandler,
   })
 
@@ -36,6 +39,7 @@ export async function hasParseFetcher<T extends ZodType, S>({
         url,
         scheme,
         cache,
+        headers,
         maxRetry: maxRetry - 1,
         parse,
         errorHandler,

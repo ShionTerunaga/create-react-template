@@ -112,4 +112,32 @@ describe('hasParseFetcher', () => {
 
     expect(result.kind).toBe('ng')
   })
+
+  it('passes headers through to fetcher', async () => {
+    const payload = { a: 1 }
+    mockFetch.mockResolvedValue({
+      ok: true,
+      status: 200,
+      json: async () => payload,
+    })
+
+    const schema = z.object({ a: z.number() })
+    const { createOk } = resultUtility
+
+    const headers = { Authorization: 'Bearer token' }
+
+    const result = await hasParseFetcher({
+      url: createSome('https://example.com'),
+      scheme: schema,
+      headers,
+      parse: () => createOk(createSome('parsed')),
+      errorHandler: defaultErrorHandler,
+    })
+
+    expect(result.kind).toBe('ok')
+    expect(mockFetch).toHaveBeenCalledWith(
+      'https://example.com',
+      expect.objectContaining({ headers: { Authorization: 'Bearer token' } }),
+    )
+  })
 })

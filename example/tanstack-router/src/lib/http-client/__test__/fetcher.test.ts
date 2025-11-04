@@ -88,4 +88,30 @@ describe('fetcher', () => {
       }
     }
   })
+
+  it('passes headers when provided', async () => {
+    const body = { bar: 'h' }
+    mockFetch.mockResolvedValue({
+      ok: true,
+      status: 200,
+      json: async () => body,
+    })
+
+    const schema = z.object({ bar: z.string() })
+
+    const headers = { 'X-Test': 'abc' }
+
+    const result = await fetcher({
+      url: createSome('https://example.com'),
+      scheme: schema,
+      headers,
+      errorHandler: defaultErrorHandler,
+    })
+
+    expect(result.kind).toBe('ok')
+    expect(mockFetch).toHaveBeenCalledWith(
+      'https://example.com',
+      expect.objectContaining({ headers: { 'X-Test': 'abc' } }),
+    )
+  })
 })

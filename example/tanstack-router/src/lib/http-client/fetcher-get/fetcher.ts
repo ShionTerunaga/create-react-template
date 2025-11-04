@@ -8,11 +8,13 @@ export async function fetcher<T extends ZodType>({
   url,
   scheme,
   cache,
+  headers,
   errorHandler,
 }: {
   url: Option<string>
   scheme: T
   cache?: RequestCache
+  headers?: Record<string, string>
   errorHandler: (status: number) => HttpError
 }): Promise<Result<Option<core.output<T>>, FetcherError>> {
   const { returnNotSetApiUrl, returnSchemeError, returnFetchFunctionError } =
@@ -26,7 +28,7 @@ export async function fetcher<T extends ZodType>({
   }
 
   const res = await checkPromiseReturn({
-    fn: () => fetch(url.value, { cache }),
+    fn: () => fetch(url.value, { cache, headers: headers }),
     err: returnFetchFunctionError,
   })
 
