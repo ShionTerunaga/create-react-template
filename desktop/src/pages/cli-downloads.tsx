@@ -1,66 +1,48 @@
 import { useState } from "react";
 import { Option, optionUtility } from "../utils/option";
-import { trySave } from "../utils/tauri/try-save";
 import { resultUtility } from "../utils/result";
 import { tryInvokeHasParams } from "../utils/tauri/try-invoke";
+import { useLoading } from "../features/loading";
 
-type Platform = "win_cli" | "mac_cli";
+type Platform = "win" | "mac";
 
 export function CliDownloadsPage() {
     const { createNone, createSome, isNone } = optionUtility;
     const { isNG } = resultUtility;
+    const { openLoading, closeLoading } = useLoading();
 
     const [result, setResult] = useState<Option<string>>(createNone());
 
     async function handleExport(platform: Platform) {
         setResult(createNone());
-
-        const defaultPath = `${platform.replace(/\//g, "-")}.zip`;
-
-        const selected = await trySave({
-            path: defaultPath,
-            filters: [{ name: "Zip", extensions: ["zip"] }]
-        });
-
-        if (isNG(selected)) {
-            setResult(createSome(selected.err.message));
-
-            return;
-        }
-
-        if (isNone(selected.value)) {
-            setResult(createSome("cancelled"));
-
-            return;
-        }
-
-        const dest: string = Array.isArray(selected.value.value)
-            ? selected.value.value[0]
-            : selected.value.value;
+        openLoading();
 
         const res = await tryInvokeHasParams({
-            command: "zip_template",
+            command: "download_cli",
             args: {
-                src: platform,
-                destDir: dest
+                platform: platform
             }
         });
 
         if (isNG(res)) {
             setResult(createSome(res.err.message));
+            closeLoading();
+
             return;
         }
 
-        setResult(createSome("exported to " + String(dest)));
+        setResult(createSome("exported to " + String(res.value)));
+
+        closeLoading();
     }
 
     return (
         <section>
             <div style={{ display: "flex", gap: 8 }}>
-                <button onClick={() => handleExport("mac_cli")}>
+                <button onClick={() => handleExport("mac")}>
                     Export mac ZIP
                 </button>
-                <button onClick={() => handleExport("win_cli")}>
+                <button onClick={() => handleExport("win")}>
                     Export win ZIP
                 </button>
             </div>

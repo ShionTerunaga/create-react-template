@@ -2,6 +2,7 @@ import { Sidebar, useSidebar } from "./features/sidebar";
 import appStyle from "./App.css";
 import { useMemo } from "react";
 import { CliDownloadsPage } from "./pages/cli-downloads";
+import { LoadingLayout } from "./features/loading";
 
 function App() {
     const { sidebarState } = useSidebar();
@@ -24,6 +25,7 @@ function App() {
                 <h1>Create React Template</h1>
                 {MainComponent}
             </section>
+            <LoadingLayout />
         </main>
     );
 }

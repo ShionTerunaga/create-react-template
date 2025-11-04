@@ -133,12 +133,20 @@ fn copy_recursively(src: &Path, dst: &Path) -> io::Result<()> {
 }
 
 #[tauri::command]
-pub fn download_cli(platform: &str) -> Result<(), String> {
+pub fn download_cli(platform: &str) -> Result<String, String> {
     let main_platform = match platform{
         "win" => Platform::Win,
         "mac" => Platform::Mac,
         _ => Platform::Error,
     };
+    let home = env::var("HOME").map(PathBuf::from).map_err(|_| "$HOME not set")?;
+    let tools_dir = home.join("tools");
+
+    //ここに~/toolsに`package.json`と`tmp`と`upgrade-tmp.js`が存在している場合ここでOKにする処理を入れる
+
+    if !fs::metadata(tools_dir.join("package.json")).is_err() || !fs::metadata(tools_dir.join("tmp")).is_err() || !fs::metadata(tools_dir.join("upgrade-tmp.js")).is_err() {
+        return Ok("CLI already downloaded and installed".to_string());
+    }
 
     if let Platform::Error = main_platform {
         return Err(format!("failed to parse platform: {}", platform).into());
@@ -147,7 +155,7 @@ pub fn download_cli(platform: &str) -> Result<(), String> {
     if let Err(e) = download_and_install(main_platform) {
         return Err(format!("failed to download and install CLI: {}", e).into());
     }
-    Ok(())
+    Ok("CLI downloaded and installed successfully".to_string())
 }
 
 
@@ -162,6 +170,7 @@ fn set_mode_every_entry(dir: &Path, mode: u32) -> Result<(), Box<dyn Error>> {
         perms.set_mode(mode);
         fs::set_permissions(&path, perms)?;
     }
+    
     Ok(())
 }
 
