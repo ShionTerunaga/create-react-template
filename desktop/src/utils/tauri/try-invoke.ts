@@ -2,7 +2,7 @@ import { invoke, InvokeArgs } from "@tauri-apps/api/core";
 import { invokeError, InvokeError } from "../error/tauri/invoke";
 import { type Result, resultUtility } from "../result";
 
-export type InvokeCommand = "zip_template";
+export type InvokeCommand = "zip_template" | "download_cli";
 
 export async function tryInvokeHasParams({
     command,

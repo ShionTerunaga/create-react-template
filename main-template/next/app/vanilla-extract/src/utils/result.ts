@@ -56,7 +56,7 @@ export const resultUtility = (function () {
             const result = await fn();
 
             return createOk(result);
-        } catch (_) {
+        } catch (e) {
             return createNg(err);
         }
     };
@@ -69,7 +69,7 @@ export const resultUtility = (function () {
             await fn();
 
             return createOk(UNIT);
-        } catch (_) {
+        } catch {
             return createNg(err);
         }
     };
