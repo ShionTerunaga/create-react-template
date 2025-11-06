@@ -117,7 +117,6 @@ describe('hasParseFetcher', () => {
     })
 
     const schema = z.object({ a: z.number() })
-    const { createOk } = resultUtility
 
     const headers = { Authorization: 'Bearer token' }
 
