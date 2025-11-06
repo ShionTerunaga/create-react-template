@@ -52,11 +52,23 @@ export const optionUtility = (function () {
     return opt.kind === OPTION_NONE
   }
 
+  const unWrapOr = <T extends NonNullable<unknown>>(
+    opt: Option<T>,
+    defaultValue: T,
+  ): T => {
+    if (isSome(opt)) {
+      return opt.value
+    }
+
+    return defaultValue
+  }
+
   return Object.freeze({
     createSome,
     createNone,
     isSome,
     isNone,
     optionConversion,
+    unWrapOr,
   })
 })()

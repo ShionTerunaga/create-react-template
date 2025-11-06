@@ -88,4 +88,73 @@ describe('hasNoParseFetcher', () => {
       expect.objectContaining({ headers: { Authorization: 'Bearer token' } }),
     )
   })
+
+  it('retries on fetch rejection and succeeds', async () => {
+    mockFetch
+      .mockRejectedValueOnce(new Error('network'))
+      .mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: async () => ({ a: 2 }),
+      })
+
+    const schema = z.object({ a: z.number() })
+    const result = await hasNoParseFetcher({
+      url: createSome('https://example.com'),
+      scheme: schema,
+      maxRetry: 1,
+      errorHandler: defaultErrorHandler,
+    })
+
+    expect(result.kind).toBe('ok')
+    expect(mockFetch).toHaveBeenCalledTimes(2)
+  })
+
+  it('exhausts retries on repeated rejections', async () => {
+    mockFetch.mockRejectedValue(new Error('network'))
+
+    const schema = z.object({})
+    const result = await hasNoParseFetcher({
+      url: createSome('https://example.com'),
+      scheme: schema,
+      maxRetry: 2,
+      errorHandler: defaultErrorHandler,
+    })
+
+    expect(result.kind).toBe('ng')
+    expect(mockFetch).toHaveBeenCalledTimes(3)
+  })
+
+  it('does not retry on non-ok status', async () => {
+    mockFetch.mockResolvedValue({
+      ok: false,
+      status: 500,
+      json: async () => ({}),
+    })
+
+    const schema = z.object({})
+    const result = await hasNoParseFetcher({
+      url: createSome('https://example.com'),
+      scheme: schema,
+      maxRetry: 3,
+      errorHandler: defaultErrorHandler,
+    })
+
+    expect(result.kind).toBe('ng')
+    expect(mockFetch).toHaveBeenCalledTimes(1)
+  })
+
+  it('does not retry when maxRetry is undefined', async () => {
+    mockFetch.mockRejectedValue(new Error('network'))
+
+    const schema = z.object({})
+    const result = await hasNoParseFetcher({
+      url: createSome('https://example.com'),
+      scheme: schema,
+      errorHandler: defaultErrorHandler,
+    })
+
+    expect(result.kind).toBe('ng')
+    expect(mockFetch).toHaveBeenCalledTimes(1)
+  })
 })

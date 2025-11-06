@@ -9,27 +9,34 @@ export async function fetcher<T extends ZodType>({
   scheme,
   cache,
   headers,
+  maxRetry,
   errorHandler,
 }: {
   url: Option<string>
   scheme: T
   cache?: RequestCache
   headers?: Record<string, string>
+  maxRetry?: number
   errorHandler: (status: number) => HttpError
 }): Promise<Result<Option<core.output<T>>, FetcherError>> {
   const { returnNotSetApiUrl, returnSchemeError, returnFetchFunctionError } =
     createFetcherError
 
-  const { isNone, createNone, createSome } = optionUtility
+  const { isNone, createNone, createSome, unWrapOr, optionConversion } =
+    optionUtility
   const { isNG, createNg, createOk, checkPromiseReturn } = resultUtility
 
   if (isNone(url)) {
     return createNg(returnNotSetApiUrl)
   }
 
+  const convertedMaxRetry = optionConversion(maxRetry)
+  const unWrappedMaxRetry = unWrapOr(convertedMaxRetry, 0)
+
   const res = await checkPromiseReturn({
-    fn: () => fetch(url.value, { cache, headers: headers }),
+    fn: () => fetch(url.value, { cache, headers }),
     err: returnFetchFunctionError,
+    maxRetry: unWrappedMaxRetry,
   })
 
   if (isNG(res)) {

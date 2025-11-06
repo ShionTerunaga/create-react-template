@@ -66,16 +66,13 @@ describe('hasParseFetcher', () => {
 
   it('retries when fetcher initially fails and eventually succeeds', async () => {
     const payload = { a: 1 }
-    mockFetch.mockResolvedValueOnce({
-      ok: false,
-      status: 500,
-      json: async () => ({}),
-    })
-    mockFetch.mockResolvedValueOnce({
-      ok: true,
-      status: 200,
-      json: async () => payload,
-    })
+    mockFetch
+      .mockRejectedValueOnce(new Error('network'))
+      .mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: async () => payload,
+      })
 
     const schema = z.object({ a: z.number() })
 
@@ -88,29 +85,27 @@ describe('hasParseFetcher', () => {
     })
 
     expect(result.kind).toBe('ok')
+    expect(mockFetch).toHaveBeenCalledTimes(2)
     if (result.kind === 'ok') expect(result.value.kind).toBe('some')
     if (result.kind === 'ok' && result.value.kind === 'some')
       expect(result.value.value).toBe('retried')
   })
 
   it('returns ng when retries exhausted', async () => {
-    mockFetch.mockResolvedValue({
-      ok: false,
-      status: 500,
-      json: async () => ({}),
-    })
+    mockFetch.mockRejectedValue(new Error('network'))
 
     const schema = z.object({})
 
     const result = await hasParseFetcher({
       url: createSome('https://example.com'),
       scheme: schema,
-      maxRetry: 1,
+      maxRetry: 2,
       parse: () => createOk(createSome('nope')),
       errorHandler: defaultErrorHandler,
     })
 
     expect(result.kind).toBe('ng')
+    expect(mockFetch).toHaveBeenCalledTimes(3)
   })
 
   it('passes headers through to fetcher', async () => {
@@ -139,5 +134,22 @@ describe('hasParseFetcher', () => {
       'https://example.com',
       expect.objectContaining({ headers: { Authorization: 'Bearer token' } }),
     )
+  })
+
+  it('does not retry when maxRetry is undefined', async () => {
+    mockFetch.mockRejectedValue(new Error('network'))
+
+    const schema = z.object({})
+    const parseMock = vi.fn(() => createOk(createSome('unused')))
+    const result = await hasParseFetcher({
+      url: createSome('https://example.com'),
+      scheme: schema,
+      parse: parseMock,
+      errorHandler: defaultErrorHandler,
+    })
+
+    expect(result.kind).toBe('ng')
+    expect(mockFetch).toHaveBeenCalledTimes(1)
+    expect(parseMock).not.toHaveBeenCalled()
   })
 })

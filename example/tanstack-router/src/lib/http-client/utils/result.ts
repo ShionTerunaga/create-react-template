@@ -16,21 +16,25 @@ interface NG<E> {
 interface CheckResultReturn<T, E> {
   fn: () => NonNullable<T>
   err: NonNullable<E>
+  maxRetry: NonNullable<number>
 }
 
 interface CheckResultVoid<E> {
   fn: () => void
   err: NonNullable<E>
+  maxRetry: NonNullable<number>
 }
 
 interface CheckPromiseReturn<T, E> {
   fn: () => Promise<NonNullable<T>>
   err: NonNullable<E>
+  maxRetry: NonNullable<number>
 }
 
 interface CheckPromiseVoid<E> {
   fn: () => Promise<void>
   err: NonNullable<E>
+  maxRetry: NonNullable<number>
 }
 
 const UNIT_SYMBOL = Symbol('UNIT_SYMBOL')
@@ -51,52 +55,68 @@ export const resultUtility = (function () {
   const checkPromiseReturn = async <T, E>({
     fn,
     err,
+    maxRetry,
   }: CheckPromiseReturn<T, E>): Promise<Result<T, E>> => {
     try {
       const result = await fn()
 
       return createOk(result)
     } catch (_) {
-      return createNg(err)
+      if (maxRetry === 0) {
+        return createNg(err)
+      }
+      return checkPromiseReturn({ fn, err, maxRetry: maxRetry - 1 })
     }
   }
 
   const checkPromiseVoid = async <E>({
     fn,
     err,
+    maxRetry,
   }: CheckPromiseVoid<E>): Promise<Result<Unit, E>> => {
     try {
       await fn()
 
       return createOk(UNIT)
     } catch (_) {
-      return createNg(err)
+      if (maxRetry === 0) {
+        return createNg(err)
+      }
+      return checkPromiseVoid({ fn, err, maxRetry: maxRetry - 1 })
     }
   }
 
   const checkResultReturn = <T, E>({
     fn,
     err,
+    maxRetry,
   }: CheckResultReturn<T, E>): Result<T, E> => {
     try {
       const result = fn()
 
       return createOk(result)
     } catch (_) {
-      return createNg(err)
+      if (maxRetry === 0) {
+        return createNg(err)
+      }
+      return checkResultReturn({ fn, err, maxRetry: maxRetry - 1 })
     }
   }
 
   const checkResultVoid = <E>({
     fn,
     err,
+    maxRetry,
   }: CheckResultVoid<E>): Result<Unit, E> => {
     try {
       fn()
 
       return createOk(UNIT)
     } catch (_) {
-      return createNg(err)
+      if (maxRetry === 0) {
+        return createNg(err)
+      }
+      return checkResultVoid({ fn, err, maxRetry: maxRetry - 1 })
     }
   }
 

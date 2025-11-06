@@ -30,21 +30,11 @@ export async function hasParseFetcher<T extends ZodType, S>({
     scheme,
     cache,
     headers,
+    maxRetry,
     errorHandler,
   })
 
   if (isNG(fetcherResult)) {
-    if (maxRetry && maxRetry > 0) {
-      return hasParseFetcher({
-        url,
-        scheme,
-        cache,
-        headers,
-        maxRetry: maxRetry - 1,
-        parse,
-        errorHandler,
-      })
-    }
     return fetcherResult
   }
 

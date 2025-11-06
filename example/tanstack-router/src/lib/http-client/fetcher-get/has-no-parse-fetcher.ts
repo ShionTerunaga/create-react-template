@@ -10,12 +10,14 @@ export async function hasNoParseFetcher<T extends z.ZodType>({
   scheme,
   cache,
   headers,
+  maxRetry,
   errorHandler,
 }: {
   url: Option<string>
   scheme: T
   cache?: RequestCache
   headers?: Record<string, string>
+  maxRetry?: number
   errorHandler: (status: number) => HttpError
 }): Promise<Result<Option<z.infer<T>>, FetcherError>> {
   return await fetcher<T>({
@@ -23,6 +25,7 @@ export async function hasNoParseFetcher<T extends z.ZodType>({
     scheme,
     cache,
     headers,
+    maxRetry,
     errorHandler,
   })
 }
