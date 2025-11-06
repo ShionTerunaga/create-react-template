@@ -1,13 +1,12 @@
 import { resultUtility, Result } from "@/utils/result";
 import { RandomDogRes } from "../model/random-dog";
-import fetcherError from "@/utils/error/fetcher";
+import { createFetcherError } from "@/utils/error/fetcher";
 import { Option, optionUtility } from "@/utils/option";
 import { FetcherError } from "@/utils/error/fetcher";
 
 export function parseScheme(
     scheme: RandomDogRes
 ): Result<Option<RandomDogRes>, FetcherError> {
-    const { createFetcherError } = fetcherError;
     const { createOk, createNg } = resultUtility;
     const { createSome } = optionUtility;
 

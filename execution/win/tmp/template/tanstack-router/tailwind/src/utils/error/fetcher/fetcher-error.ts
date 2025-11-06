@@ -1,4 +1,4 @@
-import type { CustomError } from '../core/core-error'
+import { type CustomError } from '../core/core-error'
 import { createHttpError, type HttpError } from '../http/http'
 import { fetcherErrorScheme, type FetcherStatus } from './fetcher-scheme'
 
