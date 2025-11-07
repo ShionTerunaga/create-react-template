@@ -1,6 +1,6 @@
 "use client";
 
-import { usePopup } from "@/lib/popup";
+import { useSubPopup } from "@/lib/popup";
 import { CheckerProps } from "@/shared/types/object";
 import { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
 
@@ -23,7 +23,7 @@ export function PopupCloseButton<T extends ButtonProps>(
         throw new Error("This is not props expected elements.");
     }
 
-    const { closePopup } = usePopup();
+    const { close } = useSubPopup();
 
-    return <button {...props} onClick={() => closePopup()} />;
+    return <button {...props} onClick={() => close()} />;
 }

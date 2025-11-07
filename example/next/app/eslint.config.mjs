@@ -1,7 +1,6 @@
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
-import typescriptEslintPlugin from "@typescript-eslint/eslint-plugin";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -26,9 +25,6 @@ const eslintConfig = [
             parserOptions: {
                 project: "./tsconfig.json"
             }
-        },
-        plugins: {
-            "@typescript-eslint": typescriptEslintPlugin
         },
         rules: {
             "@typescript-eslint/strict-boolean-expressions": [
