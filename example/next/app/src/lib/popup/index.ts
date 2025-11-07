@@ -1,2 +1,3 @@
-export * from "./store/popup-context";
-export * from "./hooks/popup";
+export { useSubPopup } from "./useSubPopup";
+
+export type { SubPopupSnapshot } from "./useSubPopup";
