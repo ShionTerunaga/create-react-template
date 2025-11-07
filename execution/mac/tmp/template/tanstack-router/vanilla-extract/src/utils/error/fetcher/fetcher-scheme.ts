@@ -1,9 +1,9 @@
 import {
   createHttpScheme,
-  type HttpCustomStatus,
-  type HttpCustomStatusScheme,
-  type HttpErrorStatusErrorMessage,
-  type HttpErrorStatusResponse,
+  HttpCustomStatus,
+  HttpCustomStatusScheme,
+  HttpErrorStatusErrorMessage,
+  HttpErrorStatusResponse,
 } from '../http/http-scheme'
 
 export interface FetcherErrorStatusScheme extends HttpCustomStatusScheme {

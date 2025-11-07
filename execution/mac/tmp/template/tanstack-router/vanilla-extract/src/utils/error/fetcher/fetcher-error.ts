@@ -1,6 +1,6 @@
-import type { CustomError } from '../core/core-error'
-import { createHttpError, type HttpError } from '../http/http'
-import { fetcherErrorScheme, type FetcherStatus } from './fetcher-scheme'
+import { CustomError } from '../core/core-error'
+import { createHttpError, HttpError } from '../http/http'
+import { fetcherErrorScheme, FetcherStatus } from './fetcher-scheme'
 
 interface FetcherBaseError extends CustomError {
   status: FetcherStatus

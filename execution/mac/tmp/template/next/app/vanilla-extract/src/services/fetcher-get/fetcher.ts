@@ -1,7 +1,7 @@
 import { core, ZodType } from "zod";
 import { Option, optionUtility } from "@/utils/option";
 import { Result, resultUtility } from "@/utils/result";
-import error from "@/utils/error/http";
+import { createHttpScheme } from "@/utils/error/http";
 import {
     createFetcherError,
     FetcherError
@@ -17,7 +17,7 @@ export async function fetcher<T extends ZodType>({
     cache?: RequestCache;
 }): Promise<Result<Option<core.output<T>>, FetcherError>> {
     const { notFound, forbidden, badRequest, internalServerError } =
-        error.createHttpScheme.httpErrorStatusResponse;
+        createHttpScheme.httpErrorStatusResponse;
 
     const {
         returnNotSetApiUrl,
