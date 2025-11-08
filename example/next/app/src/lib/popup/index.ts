@@ -1,3 +1,3 @@
-export { useSubPopup } from "./useSubPopup";
+export { useSubPopup } from "./popup.hooks";
 
-export type { SubPopupSnapshot } from "./useSubPopup";
+export type { SubPopupSnapshot } from "./popup.hooks";

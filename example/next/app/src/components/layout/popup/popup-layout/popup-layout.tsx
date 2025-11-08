@@ -2,7 +2,7 @@
 
 import React from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { useSubPopup } from "@/lib/popup/useSubPopup";
+import { useSubPopup } from "@/lib/popup/popup.hooks";
 import subPopupStyles from "./popup-layout.css";
 
 export function PopupLayout() {
