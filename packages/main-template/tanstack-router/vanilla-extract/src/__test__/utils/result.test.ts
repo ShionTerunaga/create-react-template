@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { resultUtility } from '../../utils/result'
+import { resultUtility } from '@/utils/result'
 
 describe('resultUtility', () => {
     const {
@@ -18,6 +18,7 @@ describe('resultUtility', () => {
         const ok = createOk('value')
 
         expect(isOK(ok)).toBeTruthy()
+
         if (isOK(ok)) {
             expect(ok.value).toBe('value')
         }

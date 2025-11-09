@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { fetcherErrorScheme } from '../../../utils/error/fetcher'
-import { createHttpScheme } from '../../../utils/error/http'
+import { fetcherErrorScheme } from '@/utils/error/fetcher/fetcher-scheme'
+import { createHttpScheme } from '@/utils/error/http/http-scheme'
 
 describe('fetcherErrorScheme の検証', () => {
     it('基本プロパティが存在する', () => {
