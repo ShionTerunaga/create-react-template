@@ -1,4 +1,5 @@
 import fs from "fs";
+import * as fsAsync from "fs/promises";
 import path from "path";
 
 /**
@@ -117,6 +118,19 @@ async function main() {
             copyDir(utilsPath, destUtils);
 
             console.log(`Copied to ${destUtils}`);
+
+            // Copy
+            const testSrc = path.join(src, "src", "__test__");
+            const testDest = path.join(t, "__test__", "utils");
+
+            if (fs.existsSync(testDest)) {
+                console.log(`Removing existing: ${testDest}`);
+                fs.rmSync(testDest, { recursive: true, force: true });
+            } else {
+                fs.mkdirSync(testDest, { recursive: true });
+            }
+
+            copyDir(testSrc, testDest);
         } catch (err) {
             console.error(`Failed to copy to ${t}:`, err);
         }
