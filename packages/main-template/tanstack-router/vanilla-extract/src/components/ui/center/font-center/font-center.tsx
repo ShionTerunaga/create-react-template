@@ -4,24 +4,24 @@ import { type CSSProperties } from 'react'
 import fontCenterBaseStyle from './font-center.css'
 
 interface Props extends ChildrenOnly {
-  className?: string
-  style?: Omit<CSSProperties, 'center'>
+    className?: string
+    style?: Omit<CSSProperties, 'center'>
 }
 
 function FontCenter<T extends Props>(
-  props: CheckerProps<T, Props, 'fontCenter has not any props.'>,
+    props: CheckerProps<T, Props, 'fontCenter has not any props.'>,
 ) {
-  if (typeof props !== 'object') {
-    throw Error('runtime error')
-  }
+    if (typeof props !== 'object') {
+        throw Error('runtime error')
+    }
 
-  const { className, style, children } = props
+    const { className, style, children } = props
 
-  return (
-    <p className={`${fontCenterBaseStyle} ${className}`} style={style}>
-      {children}
-    </p>
-  )
+    return (
+        <p className={`${fontCenterBaseStyle} ${className}`} style={style}>
+            {children}
+        </p>
+    )
 }
 
 export default FontCenter

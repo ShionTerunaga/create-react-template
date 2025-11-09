@@ -34,13 +34,22 @@ function copyDir(src: string, dest: string) {
 }
 
 async function main() {
-    const repoRoot = path.resolve(__dirname, "..", "..");
+    const repoRoot = path.resolve(__dirname, "..", "..", "..");
     const src = path.join(repoRoot, "packages", "utils");
 
     const targets = [
-        path.join(repoRoot, "main-template", "next", "app", "tailwind", "src"),
         path.join(
             repoRoot,
+            "packages",
+            "main-template",
+            "next",
+            "app",
+            "tailwind",
+            "src"
+        ),
+        path.join(
+            repoRoot,
+            "packages",
             "main-template",
             "next",
             "app",
@@ -49,6 +58,7 @@ async function main() {
         ),
         path.join(
             repoRoot,
+            "packages",
             "main-template",
             "next",
             "pages",
@@ -57,6 +67,7 @@ async function main() {
         ),
         path.join(
             repoRoot,
+            "packages",
             "main-template",
             "next",
             "pages",
@@ -65,6 +76,7 @@ async function main() {
         ),
         path.join(
             repoRoot,
+            "packages",
             "main-template",
             "tanstack-router",
             "vanilla-extract",
@@ -72,6 +84,7 @@ async function main() {
         ),
         path.join(
             repoRoot,
+            "packages",
             "main-template",
             "tanstack-router",
             "tailwind",
@@ -89,18 +102,20 @@ async function main() {
         try {
             console.log(`\n--- copying utils -> ${t}`);
 
-            // Remove existing utils within target src (if present)
             const destUtils = path.join(t, "utils");
+
             if (fs.existsSync(destUtils)) {
                 console.log(`Removing existing: ${destUtils}`);
+
                 fs.rmSync(destUtils, { recursive: true, force: true });
             } else {
-                // ensure target src exists
                 fs.mkdirSync(t, { recursive: true });
             }
 
-            // Copy packages/utils into target/src/utils
-            copyDir(src, destUtils);
+            const utilsPath = path.join(src, "src", "utils");
+
+            copyDir(utilsPath, destUtils);
+
             console.log(`Copied to ${destUtils}`);
         } catch (err) {
             console.error(`Failed to copy to ${t}:`, err);
