@@ -13,7 +13,8 @@
         "cp:cli-mac": "tsx scripts/copy/build/copy-build-tmp-mac.ts",
         "cp:cli-win": "tsx scripts/copy/build/copy-build-tmp-win.ts",
         "generate-csstype": "tsx ./scripts/css/generate-css-type.ts",
-        "create:env": "cd scripts/create-env && npx tsx create-env.ts"
+        "create:env": "cd scripts/create-env && npx tsx create-env.ts",
+        "lib:storybook": "cd packages/lib && pnpm storybook"
     },
     "keywords": [],
     "author": "",
