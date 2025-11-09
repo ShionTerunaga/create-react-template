@@ -1,0 +1,21 @@
+{
+    "name": "utils",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "vitest run"
+    },
+    "keywords": [],
+    "author": "",
+    "packageManager": "pnpm@10.18.3",
+    "dependencies": {
+        "@vitejs/plugin-react": "^5.1.0",
+        "typescript": "^5.9.3",
+        "vite-tsconfig-paths": "^5.1.4",
+        "vitest": "^4.0.8"
+    },
+    "devDependencies": {
+        "jsdom": "^27.1.0"
+    }
+}
