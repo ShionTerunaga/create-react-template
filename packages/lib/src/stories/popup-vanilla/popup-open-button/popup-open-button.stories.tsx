@@ -9,19 +9,24 @@ export default {
     component: PopupOpenButton
 };
 
+const ExamplePopupContent = () => (
+    <PopupOpenButton
+        popupChildren={
+            (
+                <PopupSampleLayout>
+                    Popup content <PopupCloseButton>Close</PopupCloseButton>
+                </PopupSampleLayout>
+            ) as any
+        }
+    >
+        Open Popup
+    </PopupOpenButton>
+);
+
 export const Default = () => (
     <>
-        <PopupOpenButton
-            popupChildren={
-                (
-                    <PopupSampleLayout>
-                        Popup content <PopupCloseButton>Close</PopupCloseButton>
-                    </PopupSampleLayout>
-                ) as any
-            }
-        >
-            Open Popup
-        </PopupOpenButton>
+        <h1>hello world</h1>
+        <ExamplePopupContent />
         <PopupBase />
     </>
 );

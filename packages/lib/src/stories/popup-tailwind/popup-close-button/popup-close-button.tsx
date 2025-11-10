@@ -4,6 +4,7 @@ import * as React from "react";
 import { usePopup } from "@/lib/popup/popup-vanilla";
 import { CheckerProps } from "@/shared/types/object";
 import { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
+import "../style.css";
 
 type ButtonProps = Omit<
     DetailedHTMLProps<
@@ -26,5 +27,15 @@ export function PopupCloseButton<T extends ButtonProps>(
 
     const { close } = usePopup();
 
-    return <button {...props} onClick={() => close()} />;
+    return (
+        <button
+            {...(props as any)}
+            onClick={() => close()}
+            className="px-2 py-1 bg-gray-200 rounded"
+        >
+            {(props as any).children}
+        </button>
+    );
 }
+
+export default PopupCloseButton;

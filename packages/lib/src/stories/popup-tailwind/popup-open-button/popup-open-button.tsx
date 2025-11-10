@@ -5,6 +5,8 @@ import { usePopup } from "@/lib/popup/popup-vanilla/index";
 import type { CheckerProps } from "@/shared/types/object";
 import { omitElementObject } from "@/utils/object";
 import type { ButtonHTMLAttributes, DetailedHTMLProps, ReactNode } from "react";
+import "../style.css";
+import PopupBase from "../popup-base/popup-base";
 
 type ButtonProps = Omit<
     DetailedHTMLProps<
@@ -28,5 +30,17 @@ export function PopupOpenButton<T extends ButtonProps>(
 
     const { open } = usePopup();
 
-    return <button {...buttonProps} onClick={() => open(popupChildren)} />;
+    return (
+        <>
+            <button
+                {...buttonProps}
+                onClick={() => open(popupChildren)}
+                className="px-3 py-1 bg-blue-500 text-white rounded"
+            >
+                {props.children}
+            </button>
+        </>
+    );
 }
+
+export default PopupOpenButton;
