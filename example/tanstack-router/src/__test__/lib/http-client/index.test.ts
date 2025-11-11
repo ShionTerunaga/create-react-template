@@ -16,7 +16,7 @@ describe('httpClient.get', () => {
     { status: 422, message: 'Schema Error', maxRetry: 0 },
   ]
 
-  it('returns ng when schema parses successfully (current impl)', async () => {
+  it('returns ok some when schema parses successfully', async () => {
     const client = httpClient({
       baseUrl: 'https://api.example.com',
       baseHeaders: { Authorization: 'BASE' },
@@ -27,10 +27,13 @@ describe('httpClient.get', () => {
     })
     const schema = z.object({ id: z.number(), name: z.string() })
     const result = await client.get('users', schema, 'default', 0)
-    expect(result.kind).toBe('ng')
+    expect(result.kind).toBe('ok')
+    if (result.kind === 'ok') {
+      expect(result.value.kind).toBe('some')
+    }
   })
 
-  it('returns ok none when schema parse fails', async () => {
+  it('returns ng 422 when schema parse fails', async () => {
     const client = httpClient({
       baseUrl: 'https://api.example.com',
       baseHeaders: {},
@@ -39,8 +42,7 @@ describe('httpClient.get', () => {
     mockFetch.mockResolvedValue({ json: async () => ({ id: 1 }) })
     const schema = z.object({ id: z.number(), name: z.string() })
     const result = await client.get('users', schema, 'default', 0)
-    expect(result.kind).toBe('ok')
-    if (result.kind === 'ok') expect(result.value.kind).toBe('none')
+    expect(result.kind).toBe('ng')
   })
 
   it('merges headers', async () => {
@@ -58,7 +60,7 @@ describe('httpClient.get', () => {
     )
   })
 
-  it('retries on error until success', async () => {
+  it('retries on error until success returns ok', async () => {
     const client = httpClient({
       baseUrl: 'https://api.example.com',
       baseHeaders: {},
@@ -70,7 +72,7 @@ describe('httpClient.get', () => {
     const schema = z.object({ id: z.number() })
     const result = await client.get('users', schema, 'default', 1)
     expect(mockFetch).toHaveBeenCalledTimes(2)
-    expect(result.kind).toBe('ng')
+    expect(result.kind).toBe('ok')
   })
 
   it('exhausts retries returns ng and attempts count matches', async () => {

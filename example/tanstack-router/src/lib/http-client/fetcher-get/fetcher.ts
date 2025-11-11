@@ -49,7 +49,7 @@ export async function fetcher<T extends ZodType>({
 
   const judgeType = scheme.safeParse(resValue)
 
-  if (!judgeType.error) {
+  if (judgeType.error) {
     const schemaErr = httpErrors.find((e) => e.status === 422)
     return createNg(
       schemaErr ?? { status: 422, message: FALLBACK_MESSAGE, maxRetry },

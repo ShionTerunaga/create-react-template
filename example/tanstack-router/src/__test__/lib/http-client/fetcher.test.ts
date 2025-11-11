@@ -34,7 +34,7 @@ describe('fetcher', () => {
     vi.restoreAllMocks()
   })
 
-  it('returns 422 when schema parse succeeds (current behavior)', async () => {
+  it('returns ok some when schema parse succeeds', async () => {
     const data = { id: 1, name: 'test' }
     vi.spyOn(globalThis, 'fetch').mockResolvedValue(
       new Response(JSON.stringify(data), { status: 200 }),
@@ -45,34 +45,34 @@ describe('fetcher', () => {
       httpErrors: HTTP_ERRORS,
       maxRetry: 0,
     })
-    // safeParse成功 -> 現在のコードはエラーを返す (if(!judgeType.error) が逆) 仕様上はOKにすべき
+    expect(result.kind).toBe('ok')
+    if (result.kind === 'ok') {
+      expect(result.value.kind).toBe('some')
+      if (result.value.kind === 'some') {
+        expect(result.value.value).toEqual(data)
+      }
+    }
+  })
+
+  it('returns 422 error when schema parse fails', async () => {
+    const data = { id: 1, name: 'test' }
+    vi.spyOn(globalThis, 'fetch').mockResolvedValue(
+      new Response(JSON.stringify(data), { status: 200 }),
+    )
+    const result = await fetcher({
+      url: 'https://example.com',
+      scheme: ERROR_SCHEMA,
+      httpErrors: HTTP_ERRORS,
+      maxRetry: 0,
+    })
     expect(result.kind).toBe('ng')
     if (resultUtility.isNG(result)) {
       expect(result.err.status).toBe(422)
     }
   })
 
-  it('returns ok none when schema parse fails', async () => {
-    const data = { id: 1, name: 'test' }
-    vi.spyOn(globalThis, 'fetch').mockResolvedValue(
-      new Response(JSON.stringify(data), { status: 200 }),
-    )
-    const result = await fetcher({
-      url: 'https://example.com',
-      scheme: ERROR_SCHEMA, // foo が存在しないので失敗
-      httpErrors: HTTP_ERRORS,
-      maxRetry: 0,
-    })
-    // judgeType.error が存在するので if(!judgeType.error) に入らずデータを Option に包む
-    expect(result.kind).toBe('ok')
-    if (result.kind === 'ok') {
-      expect(result.value.kind).toBe('none')
-    }
-  })
-
   it('returns matched http error on fetch rejection', async () => {
-    const fetchErr = new Error('Server Error')
-    vi.spyOn(globalThis, 'fetch').mockRejectedValue(fetchErr)
+    vi.spyOn(globalThis, 'fetch').mockRejectedValue(new Error('Server Error'))
     const result = await fetcher({
       url: 'https://example.com',
       scheme: OK_SCHEMA,
@@ -81,8 +81,7 @@ describe('fetcher', () => {
     })
     expect(result.kind).toBe('ng')
     if (resultUtility.isNG(result)) {
-      expect(result.err.message).toBe('Server Error')
-      expect(result.err.status).toBe(500)
+      expect(result.err.status).toBe(0)
     }
   })
 
@@ -101,7 +100,7 @@ describe('fetcher', () => {
     }
   })
 
-  it('returns 422 when response json is null (current behavior)', async () => {
+  it('returns none when response json is null', async () => {
     vi.spyOn(globalThis, 'fetch').mockResolvedValue(
       new Response(JSON.stringify(null), { status: 200 }),
     )
@@ -111,9 +110,9 @@ describe('fetcher', () => {
       httpErrors: HTTP_ERRORS,
       maxRetry: 0,
     })
-    expect(result.kind).toBe('ng')
-    if (resultUtility.isNG(result)) {
-      expect(result.err.status).toBe(422)
+    expect(result.kind).toBe('ok')
+    if (result.kind === 'ok') {
+      expect(result.value.kind).toBe('none')
     }
   })
 })

@@ -2,8 +2,7 @@ import { core, ZodType } from 'zod'
 import { type Option, optionUtility } from '../utils/option'
 import { resultUtility, type Result } from '../utils/result'
 import { fetcher } from './fetcher'
-import { type FetcherError } from '../utils/error/fetcher/fetcher-error'
-import type { HttpError } from '../utils/error/http'
+import type { HttpError } from '../index'
 
 export async function hasParseFetcher<T extends ZodType, S>({
   url,
@@ -12,16 +11,16 @@ export async function hasParseFetcher<T extends ZodType, S>({
   headers,
   maxRetry,
   parse,
-  errorHandler,
+  httpErrors,
 }: {
-  url: Option<string>
+  url: string
   scheme: T
   cache?: RequestCache
   headers?: Record<string, string>
-  maxRetry?: number
-  parse: (scheme: core.output<T>) => Result<Option<S>, FetcherError>
-  errorHandler: (status: number) => HttpError
-}): Promise<Result<Option<S>, FetcherError>> {
+  maxRetry: number
+  parse: (scheme: core.output<T>) => Result<Option<S>, HttpError>
+  httpErrors: HttpError[]
+}): Promise<Result<Option<S>, HttpError>> {
   const { isNG, createOk } = resultUtility
   const { isNone, createNone } = optionUtility
 
@@ -31,7 +30,7 @@ export async function hasParseFetcher<T extends ZodType, S>({
     cache,
     headers,
     maxRetry,
-    errorHandler,
+    httpErrors,
   })
 
   if (isNG(fetcherResult)) {
