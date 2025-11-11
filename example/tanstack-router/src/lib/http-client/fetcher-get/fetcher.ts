@@ -1,61 +1,59 @@
 import { core, ZodType } from 'zod'
 import { type Option, optionUtility } from '../utils/option'
 import { type Result, resultUtility } from '../utils/result'
-import { createFetcherError, type FetcherError } from '../utils/error/fetcher'
-import { type HttpError } from '../utils/error/http'
+
+import { type HttpError } from '..'
+
+const FALLBACK_MESSAGE =
+  'unexpected error. The httpErrors argument may not contain sufficient error cases.'
 
 export async function fetcher<T extends ZodType>({
   url,
   scheme,
   cache,
   headers,
+  httpErrors,
   maxRetry,
-  errorHandler,
 }: {
-  url: Option<string>
+  url: string
   scheme: T
   cache?: RequestCache
   headers?: Record<string, string>
-  maxRetry?: number
-  errorHandler: (status: number) => HttpError
-}): Promise<Result<Option<core.output<T>>, FetcherError>> {
-  const { returnNotSetApiUrl, returnSchemeError, returnFetchFunctionError } =
-    createFetcherError
+  maxRetry: number
+  httpErrors: HttpError[]
+}): Promise<Result<Option<core.output<T>>, HttpError>> {
+  const { createNone, createSome } = optionUtility
+  const { isNG, createNg, createOk } = resultUtility
 
-  const { isNone, createNone, createSome, unWrapOr, optionConversion } =
-    optionUtility
-  const { isNG, createNg, createOk, checkPromiseReturn } = resultUtility
+  const responseResult = await (async () => {
+    try {
+      const response = await fetch(url, { cache, headers })
+      return createOk(response)
+    } catch (caught: unknown) {
+      const matched = httpErrors.find(
+        (e) =>
+          typeof (caught as any)?.status === 'number' &&
+          e.status === (caught as any).status,
+      )
+      return createNg(
+        matched ?? { status: 0, message: FALLBACK_MESSAGE, maxRetry },
+      )
+    }
+  })()
 
-  if (isNone(url)) {
-    return createNg(returnNotSetApiUrl)
+  if (isNG(responseResult)) {
+    return responseResult
   }
 
-  const convertedMaxRetry = optionConversion(maxRetry)
-  const unWrappedMaxRetry = unWrapOr(convertedMaxRetry, 0)
-
-  const res = await checkPromiseReturn({
-    fn: () => fetch(url.value, { cache, headers }),
-    err: returnFetchFunctionError,
-    maxRetry: unWrappedMaxRetry,
-  })
-
-  if (isNG(res)) {
-    return res
-  }
-
-  if (!res.value.ok) {
-    const status = res.value.status
-    const httpError = errorHandler(status)
-
-    return createNg(httpError)
-  }
-
-  const resValue = await res.value.json()
+  const resValue = await responseResult.value.json()
 
   const judgeType = scheme.safeParse(resValue)
 
-  if (judgeType.error !== undefined) {
-    return createNg(returnSchemeError)
+  if (!judgeType.error) {
+    const schemaErr = httpErrors.find((e) => e.status === 422)
+    return createNg(
+      schemaErr ?? { status: 422, message: FALLBACK_MESSAGE, maxRetry },
+    )
   }
 
   const okValue = judgeType.data
