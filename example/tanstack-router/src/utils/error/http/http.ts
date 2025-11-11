@@ -1,7 +1,4 @@
-import {
-  createHttpScheme,
-  type HttpCustomStatus,
-} from '@/utils/error/http/http-scheme'
+import { createHttpScheme, type HttpCustomStatus } from './http-scheme'
 import type { CustomError } from '../core/core-error'
 
 export interface HttpError extends CustomError {
@@ -26,78 +23,38 @@ export const createHttpError = (function () {
     }
   }
 
-  const notFoundAPIUrl = () => {
-    return createHttpError({
-      status: httpErrorScheme.httpCustomStatusScheme.notFoundAPIUrl,
-      message: httpErrorScheme.errorMessage.notFoundAPIUrl,
-    })
-  }
-
-  const returnNotFoundAPIUrl = () => {
+  const returnNotFoundAPIUrl = (function () {
     return createHttpError({
       status: httpErrorScheme.httpCustomStatusScheme.returnNotFoundAPIUrl,
-      message: httpErrorScheme.errorMessage.returnNotFoundAPIUrl,
+      message: httpErrorScheme.httpErrorMessage.returnNotFoundAPIUrl,
     })
-  }
+  })()
 
-  const returnNoPermission = () => {
+  const returnNoPermission = (function () {
     return createHttpError({
       status: httpErrorScheme.httpCustomStatusScheme.returnNoPermission,
-      message: httpErrorScheme.errorMessage.returnNoPermission,
+      message: httpErrorScheme.httpErrorMessage.returnNoPermission,
     })
-  }
+  })()
 
-  const returnBadRequest = () => {
+  const returnBadRequest = (function () {
     return createHttpError({
       status: httpErrorScheme.httpCustomStatusScheme.returnBadRequest,
-      message: httpErrorScheme.errorMessage.returnBadRequest,
+      message: httpErrorScheme.httpErrorMessage.returnBadRequest,
     })
-  }
+  })()
 
-  const returnInternalServerError = () => {
+  const returnInternalServerError = (function () {
     return createHttpError({
-      status: httpErrorScheme.httpCustomStatusScheme.serverError,
-      message: httpErrorScheme.errorMessage.serverError,
+      status: httpErrorScheme.httpCustomStatusScheme.returnInternalServerError,
+      message: httpErrorScheme.httpErrorMessage.returnInternalServerError,
     })
-  }
-
-  const unknownError = () => {
-    return createHttpError({
-      status: httpErrorScheme.httpCustomStatusScheme.unknownError,
-      message: httpErrorScheme.errorMessage.unknownError,
-    })
-  }
-
-  const schemeError = () => {
-    return createHttpError({
-      status: httpErrorScheme.httpCustomStatusScheme.schemeError,
-      message: httpErrorScheme.errorMessage.schemeError,
-    })
-  }
-
-  const parseError = () => {
-    return createHttpError({
-      status: httpErrorScheme.httpCustomStatusScheme.parseError,
-      message: httpErrorScheme.errorMessage.parseError,
-    })
-  }
-
-  const responseError = () => {
-    return createHttpError({
-      status: httpErrorScheme.httpCustomStatusScheme.responseError,
-      message: httpErrorScheme.errorMessage.responseError,
-    })
-  }
+  })()
 
   return {
-    notFoundAPIUrl,
-    unknownError,
-    schemeError,
+    returnInternalServerError,
     returnNotFoundAPIUrl,
     returnNoPermission,
     returnBadRequest,
-    returnInternalServerError,
-    parseError,
-    responseError,
   }
 })()

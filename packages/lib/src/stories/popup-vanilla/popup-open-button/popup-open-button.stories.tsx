@@ -14,7 +14,8 @@ const ExamplePopupContent = () => (
         popupChildren={
             (
                 <PopupSampleLayout>
-                    Popup content <PopupCloseButton>Close</PopupCloseButton>
+                    Popup content
+                    <PopupCloseButton>Close</PopupCloseButton>
                 </PopupSampleLayout>
             ) as any
         }
