@@ -1,6 +1,6 @@
 import * as React from "react";
 import { PopupBase } from "./popup-base";
-import { popupStore } from "@/lib/popup/popup/store";
+import { popupStore } from "@/lib/popup/store";
 
 export default {
     title: "Popup/Tailwind/PopupBase",
