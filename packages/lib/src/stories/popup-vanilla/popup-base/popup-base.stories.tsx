@@ -1,7 +1,7 @@
 import * as React from "react";
 import { PopupBase } from "./popup-base";
-import { popupStore } from "@/lib/popup/popup-vanilla/store";
-import { usePopup } from "@/lib/popup/popup-vanilla";
+import { popupStore } from "@/lib/popup/popup/store";
+import { usePopup } from "@/lib/popup/popup";
 
 export default {
     title: "Popup/Vanilla/PopupBase",
