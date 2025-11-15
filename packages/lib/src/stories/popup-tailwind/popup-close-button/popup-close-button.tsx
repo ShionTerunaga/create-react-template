@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { usePopup } from "@/lib/popup/popup-vanilla";
+import { usePopup } from "@/lib/popup/popup";
 import { CheckerProps } from "@/shared/types/object";
 import { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
 import "../style.css";

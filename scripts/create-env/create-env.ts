@@ -1,44 +1,14 @@
 import fs from "fs";
 import path from "path";
+import { Target } from "./create-env.type";
+import { examplesNext } from "./next-example-env";
+import { mainNextEnv } from "./next-main-env";
+import { tanstackRouterEnv } from "./tanstack-main";
 
-type Target = {
-    dir: string;
-    content: string;
-};
-
-const targets: Target[] = [
-    {
-        dir: path.resolve(__dirname, "../../example/next/app"),
-        content: `NEXT_PUBLIC_API_KEY="https://hp-api.onrender.com/api/characters"
-NEXT_PUBLIC_API_KEY2="https://dog.ceo/api/breeds/image/random"
-`
-    },
-    {
-        dir: path.resolve(__dirname, "../../main-template/next/app"),
-        content: `NEXT_PUBLIC_API_KEY="https://hp-api.onrender.com/api/characters"
-NEXT_PUBLIC_API_KEY2="https://dog.ceo/api/breeds/image/random"
-`
-    },
-    {
-        dir: path.resolve(__dirname, "../../example/next/pages"),
-        content: `NEXT_PUBLIC_API_KEY="https://hp-api.onrender.com/api/characters"
-`
-    },
-    {
-        dir: path.resolve(__dirname, "../../main-template/next/pages"),
-        content: `NEXT_PUBLIC_API_KEY="https://hp-api.onrender.com/api/characters"
-`
-    },
-    {
-        dir: path.resolve(__dirname, "../../example/tanstack-router"),
-        content: `VITE_API_KEY="https://hp-api.onrender.com/api/characters"
-`
-    },
-    {
-        dir: path.resolve(__dirname, "../../main-template/tanstack-router"),
-        content: `VITE_API_KEY="https://hp-api.onrender.com/api/characters"
-`
-    }
+const targets: Array<Target> = [
+    ...examplesNext,
+    ...mainNextEnv,
+    ...tanstackRouterEnv
 ];
 
 function ensureDirExists(dir: string) {
