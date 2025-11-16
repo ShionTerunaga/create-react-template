@@ -1,7 +1,7 @@
 import { copy } from "./helper/copy";
 import { InstallTemplateArgs } from "./template-types";
 import path from "path";
-import { RESULT_NG } from "./utils/result";
+import { resultUtility } from "./utils/result";
 import fs from "fs/promises";
 
 export async function installTemplate({
@@ -10,9 +10,11 @@ export async function installTemplate({
     framework,
     tailwind
 }: InstallTemplateArgs) {
+    const { isNG, checkPromiseVoid } = resultUtility;
     const css = tailwind ? "tailwind" : "vanilla-extract";
 
     const copySource = ["**/*"];
+
     const templatePath =
         "pkg" in process && process.pkg
             ? path.join(
@@ -42,42 +44,44 @@ export async function installTemplate({
         }
     });
 
-    if (res.kind === RESULT_NG) {
+    if (isNG(res)) {
         console.error(res.err.message);
 
         process.exit(1);
     }
 
-    try {
-        const pkgPath = path.join(root, "package.json");
+    const pkgPath = path.join(root, "package.json");
 
-        const exists = await fs
-            .stat(pkgPath)
-            .then(() => true)
-            .catch(() => false);
+    const exists = await fs
+        .stat(pkgPath)
+        .then(() => true)
+        .catch(() => false);
 
-        if (exists) {
-            const raw = await fs.readFile(pkgPath, "utf8");
-            const pkg = JSON.parse(raw || "{}");
-            if (appName && typeof appName === "string") {
-                pkg.name = appName;
-                await fs.writeFile(
-                    pkgPath,
-                    JSON.stringify(pkg, null, 2) + "\n",
-                    "utf8"
-                );
-            }
-        }
-    } catch (err) {
-        if (err instanceof Error) {
-            console.error(
-                "Failed to update package.json name:",
-                err?.message ?? err
+    if (!exists) return;
+
+    const raw = await fs.readFile(pkgPath, "utf8");
+    const pkg = JSON.parse(raw || "{}");
+
+    if (!appName || typeof appName !== "string") return;
+
+    pkg.name = appName;
+
+    const writeResult = await checkPromiseVoid({
+        fn: async () => {
+            await fs.writeFile(
+                pkgPath,
+                JSON.stringify(pkg, null, 2) + "\n",
+                "utf8"
             );
-        } else {
-            console.error("Failed to update package.json name:", err);
-        }
+        },
+        err: (e) => new Error(`Failed to update package.json name`)
+    });
 
+    if (isNG(writeResult)) {
+        console.error(
+            "Failed to update package.json name:",
+            writeResult.err.message
+        );
         process.exit(1);
     }
 }
