@@ -25,7 +25,7 @@ const onPromptState = (state: {
     }
 };
 
-const program = new Command("create-next")
+const program = new Command("create-react-template")
     .version("0.1.0", "-v, --version", "output the current version")
     .argument("[directory]")
     .usage("[directory] [options]")
