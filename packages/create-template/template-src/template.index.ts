@@ -1,8 +1,9 @@
-import { copy } from "./helper/copy";
-import { InstallTemplateArgs } from "./template-types";
+import { copy } from "../helper/copy";
+import type { InstallTemplateArgs } from "./template.static";
 import path from "path";
-import { resultUtility } from "./utils/result";
+import { resultUtility } from "../utils/result";
 import fs from "fs/promises";
+import { foundFolder } from "../utils/found-file";
 
 export async function installTemplate({
     appName,
@@ -15,19 +16,21 @@ export async function installTemplate({
 
     const copySource = ["**/*"];
 
-    const templatePath =
-        "pkg" in process && process.pkg
-            ? path.join(
-                  path.dirname(process.execPath),
-                  "template",
-                  framework,
-                  css
-              )
-            : path.join(__dirname, "template", framework, css);
+    const templatePath = [
+        path.join(__dirname, "template", framework, css),
+        path.join(__dirname, "..", "template", framework, css)
+    ];
+
+    const resultPath = foundFolder(templatePath);
+
+    if (isNG(resultPath)) {
+        console.error("Template folder not found:", resultPath.err.message);
+        process.exit(1);
+    }
 
     const res = await copy(copySource, root, {
         parents: true,
-        cwd: templatePath,
+        cwd: resultPath.value,
         rename: (name) => {
             switch (name) {
                 case "gitignore":

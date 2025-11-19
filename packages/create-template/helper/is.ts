@@ -1,4 +1,4 @@
-import { TemplateInfo } from "../template.static";
+import { TemplateInfo } from "../template-src/template.static";
 
 export function isTemplateInfo(obj: unknown): obj is TemplateInfo {
     if (typeof obj !== "object" || obj === null) {

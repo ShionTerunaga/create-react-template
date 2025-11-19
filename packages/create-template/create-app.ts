@@ -1,9 +1,9 @@
 import { resolve, basename } from "node:path";
-import { TemplateInfo } from "./template.static";
+import { TemplateInfo } from "./template-src/template.static";
 import { mkdirSync } from "node:fs";
 import { isFolderEmpty } from "./helper/is-folder-empty";
 import { green } from "picocolors";
-import { installTemplate } from "./template-index";
+import { installTemplate } from "./template-src/template.index";
 
 export async function createApp({
     appPath,

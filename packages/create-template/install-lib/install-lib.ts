@@ -1,9 +1,9 @@
 import prompts from "prompts";
-import { Option, optionUtility } from "./utils/option";
-import { resultUtility } from "./utils/result";
+import { Option, optionUtility } from "../utils/option";
+import { resultUtility } from "../utils/result";
 import { mkdirSync } from "node:fs";
 import path from "node:path";
-import { Lib } from "./template.static";
+import { Lib } from "../template-src/template.static";
 
 interface SelectLib {
     title: string;
@@ -44,7 +44,13 @@ function isLib(value: unknown): value is SelectLib {
     );
 }
 
-export async function addPackage({ root }: { root: string }) {
+export async function addPackage({
+    root,
+    isTailwind
+}: {
+    root: string;
+    isTailwind: boolean;
+}) {
     const { optionConversion, isNone } = optionUtility;
     const { createNg, createOk, isNG } = resultUtility;
 
@@ -60,6 +66,8 @@ export async function addPackage({ root }: { root: string }) {
     const optionSelected: Option<unknown> = optionConversion(res.packages);
 
     if (isNone(optionSelected)) {
+        console.log("No packages selected. Exiting.");
+
         return;
     }
 
