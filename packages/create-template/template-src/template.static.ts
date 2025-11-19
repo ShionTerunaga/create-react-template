@@ -1,5 +1,15 @@
+const frameworks = ["tanstack-router", "next/app", "next/pages"] as const;
+export type Framework = (typeof frameworks)[number];
+
+export interface InstallTemplateArgs {
+    appName: string;
+    root: string;
+    framework: Framework;
+    tailwind: boolean;
+}
+
 export interface TemplateInfo {
-    framework: "tanstack-router" | "next/app" | "next/pages";
+    framework: Framework;
 }
 
 const libs = ["popup"] as const;
