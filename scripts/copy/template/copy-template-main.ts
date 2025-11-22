@@ -341,6 +341,77 @@ function main() {
     run(srcVanillaExtractSrcDir, destVanillaExtractSrcTanstackPack);
     run(srcVanillaExtractSrcDir, destVanillaExtractSrcTanstackMac);
     run(srcVanillaExtractSrcDir, destVanillaExtractSrcTanstackExe);
+
+    // lib copy
+
+    const srcLibDir = path.join(root, "packages", "lib", "src", "lib");
+
+    const destLibMacPack = path.join(
+        root,
+        "execution",
+        "mac",
+        "tmp",
+        "lib",
+        "lib"
+    );
+
+    const destLibWinPack = path.join(
+        root,
+        "execution",
+        "win",
+        "tmp",
+        "lib",
+        "lib"
+    );
+
+    run(srcLibDir, destLibMacPack);
+    run(srcLibDir, destLibWinPack);
+
+    const srcStoriesDir = path.join(root, "packages", "lib", "src", "stories");
+
+    const destStoriesMacPack = path.join(
+        root,
+        "execution",
+        "mac",
+        "tmp",
+        "lib",
+        "stories"
+    );
+
+    const destStoriesWinPack = path.join(
+        root,
+        "execution",
+        "win",
+        "tmp",
+        "lib",
+        "stories"
+    );
+
+    run(srcStoriesDir, destStoriesMacPack);
+    run(srcStoriesDir, destStoriesWinPack);
+
+    const srcTestDir = path.join(root, "packages", "lib", "src", "__test__");
+
+    const destTestMacPack = path.join(
+        root,
+        "execution",
+        "mac",
+        "tmp",
+        "lib",
+        "__test__"
+    );
+
+    const destTestWinPack = path.join(
+        root,
+        "execution",
+        "win",
+        "tmp",
+        "lib",
+        "__test__"
+    );
+
+    run(srcTestDir, destTestMacPack);
+    run(srcTestDir, destTestWinPack);
 }
 
 main();
