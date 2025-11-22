@@ -5,150 +5,150 @@ import { type APIRes, getCharacter } from '@/features/harry-potter'
 import { resultUtility } from '@/utils/result'
 
 const mockAPIData: APIRes = [
-  {
-    id: '1',
-    name: 'Harry Potter',
-    alternate_names: [],
-    species: 'human',
-    gender: 'male',
-    house: 'Gryffindor',
-    dateOfBirth: '31-07-1980',
-    yearOfBirth: 1980,
-    wizard: true,
-    ancestry: 'half-blood',
-    eyeColour: 'green',
-    hairColour: 'black',
-    wand: {
-      wood: 'holly',
-      core: 'phoenix feather',
-      length: 11,
+    {
+        id: '1',
+        name: 'Harry Potter',
+        alternate_names: [],
+        species: 'human',
+        gender: 'male',
+        house: 'Gryffindor',
+        dateOfBirth: '31-07-1980',
+        yearOfBirth: 1980,
+        wizard: true,
+        ancestry: 'half-blood',
+        eyeColour: 'green',
+        hairColour: 'black',
+        wand: {
+            wood: 'holly',
+            core: 'phoenix feather',
+            length: 11,
+        },
+        patronus: 'stag',
+        hogwartsStudent: true,
+        hogwartsStaff: false,
+        actor: 'Daniel Radcliffe',
+        alternate_actors: [],
+        alive: true,
+        image: 'https://hp-api/image.jpg',
     },
-    patronus: 'stag',
-    hogwartsStudent: true,
-    hogwartsStaff: false,
-    actor: 'Daniel Radcliffe',
-    alternate_actors: [],
-    alive: true,
-    image: 'https://hp-api/image.jpg',
-  },
 ]
 
 const mockFetch = vi.fn()
 
 describe('getCharacter', () => {
-  beforeEach(() => {
-    vi.clearAllMocks()
+    beforeEach(() => {
+        vi.clearAllMocks()
 
-    vi.stubGlobal('fetch', mockFetch)
-  })
-  const { createSome, createNone } = optionUtility
-  const { isOK } = resultUtility
+        vi.stubGlobal('fetch', mockFetch)
+    })
+    const { createSome, createNone } = optionUtility
+    const { isOK } = resultUtility
 
-  it('APIのURLを設定していない場合', async () => {
-    vi.spyOn(appConfig, 'apiKey', 'get').mockReturnValue(createNone())
+    it('APIのURLを設定していない場合', async () => {
+        vi.spyOn(appConfig, 'apiKey', 'get').mockReturnValue(createNone())
 
-    const result = await getCharacter()
+        const result = await getCharacter()
 
-    expect(result.kind).toBe('ng')
+        expect(result.kind).toBe('ng')
 
-    if (result.kind === 'ok') return
+        if (result.kind === 'ok') return
 
-    expect(result.err.status).toBe(4040)
-    expect(result.err.message).toBe('APIのURLが設定されていません')
-  })
-
-  it('レスポンスがerrorの場合', async () => {
-    vi.spyOn(appConfig, 'apiKey', 'get').mockReturnValue(
-      createSome('https://mock-api.com/characters'),
-    )
-
-    mockFetch.mockResolvedValue({
-      ok: false,
-      status: 500, //statusコードは存在するものを定義する
-      json: async () => ({
-        message: 'mock error',
-      }),
+        expect(result.err.status).toBe(4040)
+        expect(result.err.message).toBe('APIのURLが設定されていません')
     })
 
-    const result = await getCharacter()
+    it('レスポンスがerrorの場合', async () => {
+        vi.spyOn(appConfig, 'apiKey', 'get').mockReturnValue(
+            createSome('https://mock-api.com/characters'),
+        )
 
-    expect(result.kind).toBe('ng')
+        mockFetch.mockResolvedValue({
+            ok: false,
+            status: 500, //statusコードは存在するものを定義する
+            json: async () => ({
+                message: 'mock error',
+            }),
+        })
 
-    if (isOK(result)) return
+        const result = await getCharacter()
 
-    expect(result.err.status).toBe(5001)
-    expect(result.err.message).toBe('サーバーエラーです')
-  })
+        expect(result.kind).toBe('ng')
 
-  it('レスポンスがerrorでstatusコードが設定していないものが来た場合', async () => {
-    vi.spyOn(appConfig, 'apiKey', 'get').mockReturnValue(
-      createSome('https://mock-api.com/characters'),
-    )
+        if (isOK(result)) return
 
-    mockFetch.mockResolvedValue({
-      ok: false,
-      status: 300, //statusコードは存在しないものを定義する
-      json: async () => ({
-        message: 'mock error',
-      }),
+        expect(result.err.status).toBe(5001)
+        expect(result.err.message).toBe('サーバーエラーです')
     })
 
-    const result = await getCharacter()
+    it('レスポンスがerrorでstatusコードが設定していないものが来た場合', async () => {
+        vi.spyOn(appConfig, 'apiKey', 'get').mockReturnValue(
+            createSome('https://mock-api.com/characters'),
+        )
 
-    expect(result.kind).toBe('ng')
+        mockFetch.mockResolvedValue({
+            ok: false,
+            status: 300, //statusコードは存在しないものを定義する
+            json: async () => ({
+                message: 'mock error',
+            }),
+        })
 
-    if (isOK(result)) return
+        const result = await getCharacter()
 
-    expect(result.err.status).toBe(9999)
-    expect(result.err.message).toBe('不明なエラーが発生しました')
-  })
+        expect(result.kind).toBe('ng')
 
-  it('スキームが合わない場合', async () => {
-    vi.spyOn(appConfig, 'apiKey', 'get').mockReturnValue(
-      createSome('https://mock-api.com/characters'),
-    )
+        if (isOK(result)) return
 
-    mockFetch.mockResolvedValue({
-      ok: true,
-      json: async () => [{ ...mockAPIData[0], wand: null }],
+        expect(result.err.status).toBe(9999)
+        expect(result.err.message).toBe('不明なエラーが発生しました')
     })
 
-    const result = await getCharacter()
+    it('スキームが合わない場合', async () => {
+        vi.spyOn(appConfig, 'apiKey', 'get').mockReturnValue(
+            createSome('https://mock-api.com/characters'),
+        )
 
-    expect(result.kind).toBe('ng')
+        mockFetch.mockResolvedValue({
+            ok: true,
+            json: async () => [{ ...mockAPIData[0], wand: null }],
+        })
 
-    if (isOK(result)) return
+        const result = await getCharacter()
 
-    expect(result.err.status).toBe(5000)
-    expect(result.err.message).toBe('スキームエラーが発生しました')
-  })
+        expect(result.kind).toBe('ng')
 
-  it('should return parsed characters when valid data is provided', async () => {
-    vi.spyOn(appConfig, 'apiKey', 'get').mockReturnValue(
-      createSome('https://mock-api.com/characters'),
-    )
+        if (isOK(result)) return
 
-    mockFetch.mockResolvedValue({
-      ok: true,
-      json: async () => mockAPIData,
+        expect(result.err.status).toBe(5000)
+        expect(result.err.message).toBe('スキームエラーが発生しました')
     })
 
-    const result = await getCharacter()
+    it('should return parsed characters when valid data is provided', async () => {
+        vi.spyOn(appConfig, 'apiKey', 'get').mockReturnValue(
+            createSome('https://mock-api.com/characters'),
+        )
 
-    expect(result.kind).toBe('ok')
+        mockFetch.mockResolvedValue({
+            ok: true,
+            json: async () => mockAPIData,
+        })
 
-    if (result.kind !== 'ok') {
-      throw new Error('Result is not ok')
-    }
+        const result = await getCharacter()
 
-    expect(result.value.kind).toBe('some')
+        expect(result.kind).toBe('ok')
 
-    if (result.value.kind !== 'some') {
-      throw new Error('Option is not some')
-    }
+        if (result.kind !== 'ok') {
+            throw new Error('Result is not ok')
+        }
 
-    expect(result.value.value.length).toBe(1)
+        expect(result.value.kind).toBe('some')
 
-    expect(result.value.value[0].name).toBe('Harry Potter')
-  })
+        if (result.value.kind !== 'some') {
+            throw new Error('Option is not some')
+        }
+
+        expect(result.value.value.length).toBe(1)
+
+        expect(result.value.value[0].name).toBe('Harry Potter')
+    })
 })

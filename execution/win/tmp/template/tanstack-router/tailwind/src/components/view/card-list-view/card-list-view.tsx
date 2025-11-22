@@ -5,34 +5,34 @@ import { type SinglePageGetCharacters } from '@/features/harry-potter'
 import { type CheckerProps } from '@/shared/types/object'
 
 interface Props {
-  potters: Array<SinglePageGetCharacters>
-  title: string
+    potters: Array<SinglePageGetCharacters>
+    title: string
 }
 
 export function CardListView<T extends Props>(
-  props: CheckerProps<T, Props, 'Cache potter layout has not any props.'>,
+    props: CheckerProps<T, Props, 'Cache potter layout has not any props.'>,
 ) {
-  const { potters, title } = props
+    const { potters, title } = props
 
-  return (
-    <section>
-      <FontCenter>
-        <Heading>{title}</Heading>
-      </FontCenter>
+    return (
+        <section>
+            <FontCenter>
+                <Heading>{title}</Heading>
+            </FontCenter>
 
-      <GridBox>
-        {potters.map(({ id, image, name }) => (
-          <Card
-            key={id}
-            src={image}
-            alt={id}
-            title={name}
-            srcWidth={150}
-            boxHeight={300}
-            srcHeight={200}
-          />
-        ))}
-      </GridBox>
-    </section>
-  )
+            <GridBox>
+                {potters.map(({ id, image, name }) => (
+                    <Card
+                        key={id}
+                        src={image}
+                        alt={id}
+                        title={name}
+                        srcWidth={150}
+                        boxHeight={300}
+                        srcHeight={200}
+                    />
+                ))}
+            </GridBox>
+        </section>
+    )
 }

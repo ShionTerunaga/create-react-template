@@ -13,50 +13,50 @@ type BoxBorder = keyof typeof boxVariants.border
 type BoxBorderRadius = keyof typeof boxVariants.boxBorderRadiusStyle
 
 interface BoxStyle {
-  as?: Extract<ElementType, 'div' | 'section' | 'article' | 'main'>
-  width?: BoxWidth
-  height?: BoxHeight
-  boxShadow?: BoxShadow
-  color?: BoxColor
-  border?: BoxBorder
-  borderRadius?: BoxBorderRadius
-  style?: React.CSSProperties
-  className?: string
+    as?: Extract<ElementType, 'div' | 'section' | 'article' | 'main'>
+    width?: BoxWidth
+    height?: BoxHeight
+    boxShadow?: BoxShadow
+    color?: BoxColor
+    border?: BoxBorder
+    borderRadius?: BoxBorderRadius
+    style?: React.CSSProperties
+    className?: string
 }
 
 interface BoxProps extends BoxStyle, ChildrenOnly {}
 
 export function Box<T extends BoxProps>(
-  props: CheckerProps<T, BoxProps, 'Box Props Error'>,
+    props: CheckerProps<T, BoxProps, 'Box Props Error'>,
 ) {
-  const {
-    as = 'div',
-    width = 'auto',
-    height = 'auto',
-    boxShadow = 'none',
-    color = 'white',
-    border = 'none',
-    borderRadius = 'none',
-    style,
-    className = '',
-    children,
-  } = props
+    const {
+        as = 'div',
+        width = 'auto',
+        height = 'auto',
+        boxShadow = 'none',
+        color = 'white',
+        border = 'none',
+        borderRadius = 'none',
+        style,
+        className = '',
+        children,
+    } = props
 
-  const cn = classMerger([
-    boxVariants.boxWidthStyle[width],
-    boxVariants.boxHeightStyle[height],
-    boxVariants.boxShadowStyle[boxShadow],
-    boxVariants.colorStyle[color],
-    boxVariants.border[border],
-    boxVariants.boxBorderRadiusStyle[borderRadius],
-    className,
-  ])
+    const cn = classMerger([
+        boxVariants.boxWidthStyle[width],
+        boxVariants.boxHeightStyle[height],
+        boxVariants.boxShadowStyle[boxShadow],
+        boxVariants.colorStyle[color],
+        boxVariants.border[border],
+        boxVariants.boxBorderRadiusStyle[borderRadius],
+        className,
+    ])
 
-  const As = as
+    const As = as
 
-  return (
-    <As className={`${cn}`} style={style}>
-      {children}
-    </As>
-  )
+    return (
+        <As className={`${cn}`} style={style}>
+            {children}
+        </As>
+    )
 }

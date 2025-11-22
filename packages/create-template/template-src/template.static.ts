@@ -12,8 +12,8 @@ export interface TemplateInfo {
     framework: Framework;
 }
 
-const libs = ["popup"] as const;
-export type Lib = (typeof libs)[number];
+export const libsArray = ["popup"] as const;
+export type Lib = (typeof libsArray)[number];
 
 interface LibrarySetting {
     lib: Lib;

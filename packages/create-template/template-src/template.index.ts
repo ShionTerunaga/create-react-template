@@ -25,6 +25,7 @@ export async function installTemplate({
 
     if (isNG(resultPath)) {
         console.error("Template folder not found:", resultPath.err.message);
+
         process.exit(1);
     }
 
@@ -77,7 +78,7 @@ export async function installTemplate({
                 "utf8"
             );
         },
-        err: (e) => new Error(`Failed to update package.json name`)
+        err: () => new Error(`Failed to update package.json name`)
     });
 
     if (isNG(writeResult)) {

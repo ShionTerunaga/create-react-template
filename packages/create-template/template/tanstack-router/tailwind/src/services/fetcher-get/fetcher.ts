@@ -5,74 +5,74 @@ import { createFetcherError, type FetcherError } from '@/utils/error/fetcher'
 import { createHttpScheme } from '@/utils/error/http'
 
 export async function fetcher<T extends ZodType>({
-  url,
-  scheme,
-  cache,
+    url,
+    scheme,
+    cache,
 }: {
-  url: Option<string>
-  scheme: T
-  cache?: RequestCache
+    url: Option<string>
+    scheme: T
+    cache?: RequestCache
 }): Promise<Result<Option<core.output<T>>, FetcherError>> {
-  const { notFound, forbidden, badRequest, internalServerError } =
-    createHttpScheme.httpErrorStatusResponse
+    const { notFound, forbidden, badRequest, internalServerError } =
+        createHttpScheme.httpErrorStatusResponse
 
-  const {
-    returnNotSetApiUrl,
-    returnNotFoundAPIUrl,
-    returnNoPermission,
-    returnBadRequest,
-    returnSchemeError,
-    returnUnknownError,
-    returnFetchFunctionError,
-    returnInternalServerError,
-  } = createFetcherError
+    const {
+        returnNotSetApiUrl,
+        returnNotFoundAPIUrl,
+        returnNoPermission,
+        returnBadRequest,
+        returnSchemeError,
+        returnUnknownError,
+        returnFetchFunctionError,
+        returnInternalServerError,
+    } = createFetcherError
 
-  const { isNone, createNone, createSome } = optionUtility
-  const { isNG, createNg, createOk, checkPromiseReturn } = resultUtility
+    const { isNone, createNone, createSome } = optionUtility
+    const { isNG, createNg, createOk, checkPromiseReturn } = resultUtility
 
-  if (isNone(url)) {
-    return createNg(returnNotSetApiUrl)
-  }
-
-  const res = await checkPromiseReturn({
-    fn: () => fetch(url.value, { cache }),
-    err: returnFetchFunctionError,
-  })
-
-  if (isNG(res)) {
-    return res
-  }
-
-  if (!res.value.ok) {
-    const status = res.value.status
-
-    switch (status) {
-      case notFound:
-        return createNg(returnNotFoundAPIUrl)
-      case forbidden:
-        return createNg(returnNoPermission)
-      case badRequest:
-        return createNg(returnBadRequest)
-      case internalServerError:
-        return createNg(returnInternalServerError)
-      default:
-        return createNg(returnUnknownError)
+    if (isNone(url)) {
+        return createNg(returnNotSetApiUrl)
     }
-  }
 
-  const resValue = await res.value.json()
+    const res = await checkPromiseReturn({
+        fn: () => fetch(url.value, { cache }),
+        err: returnFetchFunctionError,
+    })
 
-  const judgeType = scheme.safeParse(resValue)
+    if (isNG(res)) {
+        return res
+    }
 
-  if (judgeType.error !== undefined) {
-    return createNg(returnSchemeError)
-  }
+    if (!res.value.ok) {
+        const status = res.value.status
 
-  const okValue = judgeType.data
+        switch (status) {
+            case notFound:
+                return createNg(returnNotFoundAPIUrl)
+            case forbidden:
+                return createNg(returnNoPermission)
+            case badRequest:
+                return createNg(returnBadRequest)
+            case internalServerError:
+                return createNg(returnInternalServerError)
+            default:
+                return createNg(returnUnknownError)
+        }
+    }
 
-  if (okValue === undefined || okValue === null) {
-    return createOk(createNone())
-  }
+    const resValue = await res.value.json()
 
-  return createOk(createSome(okValue))
+    const judgeType = scheme.safeParse(resValue)
+
+    if (judgeType.error !== undefined) {
+        return createNg(returnSchemeError)
+    }
+
+    const okValue = judgeType.data
+
+    if (okValue === undefined || okValue === null) {
+        return createOk(createNone())
+    }
+
+    return createOk(createSome(okValue))
 }
