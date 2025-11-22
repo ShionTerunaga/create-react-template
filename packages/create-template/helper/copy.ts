@@ -48,6 +48,7 @@ export async function copy(
         const baseName = rename(basename(p));
 
         const from = cwd ? resolve(cwd, p) : p;
+
         const to = parents
             ? join(destRelativeToCwd, dirName, baseName)
             : join(destRelativeToCwd, baseName);

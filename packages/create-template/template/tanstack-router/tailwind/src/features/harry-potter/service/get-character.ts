@@ -8,12 +8,12 @@ import type { Option } from '@/utils/option'
 import type { FetcherError } from '@/utils/error/fetcher'
 
 export async function getCharacter(
-  cache?: RequestCache,
+    cache?: RequestCache,
 ): Promise<Result<Option<Array<APIView>>, FetcherError>> {
-  return await hasParseFetcher({
-    url: appConfig.apiKey,
-    scheme: APIScheme,
-    cache,
-    parse: parseApi,
-  })
+    return await hasParseFetcher({
+        url: appConfig.apiKey,
+        scheme: APIScheme,
+        cache,
+        parse: parseApi,
+    })
 }
