@@ -5,7 +5,7 @@ import prompts, { InitialReturnValue } from "prompts";
 import { validateNpmName } from "./helper/validate-npm-name";
 import { existsSync } from "node:fs";
 import { isTemplateInfo } from "./helper/is";
-import { blue, bold, red } from "picocolors";
+import { blue, bold, red, green } from "picocolors";
 import { createApp } from "./create-app";
 
 const handleSigTerm = () => process.exit(0);
@@ -25,7 +25,7 @@ const onPromptState = (state: {
     }
 };
 
-const program = new Command("create-next")
+const program = new Command("create-react-template")
     .version("0.1.0", "-v, --version", "output the current version")
     .argument("[directory]")
     .usage("[directory] [options]")
@@ -159,17 +159,19 @@ export async function run(): Promise<void> {
 export function notify() {
     console.log("cd " + projectPath);
 
-    console.log("pnpm install");
+    console.log(`Package install: \n\n ex) npm install`);
 
-    console.log("pnpm dev");
+    console.log(`Application launch: \n\n ex) npm run dev`);
 
     console.log();
 
-    console.log(bold("Happy hacking!"));
+    console.log(bold(`${green("Happy hacking!")}`));
+
     process.exit(0);
 }
 
 export function errorExit() {
     console.error(red("The operation was cancelled."));
+
     process.exit(1);
 }

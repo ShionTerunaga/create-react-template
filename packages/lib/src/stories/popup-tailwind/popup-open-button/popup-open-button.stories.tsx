@@ -1,7 +1,6 @@
-import * as React from "react";
 import { PopupOpenButton } from "./popup-open-button";
-import { popupStore } from "@/lib/popup/store";
 import PopupBase from "../popup-base/popup-base";
+import { popupAction } from "@/lib/popup/popup.action";
 
 export default {
     title: "Popup/Tailwind/PopupOpenButton",
@@ -16,7 +15,7 @@ export const Default = () => (
             Open Popup
         </PopupOpenButton>
         <div style={{ height: 8 }} />
-        <button onClick={() => popupStore.close()}>Close via store</button>
+        <button onClick={() => popupAction.close()}>Close via store</button>
 
         <PopupBase />
     </>

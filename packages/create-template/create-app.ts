@@ -1,9 +1,10 @@
 import { resolve, basename } from "node:path";
-import { TemplateInfo } from "./types";
+import { TemplateInfo } from "./template-src/template.static";
 import { mkdirSync } from "node:fs";
 import { isFolderEmpty } from "./helper/is-folder-empty";
 import { green } from "picocolors";
-import { installTemplate } from "./template-index";
+import { installTemplate } from "./template-src/template.index";
+import { addPackage } from "./install-lib/install-lib";
 
 export async function createApp({
     appPath,
@@ -34,4 +35,6 @@ export async function createApp({
         framework: templateInfo.framework,
         tailwind
     });
+
+    await addPackage({ root, isTailwind: tailwind });
 }
