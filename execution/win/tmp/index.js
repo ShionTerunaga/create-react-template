@@ -28564,7 +28564,8 @@ Filtered results for: ${this.inputValue ? this.inputValue : color.gray("Enter so
             const node_fs_1 = __nccwpck_require__(3024);
             const is_folder_empty_1 = __nccwpck_require__(8664);
             const picocolors_1 = __nccwpck_require__(6404);
-            const template_index_1 = __nccwpck_require__(5583);
+            const template_index_1 = __nccwpck_require__(3700);
+            const install_lib_1 = __nccwpck_require__(4917);
             async function createApp({ appPath, templateInfo, tailwind }) {
                 const root = (0, node_path_1.resolve)(appPath);
                 const appName = (0, node_path_1.basename)(appPath);
@@ -28582,6 +28583,10 @@ Filtered results for: ${this.inputValue ? this.inputValue : color.gray("Enter so
                     root,
                     framework: templateInfo.framework,
                     tailwind
+                });
+                await (0, install_lib_1.addPackage)({
+                    root,
+                    isTailwind: tailwind
                 });
             }
 
@@ -28607,23 +28612,30 @@ Filtered results for: ${this.inputValue ? this.inputValue : color.gray("Enter so
                 dest,
                 { cwd, rename = identity, parents = true }
             ) {
+                const { createNg, createOk, isNG, checkPromiseReturn } =
+                    result_1.resultUtility;
                 const sources = typeof src === "string" ? [src] : src;
                 if (sources.length === 0 || dest === "") {
-                    return result_1.createResult.ng(
-                        new Error("src or dest is empty")
-                    );
+                    return createNg(new Error("src or dest is empty"));
                 }
-                const sourceFiles = await (0, fast_glob_1.async)(sources, {
-                    cwd,
-                    dot: true,
-                    absolute: false,
-                    stats: false,
-                    onlyFiles: true
+                const sourceFiles = await checkPromiseReturn({
+                    fn: () =>
+                        (0, fast_glob_1.async)(sources, {
+                            cwd,
+                            dot: true,
+                            absolute: false,
+                            stats: false,
+                            onlyFiles: true
+                        }),
+                    err: () => new Error("Failed to glob source files")
                 });
+                if (isNG(sourceFiles)) {
+                    return sourceFiles;
+                }
                 const destRelativeToCwd = cwd
                     ? (0, node_path_1.resolve)(cwd, dest)
                     : dest;
-                for (const p of sourceFiles) {
+                for (const p of sourceFiles.value) {
                     const dirName = (0, node_path_1.dirname)(p);
                     const baseName = rename((0, node_path_1.basename)(p));
                     const from = cwd ? (0, node_path_1.resolve)(cwd, p) : p;
@@ -28639,7 +28651,7 @@ Filtered results for: ${this.inputValue ? this.inputValue : color.gray("Enter so
                     });
                     await (0, promises_1.copyFile)(from, to);
                 }
-                return result_1.createResult.ok(Promise.resolve());
+                return createOk(Promise.resolve());
             }
 
             /***/
@@ -28775,6 +28787,278 @@ Filtered results for: ${this.inputValue ? this.inputValue : color.gray("Enter so
             /***/
         },
 
+        /***/ 4917: /***/ function (
+            __unused_webpack_module,
+            exports,
+            __nccwpck_require__
+        ) {
+            "use strict";
+
+            var __importDefault =
+                (this && this.__importDefault) ||
+                function (mod) {
+                    return mod && mod.__esModule ? mod : { default: mod };
+                };
+            Object.defineProperty(exports, "__esModule", { value: true });
+            exports.addPackage = addPackage;
+            const prompts_1 = __importDefault(__nccwpck_require__(524));
+            const option_1 = __nccwpck_require__(1479);
+            const result_1 = __nccwpck_require__(6883);
+            const node_fs_1 = __nccwpck_require__(3024);
+            const node_path_1 = __importDefault(__nccwpck_require__(6760));
+            const template_static_1 = __nccwpck_require__(3236);
+            const copy_1 = __nccwpck_require__(8706);
+            const found_file_1 = __nccwpck_require__(6839);
+            const promises_1 = __importDefault(__nccwpck_require__(1943));
+            const selectLibList = [{ title: "Popup", value: "popup" }];
+            function isArray(value) {
+                return Array.isArray(value);
+            }
+            function isLibsArray(value) {
+                return (
+                    isArray(value) &&
+                    value.every((item) =>
+                        template_static_1.libsArray.includes(item)
+                    )
+                );
+            }
+            function isLib(value) {
+                return template_static_1.libsArray.includes(value);
+            }
+            async function addPackage({ root, isTailwind }) {
+                const { optionConversion, isNone } = option_1.optionUtility;
+                const {
+                    createNg,
+                    createOk,
+                    isNG,
+                    checkPromiseReturn,
+                    checkPromiseVoid
+                } = result_1.resultUtility;
+                const res = await (0, prompts_1.default)({
+                    type: "multiselect",
+                    name: "packages",
+                    message: "Select packages to add",
+                    choices: selectLibList,
+                    hint: "(Use space to select, and enter to submit)",
+                    instructions: false
+                });
+                const optionSelected = optionConversion(res.packages);
+                if (isNone(optionSelected)) {
+                    console.log("No packages selected. Exiting.");
+                    return;
+                }
+                const selectedPackages = optionSelected.value;
+                console.log("Selected packages:", selectedPackages);
+                const resultSelected = isLibsArray(selectedPackages)
+                    ? createOk(selectedPackages)
+                    : isLib(selectedPackages)
+                      ? createOk([selectedPackages])
+                      : createNg(
+                            new Error(
+                                "Selected packages have an invalid structure."
+                            )
+                        );
+                if (isNG(resultSelected)) {
+                    console.error(resultSelected.err.message);
+                    console.error(resultSelected.err.stack ?? "");
+                    process.exit(1);
+                }
+                const appPath = node_path_1.default.join(root, "src", "lib");
+                const testPath = node_path_1.default.join(
+                    root,
+                    "src",
+                    "__test__"
+                );
+                const storybookPath = node_path_1.default.join(
+                    root,
+                    "src",
+                    "stories"
+                );
+                const copySource = ["**/*"];
+                (0, node_fs_1.mkdirSync)(appPath, { recursive: true });
+                (0, node_fs_1.mkdirSync)(testPath, { recursive: true });
+                (0, node_fs_1.mkdirSync)(storybookPath, { recursive: true });
+                const addLibs = template_static_1.librarySetting.filter(
+                    (setting) =>
+                        resultSelected.value.some((lib) => lib === setting.lib)
+                );
+                for (const lib of addLibs) {
+                    const srcLibDir = node_path_1.default.join(
+                        appPath,
+                        lib.lib
+                    );
+                    (0, node_fs_1.mkdirSync)(srcLibDir, { recursive: true });
+                    const templatePath = [
+                        node_path_1.default.join(
+                            __dirname,
+                            "lib",
+                            "lib",
+                            lib.lib
+                        ),
+                        node_path_1.default.join(
+                            __dirname,
+                            "..",
+                            "lib",
+                            "lib",
+                            lib.lib
+                        )
+                    ];
+                    const resultPath = (0, found_file_1.foundFolder)(
+                        templatePath
+                    );
+                    if (isNG(resultPath)) {
+                        console.error(
+                            "Library folder not found:",
+                            resultPath.err.message
+                        );
+                        process.exit(1);
+                    }
+                    //copy packages
+                    const res = await (0, copy_1.copy)(copySource, srcLibDir, {
+                        parents: true,
+                        cwd: resultPath.value
+                    });
+                    if (isNG(res)) {
+                        console.error(res.err.message);
+                        process.exit(1);
+                    }
+                    if (lib.storybook) {
+                        const srcStorybookDir = node_path_1.default.join(
+                            storybookPath,
+                            lib.lib
+                        );
+                        (0, node_fs_1.mkdirSync)(srcStorybookDir, {
+                            recursive: true
+                        });
+                        const storybookTemplatePath = [
+                            node_path_1.default.join(
+                                __dirname,
+                                "lib",
+                                "stories",
+                                isTailwind
+                                    ? lib.lib + "-tailwind"
+                                    : lib.lib + "-vanilla"
+                            ),
+                            node_path_1.default.join(
+                                __dirname,
+                                "..",
+                                "lib",
+                                "stories",
+                                isTailwind
+                                    ? lib.lib + "-tailwind"
+                                    : lib.lib + "-vanilla"
+                            )
+                        ];
+                        const storybookResultPath = (0,
+                        found_file_1.foundFolder)(storybookTemplatePath);
+                        if (isNG(storybookResultPath)) {
+                            console.error(
+                                "Storybook folder not found:",
+                                storybookResultPath.err.message
+                            );
+                            process.exit(1);
+                        }
+                        const storyRes = await (0, copy_1.copy)(
+                            copySource,
+                            srcStorybookDir,
+                            {
+                                parents: true,
+                                cwd: storybookResultPath.value
+                            }
+                        );
+                        if (isNG(storyRes)) {
+                            console.error(storyRes.err.message);
+                            process.exit(1);
+                        }
+                    }
+                    if (lib.unitTest) {
+                        const srcTestDir = node_path_1.default.join(
+                            testPath,
+                            lib.lib
+                        );
+                        (0, node_fs_1.mkdirSync)(srcTestDir, {
+                            recursive: true
+                        });
+                        const testTemplatePath = [
+                            node_path_1.default.join(
+                                __dirname,
+                                "lib",
+                                "__test__",
+                                lib.lib
+                            ),
+                            node_path_1.default.join(
+                                __dirname,
+                                "..",
+                                "lib",
+                                "__test__",
+                                lib.lib
+                            )
+                        ];
+                        const testResultPath = (0, found_file_1.foundFolder)(
+                            testTemplatePath
+                        );
+                        if (isNG(testResultPath)) {
+                            console.error(
+                                "Unit test folder not found:",
+                                testResultPath.err.message
+                            );
+                            process.exit(1);
+                        }
+                        const testRes = await (0, copy_1.copy)(
+                            copySource,
+                            srcTestDir,
+                            {
+                                parents: true,
+                                cwd: testResultPath.value
+                            }
+                        );
+                        if (isNG(testRes)) {
+                            console.error(testRes.err.message);
+                            process.exit(1);
+                        }
+                    }
+                }
+                const pkgPath = node_path_1.default.join(
+                    root,
+                    "template.info.json"
+                );
+                const pkgInfo = { libs: resultSelected.value };
+                const raw = await checkPromiseReturn({
+                    fn: async () =>
+                        await promises_1.default.readFile(pkgPath, "utf8"),
+                    err: () => new Error(`Failed to read template.info.json`)
+                });
+                if (isNG(raw)) {
+                    console.error(raw.err.message);
+                    console.error(raw.err.stack ?? "");
+                    process.exit(1);
+                }
+                const existingInfo = JSON.parse(raw.value || "{}");
+                const updatedInfo = { ...existingInfo, ...pkgInfo };
+                const writeResult = await checkPromiseVoid({
+                    fn: async () => {
+                        await promises_1.default.writeFile(
+                            pkgPath,
+                            JSON.stringify(updatedInfo, null, 2),
+                            "utf8"
+                        );
+                    },
+                    err: () => new Error(`Failed to update template.info.json`)
+                });
+                if (isNG(writeResult)) {
+                    console.error(writeResult.err.message);
+                    console.error(writeResult.err.stack ?? "");
+                    process.exit(1);
+                }
+                console.log(
+                    "✅ Added selected packages:",
+                    resultSelected.value.join(", ")
+                );
+            }
+
+            /***/
+        },
+
         /***/ 2905: /***/ function (
             __unused_webpack_module,
             exports,
@@ -28810,7 +29094,7 @@ Filtered results for: ${this.inputValue ? this.inputValue : color.gray("Enter so
                     process.exit(1);
                 }
             };
-            const program = new commander_1.Command("create-next")
+            const program = new commander_1.Command("create-react-template")
                 .version("0.1.0", "-v, --version", "output the current version")
                 .argument("[directory]")
                 .usage("[directory] [options]")
@@ -28941,10 +29225,14 @@ Filtered results for: ${this.inputValue ? this.inputValue : color.gray("Enter so
             }
             function notify() {
                 console.log("cd " + projectPath);
-                console.log("pnpm install");
-                console.log("pnpm dev");
+                console.log(`Package install: \n\n ex) npm install`);
+                console.log(`Application launch: \n\n ex) npm run dev`);
                 console.log();
-                console.log((0, picocolors_1.bold)("Happy hacking!"));
+                console.log(
+                    (0, picocolors_1.bold)(
+                        `${(0, picocolors_1.green)("Happy hacking!")}`
+                    )
+                );
                 process.exit(0);
             }
             function errorExit() {
@@ -28957,7 +29245,7 @@ Filtered results for: ${this.inputValue ? this.inputValue : color.gray("Enter so
             /***/
         },
 
-        /***/ 5583: /***/ function (
+        /***/ 3700: /***/ function (
             __unused_webpack_module,
             exports,
             __nccwpck_require__
@@ -28975,31 +29263,37 @@ Filtered results for: ${this.inputValue ? this.inputValue : color.gray("Enter so
             const path_1 = __importDefault(__nccwpck_require__(6928));
             const result_1 = __nccwpck_require__(6883);
             const promises_1 = __importDefault(__nccwpck_require__(1943));
+            const found_file_1 = __nccwpck_require__(6839);
             async function installTemplate({
                 appName,
                 root,
                 framework,
                 tailwind
             }) {
+                const { isNG, checkPromiseVoid } = result_1.resultUtility;
                 const css = tailwind ? "tailwind" : "vanilla-extract";
                 const copySource = ["**/*"];
-                const templatePath =
-                    "pkg" in process && process.pkg
-                        ? path_1.default.join(
-                              path_1.default.dirname(process.execPath),
-                              "template",
-                              framework,
-                              css
-                          )
-                        : path_1.default.join(
-                              __dirname,
-                              "template",
-                              framework,
-                              css
-                          );
+                const templatePath = [
+                    path_1.default.join(__dirname, "template", framework, css),
+                    path_1.default.join(
+                        __dirname,
+                        "..",
+                        "template",
+                        framework,
+                        css
+                    )
+                ];
+                const resultPath = (0, found_file_1.foundFolder)(templatePath);
+                if (isNG(resultPath)) {
+                    console.error(
+                        "Template folder not found:",
+                        resultPath.err.message
+                    );
+                    process.exit(1);
+                }
                 const res = await (0, copy_1.copy)(copySource, root, {
                     parents: true,
-                    cwd: templatePath,
+                    cwd: resultPath.value,
                     rename: (name) => {
                         switch (name) {
                             case "gitignore":
@@ -29015,46 +29309,161 @@ Filtered results for: ${this.inputValue ? this.inputValue : color.gray("Enter so
                         }
                     }
                 });
-                if (res.kind === result_1.RESULT_NG) {
+                if (isNG(res)) {
                     console.error(res.err.message);
                     process.exit(1);
                 }
-                try {
-                    const pkgPath = path_1.default.join(root, "package.json");
-                    const exists = await promises_1.default
-                        .stat(pkgPath)
-                        .then(() => true)
-                        .catch(() => false);
-                    if (exists) {
-                        const raw = await promises_1.default.readFile(
+                const pkgPath = path_1.default.join(root, "package.json");
+                const exists = await promises_1.default
+                    .stat(pkgPath)
+                    .then(() => true)
+                    .catch(() => false);
+                if (!exists) return;
+                const raw = await promises_1.default.readFile(pkgPath, "utf8");
+                const pkg = JSON.parse(raw || "{}");
+                if (!appName || typeof appName !== "string") return;
+                pkg.name = appName;
+                const writeResult = await checkPromiseVoid({
+                    fn: async () => {
+                        await promises_1.default.writeFile(
                             pkgPath,
+                            JSON.stringify(pkg, null, 2) + "\n",
                             "utf8"
                         );
-                        const pkg = JSON.parse(raw || "{}");
-                        if (appName && typeof appName === "string") {
-                            pkg.name = appName;
-                            await promises_1.default.writeFile(
-                                pkgPath,
-                                JSON.stringify(pkg, null, 2) + "\n",
-                                "utf8"
-                            );
-                        }
-                    }
-                } catch (err) {
-                    if (err instanceof Error) {
-                        console.error(
-                            "Failed to update package.json name:",
-                            err?.message ?? err
-                        );
-                    } else {
-                        console.error(
-                            "Failed to update package.json name:",
-                            err
-                        );
-                    }
+                    },
+                    err: () => new Error(`Failed to update package.json name`)
+                });
+                if (isNG(writeResult)) {
+                    console.error(
+                        "Failed to update package.json name:",
+                        writeResult.err.message
+                    );
                     process.exit(1);
                 }
             }
+
+            /***/
+        },
+
+        /***/ 3236: /***/ (__unused_webpack_module, exports) => {
+            "use strict";
+
+            Object.defineProperty(exports, "__esModule", { value: true });
+            exports.librarySetting = exports.libsArray = void 0;
+            const frameworks = /* unused pure expression or super */ null && [
+                "tanstack-router",
+                "next/app",
+                "next/pages"
+            ];
+            exports.libsArray = ["popup"];
+            exports.librarySetting = [
+                {
+                    lib: "popup",
+                    unitTest: false,
+                    storybook: true
+                }
+            ];
+
+            /***/
+        },
+
+        /***/ 6839: /***/ function (
+            __unused_webpack_module,
+            exports,
+            __nccwpck_require__
+        ) {
+            "use strict";
+
+            var __importDefault =
+                (this && this.__importDefault) ||
+                function (mod) {
+                    return mod && mod.__esModule ? mod : { default: mod };
+                };
+            Object.defineProperty(exports, "__esModule", { value: true });
+            exports.foundFolder = foundFolder;
+            const node_fs_1 = __importDefault(__nccwpck_require__(3024));
+            const result_1 = __nccwpck_require__(6883);
+            function foundFolder(paths) {
+                const { createNg, createOk } = result_1.resultUtility;
+                for (const p of paths) {
+                    if (node_fs_1.default.existsSync(p)) {
+                        return createOk(p);
+                    }
+                }
+                return createNg(
+                    new Error(`Not found folder: ${paths.join(", ")}`)
+                );
+            }
+
+            /***/
+        },
+
+        /***/ 8014: /***/ (__unused_webpack_module, exports) => {
+            "use strict";
+
+            Object.defineProperty(exports, "__esModule", { value: true });
+            exports.isNull = isNull;
+            exports.isUndefined = isUndefined;
+            function isNull(value) {
+                return value === null;
+            }
+            function isUndefined(value) {
+                return value === undefined;
+            }
+
+            /***/
+        },
+
+        /***/ 1479: /***/ (
+            __unused_webpack_module,
+            exports,
+            __nccwpck_require__
+        ) => {
+            "use strict";
+
+            Object.defineProperty(exports, "__esModule", { value: true });
+            exports.optionUtility = void 0;
+            const is_1 = __nccwpck_require__(8014);
+            const basic = {
+                OPTION_SOME: "some",
+                OPTION_NONE: "none"
+            };
+            exports.optionUtility = (function () {
+                const { OPTION_SOME, OPTION_NONE } = basic;
+                const createSome = (value) => {
+                    return Object.freeze({
+                        kind: OPTION_SOME,
+                        value
+                    });
+                };
+                const createNone = () => {
+                    return Object.freeze({
+                        kind: OPTION_NONE
+                    });
+                };
+                const optionConversion = (value) => {
+                    if (
+                        (0, is_1.isNull)(value) ||
+                        (0, is_1.isUndefined)(value)
+                    ) {
+                        return createNone();
+                    }
+                    return createSome(value);
+                };
+                const isSome = (opt) => {
+                    return opt.kind === OPTION_SOME;
+                };
+                const isNone = (opt) => {
+                    return opt.kind === OPTION_NONE;
+                };
+                return Object.freeze({
+                    createSome,
+                    createNone,
+                    isSome,
+                    isNone,
+                    optionConversion
+                });
+            })();
 
             /***/
         },
@@ -29063,26 +29472,79 @@ Filtered results for: ${this.inputValue ? this.inputValue : color.gray("Enter so
             "use strict";
 
             Object.defineProperty(exports, "__esModule", { value: true });
-            exports.createResult =
-                exports.RESULT_NG =
-                exports.RESULT_OK =
-                    void 0;
-            exports.RESULT_OK = "ok";
-            exports.RESULT_NG = "ng";
-            exports.createResult = {
-                ok: (value) => {
-                    return {
-                        kind: exports.RESULT_OK,
-                        value
-                    };
-                },
-                ng: (err) => {
-                    return {
-                        kind: exports.RESULT_NG,
-                        err
-                    };
-                }
+            exports.resultUtility = void 0;
+            const basic = {
+                RESULT_OK: "ok",
+                RESULT_NG: "ng"
             };
+            const UNIT_SYMBOL = Symbol("UNIT_SYMBOL");
+            exports.resultUtility = (function () {
+                const { RESULT_NG, RESULT_OK } = basic;
+                const UNIT = Object.freeze({
+                    _unit: UNIT_SYMBOL
+                });
+                const checkPromiseReturn = async ({ fn, err }) => {
+                    try {
+                        const result = await fn();
+                        return createOk(result);
+                    } catch (e) {
+                        return createNg(err(e));
+                    }
+                };
+                const checkPromiseVoid = async ({ fn, err }) => {
+                    try {
+                        await fn();
+                        return createOk(UNIT);
+                    } catch (e) {
+                        return createNg(err(e));
+                    }
+                };
+                const checkResultReturn = ({ fn, err }) => {
+                    try {
+                        const result = fn();
+                        return createOk(result);
+                    } catch (e) {
+                        return createNg(err(e));
+                    }
+                };
+                const checkResultVoid = ({ fn, err }) => {
+                    try {
+                        fn();
+                        return createOk(UNIT);
+                    } catch (e) {
+                        return createNg(err(e));
+                    }
+                };
+                const isOK = (res) => {
+                    return res.kind === RESULT_OK;
+                };
+                const isNG = (res) => {
+                    return res.kind === RESULT_NG;
+                };
+                const createOk = (value) => {
+                    return Object.freeze({
+                        kind: RESULT_OK,
+                        value
+                    });
+                };
+                const createNg = (err) => {
+                    return Object.freeze({
+                        kind: RESULT_NG,
+                        err
+                    });
+                };
+                return Object.freeze({
+                    UNIT,
+                    checkResultReturn,
+                    checkResultVoid,
+                    checkPromiseReturn,
+                    checkPromiseVoid,
+                    isOK,
+                    isNG,
+                    createOk,
+                    createNg
+                });
+            })();
 
             /***/
         },

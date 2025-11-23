@@ -10,6 +10,7 @@ export function parseApi(
 ): Result<Option<Array<APIView>>, FetcherError> {
     const { createOk } = resultUtility;
     const { createNone, createSome } = optionUtility;
+
     const filterList: Array<APIView> = api
         .filter((item) => item.image !== "")
         .map((item) => {

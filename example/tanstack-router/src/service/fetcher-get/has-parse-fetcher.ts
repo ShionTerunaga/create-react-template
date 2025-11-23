@@ -1,8 +1,8 @@
 import { core, ZodType } from 'zod'
-import { type Option } from '../../utils/option'
-import { HttpError } from '../../utils/error/http/http'
+import { optionUtility, type Option } from '../../utils/option'
 import { resultUtility, type Result } from '../../utils/result'
 import { fetcher } from './fetcher'
+import type { FetcherError } from '@/utils/error/fetcher'
 
 export async function hasParseFetcher<T extends ZodType, S>({
   url,
@@ -13,9 +13,10 @@ export async function hasParseFetcher<T extends ZodType, S>({
   url: Option<string>
   scheme: T
   cache?: RequestCache
-  parse: (scheme: core.output<T>) => Result<S, HttpError>
-}): Promise<Result<S, HttpError>> {
-  const { isNG } = resultUtility
+  parse: (scheme: core.output<T>) => Result<Option<S>, FetcherError>
+}): Promise<Result<Option<S>, FetcherError>> {
+  const { isNG, createOk } = resultUtility
+  const { isNone, createNone } = optionUtility
 
   const fetcherResult = await fetcher<T>({
     url,
@@ -27,5 +28,9 @@ export async function hasParseFetcher<T extends ZodType, S>({
     return fetcherResult
   }
 
-  return parse(fetcherResult.value)
+  if (isNone(fetcherResult.value)) {
+    return createOk(createNone())
+  }
+
+  return parse(fetcherResult.value.value)
 }

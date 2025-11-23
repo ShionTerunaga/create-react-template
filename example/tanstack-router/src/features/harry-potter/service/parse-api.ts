@@ -1,11 +1,13 @@
 import type { Result } from '@/utils/result'
 import type { APIRes } from '../model/model-res'
 import type { APIView } from '../model/model-view'
-import { optionUtility } from '@/utils/option'
+import { optionUtility, type Option } from '@/utils/option'
 import { resultUtility } from '@/utils/result'
 import type { HttpError } from '@/utils/error/http/http'
 
-export function parseApi(api: APIRes): Result<Array<APIView>, HttpError> {
+export function parseApi(
+  api: APIRes,
+): Result<Option<Array<APIView>>, HttpError> {
   const { createNone, createSome } = optionUtility
   const { createOk } = resultUtility
 
@@ -39,5 +41,5 @@ export function parseApi(api: APIRes): Result<Array<APIView>, HttpError> {
       return value
     })
 
-  return createOk(filterList)
+  return createOk(createSome(filterList))
 }

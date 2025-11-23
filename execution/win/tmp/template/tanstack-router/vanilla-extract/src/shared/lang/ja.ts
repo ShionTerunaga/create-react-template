@@ -1,12 +1,12 @@
 export const ja = {
-  app: {
-    home: {
-      title: 'こんにちは、tanstack-router！',
-      toSingleDynamicPotter: '動的データ収集へ',
+    app: {
+        home: {
+            title: 'こんにちは、tanstack-router！',
+            toSingleDynamicPotter: '動的データ収集へ',
+        },
+        singleDynamicPotter: {
+            title: '動的なデータ収集',
+        },
     },
-    singleDynamicPotter: {
-      title: '動的なデータ収集',
-    },
-  },
-  features: {},
+    features: {},
 }

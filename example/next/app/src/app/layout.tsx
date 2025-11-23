@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { PopupProvider } from "@/lib/popup";
-import { PopupBase } from "@/components/layout";
+import { PopupLayout } from "@/components/layout";
+import { GlobalPopup } from "@/components/layout/popup/popup-base/popup-base";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -27,9 +27,10 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={`${geistSans.variable} ${geistMono.variable}`}>
-                <PopupProvider layoutPopup={<PopupBase />}>
-                    {children}
-                </PopupProvider>
+                {children}
+                <GlobalPopup>
+                    <PopupLayout />
+                </GlobalPopup>
             </body>
         </html>
     );

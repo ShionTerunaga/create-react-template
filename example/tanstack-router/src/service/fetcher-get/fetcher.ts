@@ -1,8 +1,8 @@
 import { core, ZodType } from 'zod'
-import { type Option, optionUtility } from '../../utils/option'
-import { type Result, resultUtility } from '../../utils/result'
-import { createHttpError, HttpError } from '../../utils/error/http/http'
-import { createHttpScheme } from '../../utils/error/http/http-scheme'
+import { type Option, optionUtility } from '@/utils/option'
+import { type Result, resultUtility } from '@/utils/result'
+import { type FetcherError, createFetcherError } from '@/utils/error/fetcher'
+import { httpClient } from '@/lib/http-client'
 
 export async function fetcher<T extends ZodType>({
   url,
@@ -11,49 +11,29 @@ export async function fetcher<T extends ZodType>({
   url: Option<string>
   scheme: T
   cache?: RequestCache
-}): Promise<Result<core.output<T>, HttpError>> {
-  const httpErrorScheme = createHttpScheme
-  const createError = createHttpError
+}): Promise<Result<Option<core.output<T>>, FetcherError>> {
+  const { returnNotSetApiUrl, returnFetchFunctionError, returnSchemeError } =
+    createFetcherError
 
   const { isNone } = optionUtility
-  const { createNg, createOk } = resultUtility
+  const { createNg } = resultUtility
 
   if (isNone(url)) {
-    return createNg(createError.notFoundAPIUrl())
+    return createNg(returnNotSetApiUrl)
   }
 
-  const res = await fetch(url.value)
+  const client = httpClient<FetcherError>({
+    baseUrl: url.value,
+    urlSettingErrorHandler: returnNotSetApiUrl,
+    fetchErrorHandler: () => createNg(returnFetchFunctionError),
+    unknownError: returnFetchFunctionError,
+  })
 
-  if (!res.ok) {
-    const status = res.status
+  const res = await client.get({
+    endpoint: '',
+    scheme,
+    schemaErrorHandler: () => createNg(returnSchemeError),
+  })
 
-    switch (status) {
-      case httpErrorScheme.httpErrorStatusResponse.notFound:
-        return createNg(createError.returnNotFoundAPIUrl())
-      case httpErrorScheme.httpErrorStatusResponse.forbidden:
-        return createNg(createError.returnNoPermission())
-      case httpErrorScheme.httpErrorStatusResponse.badRequest:
-        return createNg(createError.returnBadRequest())
-      case httpErrorScheme.httpErrorStatusResponse.internalServerError:
-        return createNg(createError.returnInternalServerError())
-      default:
-        return createNg(createError.unknownError())
-    }
-  }
-
-  const resValue = await res.json()
-
-  const judgeType = scheme.safeParse(resValue)
-
-  if (judgeType.error !== undefined) {
-    return createNg(createError.schemeError())
-  }
-
-  const okValue = judgeType.data
-
-  if (okValue === undefined || okValue === null) {
-    return createNg(createError.responseError())
-  }
-
-  return createOk(okValue)
+  return res
 }
