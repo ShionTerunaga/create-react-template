@@ -4,7 +4,8 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "vitest run"
+        "test": "vitest run",
+        "lint": "eslint \"./**/*.{ts,tsx,js,jsx}\" --ext .ts,.tsx,.js,.jsx"
     },
     "keywords": [],
     "author": "",
@@ -16,6 +17,9 @@
         "vitest": "^4.0.8"
     },
     "devDependencies": {
-        "jsdom": "^27.1.0"
+        "jsdom": "^27.1.0",
+        "eslint": "^8.45.0",
+        "@typescript-eslint/parser": "^6.8.0",
+        "@typescript-eslint/eslint-plugin": "^6.8.0"
     }
 }
