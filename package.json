@@ -9,15 +9,14 @@
         "cp:template": "cd scripts/copy/template && npx tsx copy-template-main.ts",
         "cp:win-upgrade": "tsx scripts/copy/upgrade/copy-build-upgrade-win.ts",
         "cp:mac-upgrade": "tsx scripts/copy/upgrade/copy-build-upgrade-mac.ts",
-        "build:tmp": "npx @vercel/ncc build ./packages/create-template/index.ts -o ./dist/react-tmp && cd scripts/write && tsx write-shell-template.ts",
+        "build:tmp": "npx @vercel/ncc build ./packages/create-template/index.ts -o ./dist/react-tmp && cd scripts/write && tsx tmp-write.ts",
         "cp:cli-mac": "tsx scripts/copy/build/copy-build-tmp-mac.ts",
         "cp:cli-win": "tsx scripts/copy/build/copy-build-tmp-win.ts",
         "generate-csstype": "tsx ./scripts/css/generate-css-type.ts",
         "create:env": "cd scripts/create-env && npx tsx create-env.ts",
+        "test:dev": "cd test-dev && pnpm test:all",
         "lib:storybook": "cd packages/lib && pnpm storybook"
     },
-    "keywords": [],
-    "author": "",
     "pkg": {
         "assets": [
             "dist/template/**/*"

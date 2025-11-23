@@ -6,7 +6,8 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "storybook": "storybook dev -p 6006",
-        "build-storybook": "storybook build"
+        "build-storybook": "storybook build",
+        "lint": "eslint \"./**/*.{ts,tsx,js,jsx}\" --ext .ts,.tsx,.js,.jsx"
     },
     "keywords": [],
     "author": "",
@@ -15,7 +16,10 @@
     "devDependencies": {
         "@storybook/react-vite": "^10.0.6",
         "storybook": "^10.0.6",
-        "vite-tsconfig-paths": "^5.1.4"
+        "vite-tsconfig-paths": "^5.1.4",
+        "eslint": "^8.45.0",
+        "@typescript-eslint/parser": "^6.8.0",
+        "@typescript-eslint/eslint-plugin": "^6.8.0"
     },
     "dependencies": {
         "@storybook/react": "^10.0.6",

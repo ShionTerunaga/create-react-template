@@ -1,5 +1,5 @@
-import { createHttpScheme, HttpCustomStatus } from "./http-scheme";
-import { CustomError } from "../core/core-error";
+import { createHttpScheme, type HttpCustomStatus } from "./http-scheme";
+import type { CustomError } from "../core/core-error";
 
 export interface HttpError extends CustomError {
     status: HttpCustomStatus;

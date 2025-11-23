@@ -42,15 +42,15 @@ export type BoxBorderRadius = keyof typeof boxVariants.boxBorderRadiusStyle
  * @property {string} [className] - Additional class names for the box.
  */
 interface BoxStyle {
-  as?: Extract<ElementType, 'div' | 'section' | 'article' | 'main'>
-  width?: BoxWidth
-  height?: BoxHeight
-  boxShadow?: BoxShadow
-  color?: BoxColor
-  border?: BoxBorder
-  borderRadius?: BoxBorderRadius
-  style?: React.CSSProperties
-  className?: string
+    as?: Extract<ElementType, 'div' | 'section' | 'article' | 'main'>
+    width?: BoxWidth
+    height?: BoxHeight
+    boxShadow?: BoxShadow
+    color?: BoxColor
+    border?: BoxBorder
+    borderRadius?: BoxBorderRadius
+    style?: React.CSSProperties
+    className?: string
 }
 
 interface BoxProps extends BoxStyle, ChildrenOnly {}
@@ -61,36 +61,36 @@ interface BoxProps extends BoxStyle, ChildrenOnly {}
  * @returns - A JSX element representing the Box component
  */
 export function Box<T extends BoxProps>(
-  props: CheckerProps<T, BoxProps, 'Box Props Error'>,
+    props: CheckerProps<T, BoxProps, 'Box Props Error'>,
 ) {
-  const {
-    as = 'div',
-    width = 'auto',
-    height = 'auto',
-    boxShadow = 'none',
-    color = 'white',
-    border = 'none',
-    borderRadius = 'none',
-    className = '',
-    style,
-    children,
-  } = props
+    const {
+        as = 'div',
+        width = 'auto',
+        height = 'auto',
+        boxShadow = 'none',
+        color = 'white',
+        border = 'none',
+        borderRadius = 'none',
+        className = '',
+        style,
+        children,
+    } = props
 
-  const cn = classMerger([
-    boxVariants.boxWidthStyle[width],
-    boxVariants.boxHeightStyle[height],
-    boxVariants.boxShadowStyle[boxShadow],
-    boxVariants.colorStyle[color],
-    boxVariants.border[border],
-    boxVariants.boxBorderRadiusStyle[borderRadius],
-    className,
-  ])
+    const cn = classMerger([
+        boxVariants.boxWidthStyle[width],
+        boxVariants.boxHeightStyle[height],
+        boxVariants.boxShadowStyle[boxShadow],
+        boxVariants.colorStyle[color],
+        boxVariants.border[border],
+        boxVariants.boxBorderRadiusStyle[borderRadius],
+        className,
+    ])
 
-  const As = as
+    const As = as
 
-  return (
-    <As className={cn} style={style}>
-      {children}
-    </As>
-  )
+    return (
+        <As className={cn} style={style}>
+            {children}
+        </As>
+    )
 }
