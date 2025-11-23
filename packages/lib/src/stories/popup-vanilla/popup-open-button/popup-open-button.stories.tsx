@@ -11,12 +11,10 @@ export default {
 const ExamplePopupContent = () => (
     <PopupOpenButton
         popupChildren={
-            (
-                <PopupSampleLayout>
-                    Popup content
-                    <PopupCloseButton>Close</PopupCloseButton>
-                </PopupSampleLayout>
-            ) as any
+            <PopupSampleLayout>
+                Popup content
+                <PopupCloseButton>Close</PopupCloseButton>
+            </PopupSampleLayout>
         }
     >
         Open Popup
