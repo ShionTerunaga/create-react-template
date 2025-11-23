@@ -63,8 +63,6 @@ export async function addPackage({
 
     const selectedPackages = optionSelected.value;
 
-    console.log("Selected packages:", selectedPackages);
-
     const resultSelected = isLibsArray(selectedPackages)
         ? createOk(selectedPackages)
         : isLib(selectedPackages)
@@ -79,8 +77,8 @@ export async function addPackage({
     }
 
     const appPath = path.join(root, "src", "lib");
-    const testPath = path.join(root, "src", "__test__");
-    const storybookPath = path.join(root, "src", "stories");
+    const testPath = path.join(root, "src", "__test__", "lib");
+    const storybookPath = path.join(root, "src", "stories", "lib");
 
     const copySource = ["**/*"];
 

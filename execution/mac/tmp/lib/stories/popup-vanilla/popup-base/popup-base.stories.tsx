@@ -1,7 +1,5 @@
-import * as React from "react";
 import { PopupBase } from "./popup-base";
-import { popupStore } from "@/lib/popup/store";
-import { usePopup } from "@/lib/popup";
+import { popupAction } from "@/lib/popup/popup.action";
 
 export default {
     title: "Popup/Vanilla/PopupBase",
@@ -9,16 +7,25 @@ export default {
 };
 
 export function ButtonToOpenPopup() {
-    const popup = usePopup();
+    const { close, open } = popupAction;
 
     return (
         <button
             onClick={() =>
-                popup.open(
+                open(
                     <div style={{ padding: 16, backgroundColor: "white" }}>
                         Story popup content
                         <br />
-                        <button onClick={() => popup.close()}>Close</button>
+                        <button
+                            style={{
+                                backgroundColor: "red",
+                                color: "white",
+                                borderRadius: 4
+                            }}
+                            onClick={() => close()}
+                        >
+                            Close
+                        </button>
                     </div>
                 )
             }

@@ -1,4 +1,3 @@
-import * as React from "react";
 import type { ChildrenOnly } from "@/shared/types/react";
 import "../style.css";
 

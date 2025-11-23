@@ -14,10 +14,9 @@
         "cp:cli-win": "tsx scripts/copy/build/copy-build-tmp-win.ts",
         "generate-csstype": "tsx ./scripts/css/generate-css-type.ts",
         "create:env": "cd scripts/create-env && npx tsx create-env.ts",
+        "test:all": "cd test && pnpm test:all",
         "lib:storybook": "cd packages/lib && pnpm storybook"
     },
-    "keywords": [],
-    "author": "",
     "pkg": {
         "assets": [
             "dist/template/**/*"
