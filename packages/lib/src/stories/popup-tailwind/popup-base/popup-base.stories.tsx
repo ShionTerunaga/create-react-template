@@ -1,4 +1,3 @@
-import * as React from "react";
 import { PopupBase } from "./popup-base";
 import { popupStore } from "@/lib/popup/store";
 

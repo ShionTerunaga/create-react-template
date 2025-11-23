@@ -346,6 +346,14 @@ function main() {
 
     const srcLibDir = path.join(root, "packages", "lib", "src", "lib");
 
+    const destLibDev = path.join(
+        root,
+        "packages",
+        "create-template",
+        "lib",
+        "lib"
+    );
+
     const destLibMacPack = path.join(
         root,
         "execution",
@@ -364,10 +372,19 @@ function main() {
         "lib"
     );
 
+    run(srcLibDir, destLibDev);
     run(srcLibDir, destLibMacPack);
     run(srcLibDir, destLibWinPack);
 
     const srcStoriesDir = path.join(root, "packages", "lib", "src", "stories");
+
+    const destStoriesDev = path.join(
+        root,
+        "packages",
+        "create-template",
+        "lib",
+        "stories"
+    );
 
     const destStoriesMacPack = path.join(
         root,
@@ -387,10 +404,19 @@ function main() {
         "stories"
     );
 
+    run(srcStoriesDir, destStoriesDev);
     run(srcStoriesDir, destStoriesMacPack);
     run(srcStoriesDir, destStoriesWinPack);
 
     const srcTestDir = path.join(root, "packages", "lib", "src", "__test__");
+
+    const destTestDev = path.join(
+        root,
+        "packages",
+        "create-template",
+        "lib",
+        "__test__"
+    );
 
     const destTestMacPack = path.join(
         root,
@@ -410,6 +436,7 @@ function main() {
         "__test__"
     );
 
+    run(srcTestDir, destTestDev);
     run(srcTestDir, destTestMacPack);
     run(srcTestDir, destTestWinPack);
 }

@@ -1,4 +1,3 @@
-import * as React from "react";
 import popupLayoutStyles from "./popup-layout.css";
 import type { ChildrenOnly } from "@/shared/types/react";
 

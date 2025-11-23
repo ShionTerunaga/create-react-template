@@ -1,4 +1,3 @@
-import * as React from "react";
 import { PopupOpenButton } from "./popup-open-button";
 import { PopupSampleLayout } from "../popup-layout/popup-layout";
 import { PopupCloseButton } from "../popup-close-button/popup-close-button";
@@ -12,10 +11,12 @@ export default {
 const ExamplePopupContent = () => (
     <PopupOpenButton
         popupChildren={
-            <PopupSampleLayout>
-                Popup content
-                <PopupCloseButton>Close</PopupCloseButton>
-            </PopupSampleLayout>
+            (
+                <PopupSampleLayout>
+                    Popup content
+                    <PopupCloseButton>Close</PopupCloseButton>
+                </PopupSampleLayout>
+            ) as any
         }
     >
         Open Popup

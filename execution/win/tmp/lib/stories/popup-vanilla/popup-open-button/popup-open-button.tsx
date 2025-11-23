@@ -1,10 +1,9 @@
 "use client";
 
-import * as React from "react";
-import { usePopup } from "@/lib/popup/index";
 import type { CheckerProps } from "@/shared/types/object";
 import { omitElementObject } from "@/utils/object";
 import type { ButtonHTMLAttributes, DetailedHTMLProps, ReactNode } from "react";
+import { popupAction } from "@/lib/popup/popup.action";
 
 type ButtonProps = Omit<
     DetailedHTMLProps<
@@ -26,7 +25,7 @@ export function PopupOpenButton<T extends ButtonProps>(
     const { popupChildren } = props;
     const buttonProps = omitElementObject(props, ["popupChildren"]);
 
-    const { open } = usePopup();
+    const { open } = popupAction;
 
     return <button {...buttonProps} onClick={() => open(popupChildren)} />;
 }

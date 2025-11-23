@@ -13,8 +13,6 @@ export function usePopup() {
     const state = useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
 
     return {
-        ...state,
-        open: popupStore.open,
-        close: popupStore.close
+        ...state
     } as const;
 }
