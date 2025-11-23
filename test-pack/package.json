@@ -1,0 +1,12 @@
+{
+    "scripts": {
+        "test:next-app-mac": "rm -rf next-app-mac && node ../execution/mac/tmp/index.js -n next-app-mac -f next/app  && cd next-app-mac && pnpm i && pnpm build && pnpm test",
+        "test:next-app-win": "rm -rf next-app-win && node ../execution/win/tmp/index.js -n next-app-win -f next/app  && cd next-app-win && pnpm i && pnpm build && pnpm test",
+        "test:next-pages-mac": "rm -rf next-pages-mac && node ../execution/mac/tmp/index.js -n next-pages-mac -f next/pages  && cd next-pages-mac && pnpm i && pnpm build && pnpm test",
+        "test:next-pages-win": "rm -rf next-pages-win && node ../execution/win/tmp/index.js -n next-pages-win -f next/pages  && cd next-pages-win && pnpm i && pnpm build && pnpm test",
+        "test:tanstack-mac": "rm -rf tanstack-mac && node ../execution/mac/tmp/index.js -n tanstack-mac -f tanstack-router  && cd tanstack-mac && pnpm i && pnpm build && pnpm test",
+        "test:tanstack-win": "rm -rf tanstack-win && node ../execution/win/tmp/index.js -n tanstack-win -f tanstack-router  && cd tanstack-win && pnpm i && pnpm build && pnpm test",
+        "test:all": "pnpm test:next-app-mac && pnpm test:next-app-win && pnpm test:next-pages-mac && pnpm test:next-pages-win && pnpm test:tanstack-mac && pnpm test:tanstack-win"
+    },
+    "packageManager": "pnpm@10.12.2"
+}
