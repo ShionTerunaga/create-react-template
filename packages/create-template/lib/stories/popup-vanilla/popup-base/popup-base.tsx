@@ -3,15 +3,20 @@
 import { usePopup } from "@/lib/popup";
 import { AnimatePresence, motion } from "motion/react";
 import popupBaseStyles from "./popup-base.css";
+import { popupAction } from "@/lib/popup/popup.action";
 
 export function PopupBase() {
     const popup = usePopup();
+    const { close } = popupAction;
 
     return (
         <AnimatePresence>
             {popup.isOpen && (
                 <>
-                    <div className={popupBaseStyles.background} />
+                    <div
+                        className={popupBaseStyles.background}
+                        onClick={() => close()}
+                    />
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}

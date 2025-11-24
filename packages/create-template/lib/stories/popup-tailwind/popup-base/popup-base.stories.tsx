@@ -14,12 +14,16 @@ export const Default = () => (
                     <div className="p-4 bg-white">
                         Story popup content
                         <br />
-                        <button onClick={() => popupStore.close()}>
+                        <button
+                            onClick={() => popupStore.close()}
+                            className="px-4 py-2 bg-red-500 text-white rounded"
+                        >
                             Close
                         </button>
                     </div>
                 )
             }
+            className="px-4 py-2 bg-blue-500 text-white rounded"
         >
             Open Popup
         </button>
