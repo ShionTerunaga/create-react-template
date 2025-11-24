@@ -3,15 +3,21 @@
 import { usePopup } from "@/lib/popup";
 import { AnimatePresence, motion } from "motion/react";
 import "../style.css";
+import { popupAction } from "@/lib/popup/popup.action";
 
 export function PopupBase() {
     const popup = usePopup();
+
+    const { close } = popupAction;
 
     return (
         <AnimatePresence>
             {popup.isOpen && (
                 <>
-                    <div className="fixed inset-0 bg-black/50 z-40" />
+                    <div
+                        className="fixed inset-0 bg-black/50 z-40"
+                        onClick={() => close()}
+                    />
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
