@@ -1,3 +1,4 @@
+import { PopupOpenButton } from "../popup-open-button/popup-open-button";
 import { PopupBase } from "./popup-base";
 import { popupAction } from "@/lib/popup/popup.action";
 
@@ -10,28 +11,36 @@ export function ButtonToOpenPopup() {
     const { close, open } = popupAction;
 
     return (
-        <button
-            onClick={() =>
-                open(
-                    <div style={{ padding: 16, backgroundColor: "white" }}>
-                        Story popup content
-                        <br />
-                        <button
-                            style={{
-                                backgroundColor: "red",
-                                color: "white",
-                                borderRadius: 4
-                            }}
-                            onClick={() => close()}
-                        >
-                            Close
-                        </button>
-                    </div>
-                )
+        <PopupOpenButton
+            popupChildren={
+                <div style={{ padding: 16, backgroundColor: "white" }}>
+                    Story popup content
+                    <br />
+                    <button
+                        style={{
+                            backgroundColor: "red",
+                            color: "white",
+                            borderRadius: 4,
+                            padding: "8px 16px"
+                        }}
+                        onClick={() => close()}
+                    >
+                        Close
+                    </button>
+                </div>
             }
+            style={{
+                padding: "8px 16px",
+                backgroundColor: "#3b82f6",
+                color: "white",
+                borderRadius: 4,
+                cursor: "pointer",
+                border: "none",
+                fontSize: 14
+            }}
         >
             Open Popup
-        </button>
+        </PopupOpenButton>
     );
 }
 
