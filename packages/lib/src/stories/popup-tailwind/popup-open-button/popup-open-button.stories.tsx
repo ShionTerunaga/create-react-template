@@ -10,7 +10,8 @@ export default {
 export const Default = () => (
     <>
         <PopupOpenButton
-            popupChildren={<div className="p-4 bg-red">Hello popup</div>}
+            popupChildren={<div className="p-4 w-64">Hello popup</div>}
+            className="px-4 py-2 bg-blue-500 text-white rounded"
         >
             Open Popup
         </PopupOpenButton>
