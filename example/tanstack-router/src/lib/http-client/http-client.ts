@@ -1,4 +1,4 @@
-import { fetcher } from './fetcher-get'
+import { fetcher } from './fetcher-core'
 import { resultUtility, type Result } from '@/utils/result'
 import type { core, ZodError, ZodType } from 'zod'
 import type { Dict } from '@/shared/types/object'
