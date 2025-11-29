@@ -2,14 +2,20 @@ import { core, ZodError, ZodType } from 'zod'
 import { type Option, optionUtility } from '@/utils/option'
 import { type Result, resultUtility } from '@/utils/result'
 
-import type { OnceError, RetryValue } from './fetcher'
+import type { OnceError, RetryValue } from './http-client'
 import type { Dict } from '@/shared/types/object'
+import { fetcherCollection } from './fetcher-collection'
+
+const method = ['GET', 'POST'] as const
+
+type HttpMethod = (typeof method)[number]
 
 export async function fetcher<T extends ZodType, E>({
   url,
   scheme,
   cache,
   headers,
+  method = 'GET',
   fetchErrorHandler,
   schemaErrorHandler,
   maxRetry,
@@ -18,6 +24,7 @@ export async function fetcher<T extends ZodType, E>({
   unknownError,
 }: {
   url: string
+  method?: HttpMethod
   scheme: T
   cache?: RequestCache
   headers?: Dict<string>
@@ -31,12 +38,27 @@ export async function fetcher<T extends ZodType, E>({
   unknownError: NonNullable<E>
 }): Promise<Result<Option<core.output<T>>, NonNullable<E>>> {
   const { isSome, createNone, createSome, optionConversion } = optionUtility
-  const { isNG, checkPromiseReturn, createOk, createNg } = resultUtility
+  const { isNG, createOk, createNg } = resultUtility
+  const { get, post } = fetcherCollection
 
-  const responseResult = await checkPromiseReturn<Response, NonNullable<E>>({
-    fn: async () => await fetch(url, { cache, headers }),
-    err: fetchErrorHandler,
-  })
+  const responseResult = await (async () => {
+    switch (method) {
+      case 'GET':
+        return await get<NonNullable<E>>({
+          url,
+          cache,
+          headers,
+          fetchErrorHandler,
+        })
+      case 'POST':
+        return await post<NonNullable<E>>({
+          url,
+          headers,
+          body: createNone(),
+          fetchErrorHandler,
+        })
+    }
+  })()
 
   if (isNG(responseResult)) {
     return responseResult
