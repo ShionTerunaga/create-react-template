@@ -59,7 +59,7 @@ export async function fetcher<T extends ZodType, E>({
       ),
     )
 
-    if (maxRetry === 0 && isSome(retryMatched)) {
+    if (maxRetry - 1 < 0 && isSome(retryMatched)) {
       return createNg(retryMatched.value.error)
     }
 
