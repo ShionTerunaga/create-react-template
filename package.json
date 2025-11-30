@@ -15,7 +15,9 @@
         "generate-csstype": "tsx ./scripts/css/generate-css-type.ts",
         "create:env": "cd scripts/create-env && npx tsx create-env.ts",
         "test:dev": "cd test-dev && pnpm test:all",
-        "lib:storybook": "cd packages/lib && pnpm storybook"
+        "test:pack": "cd test-pack && pnpm test:all",
+        "lib:storybook": "cd packages/lib && pnpm storybook",
+        "lib:test": "cd packages/lib && pnpm test"
     },
     "pkg": {
         "assets": [

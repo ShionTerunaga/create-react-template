@@ -8,7 +8,7 @@ export default {
 };
 
 export function ButtonToOpenPopup() {
-    const { close, open } = popupAction;
+    const { close } = popupAction;
 
     return (
         <PopupOpenButton

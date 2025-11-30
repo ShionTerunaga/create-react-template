@@ -1,18 +1,24 @@
 import { describe, it, expect, vi } from "vitest";
-import { popupStore } from "../../lib/popup/store";
+import { popupStore } from "@/lib/popup/store";
 
 describe("popupStore", () => {
     it("starts closed", () => {
         const s = popupStore.getSnapshot();
-        expect(s.isOpen).toBe(false);
+        expect(s.isOpen).toBeFalsy();
     });
 
     it("open sets isOpen true and stores children", () => {
         popupStore.open("hello");
+
         const s = popupStore.getSnapshot();
-        expect(s.isOpen).toBe(true);
-        // @ts-ignore
-        expect((s as any).children).toBe("hello");
+
+        expect(s.isOpen).toBeTruthy();
+
+        if (!s.isOpen) {
+            throw new Error("Popup should be open");
+        }
+
+        expect(s.children).toBe("hello");
         popupStore.close();
     });
 
