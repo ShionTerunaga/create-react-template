@@ -54,9 +54,6 @@ importers:
         specifier: ^4.1.12
         version: 4.1.12
     devDependencies:
-      '@storybook/addon-styling-webpack':
-        specifier: ^2.0.0
-        version: 2.0.0(storybook@10.0.1(@testing-library/dom@10.4.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(vite@7.1.12(@types/node@20.19.24)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.0)))(webpack@5.102.1)
       '@tailwindcss/postcss':
         specifier: ^4
         version: 4.1.16
@@ -1324,12 +1321,6 @@ packages:
 
   '@standard-schema/spec@1.0.0':
     resolution: {integrity: sha512-m2bOd0f2RT9k8QJx1JN85cZYyH1RqFBdlwtkSlf4tBDYLCiiZnv1fIIwacK6cqwXavOydf0NPToMQgpKq+dVlA==}
-
-  '@storybook/addon-styling-webpack@2.0.0':
-    resolution: {integrity: sha512-N8jWhWnk3/nbL4P9zl0OEV/47P0Cxn/kPzSHjdAClyDYnqj9jI6upeLsraZgIV9Ro3QSeqeIloeXb1zMasWpOw==}
-    peerDependencies:
-      storybook: ^9.0.0
-      webpack: ^5.0.0
 
   '@storybook/builder-webpack5@10.0.1':
     resolution: {integrity: sha512-0KYwonc9LGmPc6CX0IbNFhRJ99S6Ab+qBZhD+FIc8Ih4D0DjBqc+RE9yHOSZb3UwyBdZZJikuyvYzHPHWY/KlQ==}
@@ -5808,11 +5799,6 @@ snapshots:
   '@rtsao/scc@1.1.0': {}
 
   '@standard-schema/spec@1.0.0': {}
-
-  '@storybook/addon-styling-webpack@2.0.0(storybook@10.0.1(@testing-library/dom@10.4.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(vite@7.1.12(@types/node@20.19.24)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.0)))(webpack@5.102.1)':
-    dependencies:
-      storybook: 10.0.1(@testing-library/dom@10.4.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(vite@7.1.12(@types/node@20.19.24)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.0))
-      webpack: 5.102.1
 
   '@storybook/builder-webpack5@10.0.1(storybook@10.0.1(@testing-library/dom@10.4.1)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(vite@7.1.12(@types/node@20.19.24)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.0)))(typescript@5.9.3)':
     dependencies:

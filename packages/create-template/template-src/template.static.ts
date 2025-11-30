@@ -26,7 +26,7 @@ export type LibrarySettings = Array<LibrarySetting>;
 export const librarySetting: LibrarySettings = [
     {
         lib: "popup",
-        unitTest: false,
+        unitTest: true,
         storybook: true
     }
 ];

@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
-import { usePopup } from "../../lib/popup/popup.hooks";
-import { popupStore } from "../../lib/popup/store";
+import { usePopup } from "@/lib/popup/popup.hooks";
+import { popupStore } from "@/lib/popup/store";
 
 function TestComponent() {
     const popup = usePopup();
