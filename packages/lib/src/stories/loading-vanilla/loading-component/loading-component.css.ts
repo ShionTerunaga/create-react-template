@@ -22,7 +22,7 @@ const loadingStyles = {
         width: 100,
         height: 100,
         borderRadius: "50%",
-        border: "2px solid rgba(59,130,246,0.12)",
+        border: "8px solid rgba(59,130,246,0.12)",
         borderTopColor: "rgba(59,130,246,0.9)",
         boxSizing: "border-box",
         animation: `${spin} 800ms linear infinite`
