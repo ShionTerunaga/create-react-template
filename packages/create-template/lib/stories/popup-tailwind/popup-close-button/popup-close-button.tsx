@@ -27,12 +27,8 @@ export function PopupCloseButton<T extends ButtonProps>(
     const { close } = popupAction;
 
     return (
-        <button
-            {...(props as any)}
-            onClick={() => close()}
-            className="px-2 py-1 bg-gray-200 rounded"
-        >
-            {(props as any).children}
+        <button {...props} onClick={() => close()}>
+            {props.children}
         </button>
     );
 }

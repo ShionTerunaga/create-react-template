@@ -13,6 +13,7 @@
         "test:cv": "vitest --coverage"
     },
     "dependencies": {
+        "@testing-library/react": "^16.3.0",
         "@vitejs/plugin-react": "^5.1.0",
         "@vitest/coverage-v8": "^4.0.5",
         "jsdom": "^27.0.1",

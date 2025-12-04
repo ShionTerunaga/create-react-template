@@ -12,7 +12,7 @@ export interface TemplateInfo {
     framework: Framework;
 }
 
-export const libsArray = ["popup"] as const;
+export const libsArray = ["popup", "loading"] as const;
 export type Lib = (typeof libsArray)[number];
 
 interface LibrarySetting {
@@ -26,7 +26,12 @@ export type LibrarySettings = Array<LibrarySetting>;
 export const librarySetting: LibrarySettings = [
     {
         lib: "popup",
-        unitTest: false,
+        unitTest: true,
+        storybook: true
+    },
+    {
+        lib: "loading",
+        unitTest: true,
         storybook: true
     }
 ];

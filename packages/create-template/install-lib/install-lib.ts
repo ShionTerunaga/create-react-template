@@ -17,7 +17,10 @@ interface SelectLib {
     value: Lib;
 }
 
-const selectLibList: Array<SelectLib> = [{ title: "Popup", value: "popup" }];
+const selectLibList: Array<SelectLib> = [
+    { title: "Popup", value: "popup" },
+    { title: "Loading", value: "loading" }
+];
 
 function isArray(value: unknown): value is Array<unknown> {
     return Array.isArray(value);
@@ -35,46 +38,16 @@ function isLib(value: unknown): value is Lib {
 
 export async function addPackage({
     root,
-    isTailwind
+    isTailwind,
+    libs
 }: {
     root: string;
     isTailwind: boolean;
+    libs: Array<Lib>;
 }) {
     const { optionConversion, isNone } = optionUtility;
     const { createNg, createOk, isNG, checkPromiseReturn, checkPromiseVoid } =
         resultUtility;
-
-    const res = await prompts({
-        type: "multiselect",
-        name: "packages",
-        message: "Select packages to add",
-        choices: selectLibList,
-        hint: "(Use space to select, and enter to submit)",
-        instructions: false
-    });
-
-    const optionSelected: Option<unknown> = optionConversion(res.packages);
-
-    if (isNone(optionSelected)) {
-        console.log("No packages selected. Exiting.");
-
-        return;
-    }
-
-    const selectedPackages = optionSelected.value;
-
-    const resultSelected = isLibsArray(selectedPackages)
-        ? createOk(selectedPackages)
-        : isLib(selectedPackages)
-          ? createOk([selectedPackages])
-          : createNg(new Error("Selected packages have an invalid structure."));
-
-    if (isNG(resultSelected)) {
-        console.error(resultSelected.err.message);
-        console.error(resultSelected.err.stack ?? "");
-
-        process.exit(1);
-    }
 
     const appPath = path.join(root, "src", "lib");
     const testPath = path.join(root, "src", "__test__", "lib");
@@ -89,7 +62,7 @@ export async function addPackage({
     mkdirSync(storybookPath, { recursive: true });
 
     const addLibs = librarySetting.filter((setting) =>
-        resultSelected.value.some((lib) => lib === setting.lib)
+        libs.some((lib) => lib === setting.lib)
     );
 
     for (const lib of addLibs) {
@@ -201,7 +174,7 @@ export async function addPackage({
 
     const pkgPath = path.join(root, "template.info.json");
 
-    const pkgInfo = { libs: resultSelected.value };
+    const pkgInfo = { libs };
 
     const raw = await checkPromiseReturn({
         fn: async () => await fs.readFile(pkgPath, "utf8"),
@@ -237,5 +210,5 @@ export async function addPackage({
         process.exit(1);
     }
 
-    console.log("✅ Added selected packages:", resultSelected.value.join(", "));
+    console.log("✅ Added selected packages:", libs.join(", "));
 }
