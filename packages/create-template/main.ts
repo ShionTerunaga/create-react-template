@@ -7,6 +7,9 @@ import { existsSync } from "node:fs";
 import { isTemplateInfo } from "./helper/is";
 import { blue, bold, red, green } from "picocolors";
 import { createApp } from "./create-app";
+import { Lib, libsArray } from "./template-src/template.static";
+import { Option, optionUtility } from "./utils/option";
+import { resultUtility } from "./utils/result";
 
 const handleSigTerm = () => process.exit(0);
 
@@ -24,6 +27,30 @@ const onPromptState = (state: {
         process.exit(1);
     }
 };
+
+interface SelectLib {
+    title: string;
+    value: Lib;
+}
+
+const selectLibList: Array<SelectLib> = [
+    { title: "Popup", value: "popup" },
+    { title: "Loading", value: "loading" }
+];
+
+function isArray(value: unknown): value is Array<unknown> {
+    return Array.isArray(value);
+}
+
+function isLibsArray(value: unknown): value is Array<Lib> {
+    return (
+        isArray(value) && value.every((item) => libsArray.includes(item as Lib))
+    );
+}
+
+function isLib(value: unknown): value is Lib {
+    return libsArray.includes(value as Lib);
+}
 
 const program = new Command("create-react-template")
     .version("0.1.0", "-v, --version", "output the current version")
@@ -45,7 +72,8 @@ const opts = program.opts();
 let projectPath: string = "";
 
 export async function run(): Promise<void> {
-    const conf = new Conf({ projectName: "create-react-template" });
+    const { optionConversion, isNone } = optionUtility;
+    const { createNg, createOk, isNG } = resultUtility;
     let isTailwind = false;
 
     if (opts.name && typeof opts.name === "string") {
@@ -141,11 +169,45 @@ export async function run(): Promise<void> {
 
     isTailwind = Boolean(tailwind);
 
+    const res = await prompts({
+        onState: onPromptState,
+        type: "multiselect",
+        name: "packages",
+        message: "Select packages to add",
+        choices: selectLibList,
+        hint: "(Use space to select, and enter to submit)",
+        instructions: false
+    });
+
+    const optionSelected: Option<unknown> = optionConversion(res.packages);
+
+    if (isNone(optionSelected)) {
+        console.log("No packages selected. Exiting.");
+
+        return;
+    }
+
+    const selectedPackages = optionSelected.value;
+
+    const resultSelected = isLibsArray(selectedPackages)
+        ? createOk(selectedPackages)
+        : isLib(selectedPackages)
+          ? createOk([selectedPackages])
+          : createNg(new Error("Selected packages have an invalid structure."));
+
+    if (isNG(resultSelected)) {
+        console.error(resultSelected.err.message);
+        console.error(resultSelected.err.stack ?? "");
+
+        process.exit(1);
+    }
+
     try {
         await createApp({
             appPath,
             templateInfo,
-            tailwind: isTailwind
+            tailwind: isTailwind,
+            libs: resultSelected.value
         });
     } catch (e) {
         console.error(red("An error occurred while creating the project."));

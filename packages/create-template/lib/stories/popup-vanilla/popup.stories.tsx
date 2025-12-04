@@ -1,11 +1,11 @@
-import { PopupOpenButton } from "./popup-open-button";
-import { PopupSampleLayout } from "../popup-layout/popup-layout";
-import { PopupCloseButton } from "../popup-close-button/popup-close-button";
-import { PopupBase } from "../popup-base/popup-base";
-import popupOpenButtonStyles from "./popup-open-button.css";
+import { PopupBase } from "./popup-base/popup-base";
+import { PopupCloseButton } from "./popup-close-button/popup-close-button";
+import { PopupSampleLayout } from "./popup-layout/popup-layout";
+import { PopupOpenButton } from "./popup-open-button/popup-open-button";
+import popupOpenButtonStyles from "./popup-open-button/popup-open-button.css";
 
 export default {
-    title: "Popup/Vanilla/PopupOpenButton",
+    title: "Popup/vanilla",
     component: PopupOpenButton
 };
 
@@ -35,7 +35,6 @@ const ExamplePopupContent = () => (
 
 export const Default = () => (
     <>
-        <h1>hello world</h1>
         <ExamplePopupContent />
         <PopupBase />
     </>
