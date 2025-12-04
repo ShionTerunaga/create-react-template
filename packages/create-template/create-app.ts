@@ -1,5 +1,5 @@
 import { resolve, basename } from "node:path";
-import { TemplateInfo } from "./template-src/template.static";
+import { Lib, TemplateInfo } from "./template-src/template.static";
 import { mkdirSync } from "node:fs";
 import { isFolderEmpty } from "./helper/is-folder-empty";
 import { green } from "picocolors";
@@ -9,11 +9,13 @@ import { addPackage } from "./install-lib/install-lib";
 export async function createApp({
     appPath,
     templateInfo,
-    tailwind
+    tailwind,
+    libs
 }: {
     appPath: string;
     templateInfo: TemplateInfo;
     tailwind: boolean;
+    libs: Array<Lib>;
 }) {
     const root = resolve(appPath);
     const appName = basename(appPath);
@@ -36,5 +38,5 @@ export async function createApp({
         tailwind
     });
 
-    await addPackage({ root, isTailwind: tailwind });
+    await addPackage({ root, isTailwind: tailwind, libs });
 }
