@@ -9,14 +9,14 @@ const popupBaseStyles = {
         left: 0,
         top: 0,
         backgroundColor: appTheme.popupBackground,
-        zIndex: 998
+        zIndex: 997
     }),
     base: style({
         position: "absolute",
         left: "50%",
         top: "50%",
         transform: "translate(-50%,-50%)",
-        zIndex: 999,
+        zIndex: 998,
         backgroundColor: appTheme.white
     })
 };

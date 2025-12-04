@@ -3,14 +3,15 @@ import { style } from "@vanilla-extract/css";
 const popupOpenButtonStyles = {
     button: style({
         padding: "8px 16px",
-        backgroundColor: "#e2e8f0",
+        backgroundColor: "#3b82f6",
+        color: "#ffffff",
         borderRadius: 4,
         cursor: "pointer",
         border: "none",
         fontSize: 14,
         selectors: {
             "&:hover": {
-                backgroundColor: "#cbd5e1"
+                backgroundColor: "#2563eb"
             }
         }
     })
