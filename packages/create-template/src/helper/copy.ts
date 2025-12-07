@@ -1,4 +1,4 @@
-import { resultUtility, type Result } from "../utils/result";
+import { resultUtility, type Result } from "@/utils/result";
 import { async as glob } from "fast-glob";
 import { copyFile, mkdir } from "node:fs/promises";
 import { basename, dirname, join, resolve } from "node:path";
@@ -15,7 +15,7 @@ export async function copy(
     src: string | string[],
     dest: string,
     { cwd, rename = identity, parents = true }: CopyOptions
-): Promise<Result<Promise<void>, Error>> {
+): Promise<Result<() => void, Error>> {
     const { createNg, createOk, isNG, checkPromiseReturn } = resultUtility;
 
     const sources = typeof src === "string" ? [src] : src;
@@ -58,5 +58,5 @@ export async function copy(
         await copyFile(from, to);
     }
 
-    return createOk(Promise.resolve());
+    return createOk(() => {});
 }
