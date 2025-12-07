@@ -26,6 +26,14 @@ export interface InstallTemplateArgs {
  */
 export const libsArray = ["popup", "loading"] as const;
 export type Lib = (typeof libsArray)[number];
+interface SelectLib {
+    title: string;
+    value: Lib;
+}
+export const selectLibList: Array<SelectLib> = [
+    { title: "Popup", value: "popup" },
+    { title: "Loading", value: "loading" }
+];
 interface LibrarySetting {
     lib: Lib;
     unitTest: boolean;

@@ -44,3 +44,7 @@ export function isLib(value: unknown): value is Lib {
 export function isCss(value: unknown): value is Css {
     return csses.includes(value as Css);
 }
+
+export function isBoolean(value: unknown): value is boolean {
+    return typeof value === "boolean";
+}

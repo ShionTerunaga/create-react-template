@@ -5,6 +5,9 @@ import { isFolderEmpty } from "./helper/is-folder-empty";
 import { green } from "picocolors";
 import { installTemplate } from "./template-src/template.index";
 import { addPackage } from "./install-lib/install-lib";
+import { Option, optionUtility } from "./utils/option";
+import { isLib, isLibsArray } from "./utils/is";
+import { resultUtility } from "./utils/result";
 
 export async function createApp({
     appPath,
@@ -15,8 +18,10 @@ export async function createApp({
     appPath: string;
     framework: Framework;
     css: Css;
-    libs: Array<Lib>;
+    libs: Option<Array<Lib>>;
 }) {
+    const { isNone } = optionUtility;
+    const { createOk, createNg, isNG } = resultUtility;
     const root = resolve(appPath);
     const appName = basename(appPath);
 
@@ -38,5 +43,13 @@ export async function createApp({
         css
     });
 
-    await addPackage({ root, css, libs });
+    if (isNone(libs)) {
+        console.log("No packages selected. Exiting.");
+
+        return;
+    }
+
+    const selectedPackages = libs.value;
+
+    await addPackage({ root, css, libs: selectedPackages });
 }
