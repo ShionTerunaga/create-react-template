@@ -16431,7 +16431,359 @@ Filtered results for: ${this.inputValue ? this.inputValue : color.gray("Enter so
             /***/
         },
 
-        /***/ 6434: /***/ (
+        /***/ 4618: /***/ (
+            __unused_webpack_module,
+            exports,
+            __nccwpck_require__
+        ) => {
+            "use strict";
+
+            Object.defineProperty(exports, "__esModule", { value: true });
+            exports.commanderCore = void 0;
+            const option_1 = __nccwpck_require__(3376);
+            const commander_1 = __nccwpck_require__(1543);
+            exports.commanderCore = (function () {
+                const { optionConversion } = option_1.optionUtility;
+                const program = new commander_1.Command("create-react-template")
+                    .version(
+                        "0.1.0",
+                        "-v, --version",
+                        "output the current version"
+                    )
+                    .argument("[directory]")
+                    .usage("[directory] [options]")
+                    .helpOption("-h, --help", "display help for command")
+                    .allowUnknownOption()
+                    .option("-n, --name <name>", "specify the project name")
+                    .option(
+                        "-f, --framework <framework>",
+                        "framework to use (tanstack-router | next/app | next/pages)"
+                    )
+                    .option(
+                        "-c,--css <css>",
+                        "select css framework (tailwind | vanilla-extract)"
+                    )
+                    .option(
+                        "--use-all-components",
+                        "install all available components"
+                    )
+                    .parse(process.argv);
+                const opts = program.opts();
+                const optionName = optionConversion(opts.name);
+                const optionFramework = optionConversion(opts.framework);
+                const optionCss = optionConversion(opts.css);
+                const optionUseAllComponents = optionConversion(
+                    opts.useAllComponents
+                );
+                const onPromptState = (state) => {
+                    if (state.aborted) {
+                        process.stdout.write("\x1B[?25h");
+                        process.stdout.write("\n");
+                        process.exit(1);
+                    }
+                };
+                return {
+                    onPromptState,
+                    optionName,
+                    optionFramework,
+                    optionCss,
+                    optionUseAllComponents
+                };
+            })();
+
+            /***/
+        },
+
+        /***/ 6650: /***/ function (
+            __unused_webpack_module,
+            exports,
+            __nccwpck_require__
+        ) {
+            "use strict";
+
+            var __importDefault =
+                (this && this.__importDefault) ||
+                function (mod) {
+                    return mod && mod.__esModule ? mod : { default: mod };
+                };
+            Object.defineProperty(exports, "__esModule", { value: true });
+            exports.cssCommand = cssCommand;
+            const is_1 = __nccwpck_require__(5542);
+            const option_1 = __nccwpck_require__(3376);
+            const result_1 = __nccwpck_require__(3648);
+            const prompts_1 = __importDefault(__nccwpck_require__(524));
+            const core_1 = __nccwpck_require__(4618);
+            async function cssCommand(optionCss) {
+                const { isSome, optionConversion } = option_1.optionUtility;
+                const { createOk, createNg, checkPromiseReturn, isNG } =
+                    result_1.resultUtility;
+                const { onPromptState } = core_1.commanderCore;
+                if (isSome(optionCss) && (0, is_1.isCss)(optionCss.value)) {
+                    return createOk(optionCss.value);
+                }
+                const response = await checkPromiseReturn({
+                    fn: async () =>
+                        await (0, prompts_1.default)({
+                            onState: onPromptState,
+                            type: "select",
+                            name: "css",
+                            message: "Select a CSS framework for your project:",
+                            choices: [
+                                { title: "tailwindCSS", value: "tailwind" },
+                                {
+                                    title: "vanilla-extract ",
+                                    value: "vanilla-extract"
+                                }
+                            ],
+                            initial: 0
+                        }),
+                    err: (e) => {
+                        if (e instanceof Error) {
+                            return new Error(`Prompt failed: ${e.message}`);
+                        }
+                        return new Error("Prompt failed: Unknown error");
+                    }
+                });
+                if (isNG(response)) {
+                    return response;
+                }
+                const css = optionConversion(response.value.css);
+                if (isSome(css) && (0, is_1.isCss)(css.value)) {
+                    return createOk(css.value);
+                }
+                return createNg(new Error("CSS selection is invalid"));
+            }
+
+            /***/
+        },
+
+        /***/ 3757: /***/ function (
+            __unused_webpack_module,
+            exports,
+            __nccwpck_require__
+        ) {
+            "use strict";
+
+            var __importDefault =
+                (this && this.__importDefault) ||
+                function (mod) {
+                    return mod && mod.__esModule ? mod : { default: mod };
+                };
+            Object.defineProperty(exports, "__esModule", { value: true });
+            exports.frameworkCommand = frameworkCommand;
+            const is_1 = __nccwpck_require__(5542);
+            const option_1 = __nccwpck_require__(3376);
+            const result_1 = __nccwpck_require__(3648);
+            const prompts_1 = __importDefault(__nccwpck_require__(524));
+            const core_1 = __nccwpck_require__(4618);
+            const picocolors_1 = __nccwpck_require__(6404);
+            async function frameworkCommand(optionFramework) {
+                const { isSome } = option_1.optionUtility;
+                const { createNg, createOk, checkPromiseReturn, isNG } =
+                    result_1.resultUtility;
+                const { onPromptState } = core_1.commanderCore;
+                if (
+                    isSome(optionFramework) &&
+                    (0, is_1.isTechStack)(optionFramework.value)
+                ) {
+                    return createOk(optionFramework.value);
+                }
+                const styleFramework = (0, picocolors_1.blue)("framework");
+                const response = await checkPromiseReturn({
+                    fn: async () =>
+                        await (0, prompts_1.default)({
+                            onState: onPromptState,
+                            type: "select",
+                            name: "framework",
+                            message: `Select a ${styleFramework} for your project:`,
+                            choices: [
+                                {
+                                    title: "TanStack Router",
+                                    value: "tanstack-router"
+                                },
+                                {
+                                    title: "Next.js (App Router)",
+                                    value: "next/app"
+                                },
+                                {
+                                    title: "Next.js (Pages Router)",
+                                    value: "next/pages"
+                                }
+                            ],
+                            initial: 0
+                        }),
+                    err: (e) => {
+                        if (e instanceof Error) {
+                            return new Error(`Prompt failed: ${e.message}`);
+                        }
+                        return new Error("Prompt failed: Unknown error");
+                    }
+                });
+                if (isNG(response)) {
+                    return response;
+                }
+                const framework = response.value.framework;
+                if ((0, is_1.isTechStack)(framework)) {
+                    return createOk(framework);
+                }
+                return createNg(new Error("Framework selection is invalid"));
+            }
+
+            /***/
+        },
+
+        /***/ 2234: /***/ function (
+            __unused_webpack_module,
+            exports,
+            __nccwpck_require__
+        ) {
+            "use strict";
+
+            var __importDefault =
+                (this && this.__importDefault) ||
+                function (mod) {
+                    return mod && mod.__esModule ? mod : { default: mod };
+                };
+            Object.defineProperty(exports, "__esModule", { value: true });
+            exports.libCli = libCli;
+            const template_static_1 = __nccwpck_require__(2584);
+            const is_1 = __nccwpck_require__(5542);
+            const option_1 = __nccwpck_require__(3376);
+            const result_1 = __nccwpck_require__(3648);
+            const core_1 = __nccwpck_require__(4618);
+            const prompts_1 = __importDefault(__nccwpck_require__(524));
+            async function libCli(optionLibs) {
+                const {
+                    isSome,
+                    isNone,
+                    optionConversion,
+                    createSome,
+                    createNone
+                } = option_1.optionUtility;
+                const { createOk, checkPromiseReturn, isNG, createNg } =
+                    result_1.resultUtility;
+                const { onPromptState } = core_1.commanderCore;
+                if (
+                    isSome(optionLibs) &&
+                    (0, is_1.isBoolean)(optionLibs.value) &&
+                    optionLibs.value
+                ) {
+                    return createOk(
+                        createSome([...template_static_1.libsArray])
+                    );
+                }
+                const response = await checkPromiseReturn({
+                    fn: async () =>
+                        await (0, prompts_1.default)({
+                            onState: onPromptState,
+                            type: "multiselect",
+                            name: "packages",
+                            message: "Select packages to add",
+                            choices: template_static_1.selectLibList,
+                            hint: "(Use space to select, and enter to submit)",
+                            instructions: false
+                        }),
+                    err: (e) => {
+                        if (e instanceof Error) {
+                            return new Error(
+                                "Failed to select packages: " + e.message
+                            );
+                        }
+                        return new Error("Failed to select packages");
+                    }
+                });
+                if (isNG(response)) {
+                    return response;
+                }
+                const selectedLibs = optionConversion(response.value.packages);
+                if (isNone(selectedLibs)) {
+                    return createOk(createNone());
+                }
+                const value = selectedLibs.value;
+                const resultSelected = (0, is_1.isLibsArray)(value)
+                    ? createOk(createSome(value))
+                    : (0, is_1.isLib)(value)
+                      ? createOk(createSome([value]))
+                      : createNg(
+                            new Error(
+                                "Selected packages have an invalid structure."
+                            )
+                        );
+                return resultSelected;
+            }
+
+            /***/
+        },
+
+        /***/ 5638: /***/ function (
+            __unused_webpack_module,
+            exports,
+            __nccwpck_require__
+        ) {
+            "use strict";
+
+            var __importDefault =
+                (this && this.__importDefault) ||
+                function (mod) {
+                    return mod && mod.__esModule ? mod : { default: mod };
+                };
+            Object.defineProperty(exports, "__esModule", { value: true });
+            exports.nameCommand = nameCommand;
+            const result_1 = __nccwpck_require__(3648);
+            const option_1 = __nccwpck_require__(3376);
+            const is_1 = __nccwpck_require__(5542);
+            const prompts_1 = __importDefault(__nccwpck_require__(524));
+            const validate_npm_name_1 = __nccwpck_require__(5830);
+            const core_1 = __nccwpck_require__(4618);
+            async function nameCommand(optionName) {
+                const { isSome, optionConversion } = option_1.optionUtility;
+                const { onPromptState } = core_1.commanderCore;
+                const { createOk, checkPromiseReturn, isNG } =
+                    result_1.resultUtility;
+                if (
+                    isSome(optionName) &&
+                    (0, is_1.isString)(optionName.value)
+                ) {
+                    return createOk(optionName.value.trim());
+                }
+                const response = await checkPromiseReturn({
+                    fn: async () =>
+                        await (0, prompts_1.default)({
+                            onState: onPromptState,
+                            type: "text",
+                            name: "path",
+                            message: "What is your project named?",
+                            initial: "my-project",
+                            validate: (name) => {
+                                const validation = (0,
+                                validate_npm_name_1.validateNpmName)(name);
+                                if (validation.valid) {
+                                    return true;
+                                }
+                                return `Invalid project name: ${validation.problems?.join(", ")}`;
+                            }
+                        }),
+                    err: (e) => {
+                        if (e instanceof Error) {
+                            return new Error(`Prompt failed: ${e.message}`);
+                        }
+                        return new Error("Prompt failed: Unknown error");
+                    }
+                });
+                if (isNG(response)) {
+                    return response;
+                }
+                const name = optionConversion(response.value.path);
+                if (isSome(name) && (0, is_1.isString)(name.value)) {
+                    return createOk(name.value.trim());
+                }
+                return createOk("my-project");
+            }
+
+            /***/
+        },
+
+        /***/ 7249: /***/ (
             __unused_webpack_module,
             exports,
             __nccwpck_require__
@@ -16442,16 +16794,15 @@ Filtered results for: ${this.inputValue ? this.inputValue : color.gray("Enter so
             exports.createApp = createApp;
             const node_path_1 = __nccwpck_require__(6760);
             const node_fs_1 = __nccwpck_require__(3024);
-            const is_folder_empty_1 = __nccwpck_require__(8664);
+            const is_folder_empty_1 = __nccwpck_require__(467);
             const picocolors_1 = __nccwpck_require__(6404);
-            const template_index_1 = __nccwpck_require__(3700);
-            const install_lib_1 = __nccwpck_require__(4917);
-            async function createApp({
-                appPath,
-                templateInfo,
-                tailwind,
-                libs
-            }) {
+            const template_index_1 = __nccwpck_require__(1656);
+            const install_lib_1 = __nccwpck_require__(3660);
+            const option_1 = __nccwpck_require__(3376);
+            const result_1 = __nccwpck_require__(3648);
+            async function createApp({ appPath, framework, css, libs }) {
+                const { isNone } = option_1.optionUtility;
+                const { createOk, createNg, isNG } = result_1.resultUtility;
                 const root = (0, node_path_1.resolve)(appPath);
                 const appName = (0, node_path_1.basename)(appPath);
                 (0, node_fs_1.mkdirSync)(root, { recursive: true });
@@ -16466,20 +16817,25 @@ Filtered results for: ${this.inputValue ? this.inputValue : color.gray("Enter so
                 await (0, template_index_1.installTemplate)({
                     appName,
                     root,
-                    framework: templateInfo.framework,
-                    tailwind
+                    framework,
+                    css
                 });
+                if (isNone(libs)) {
+                    console.log("No packages selected. Exiting.");
+                    return;
+                }
+                const selectedPackages = libs.value;
                 await (0, install_lib_1.addPackage)({
                     root,
-                    isTailwind: tailwind,
-                    libs
+                    css,
+                    libs: selectedPackages
                 });
             }
 
             /***/
         },
 
-        /***/ 8706: /***/ (
+        /***/ 827: /***/ (
             __unused_webpack_module,
             exports,
             __nccwpck_require__
@@ -16488,7 +16844,7 @@ Filtered results for: ${this.inputValue ? this.inputValue : color.gray("Enter so
 
             Object.defineProperty(exports, "__esModule", { value: true });
             exports.copy = copy;
-            const result_1 = __nccwpck_require__(6883);
+            const result_1 = __nccwpck_require__(3648);
             const fast_glob_1 = __nccwpck_require__(976);
             const promises_1 = __nccwpck_require__(1455);
             const node_path_1 = __nccwpck_require__(6760);
@@ -16537,13 +16893,13 @@ Filtered results for: ${this.inputValue ? this.inputValue : color.gray("Enter so
                     });
                     await (0, promises_1.copyFile)(from, to);
                 }
-                return createOk(Promise.resolve());
+                return createOk(() => {});
             }
 
             /***/
         },
 
-        /***/ 8664: /***/ (
+        /***/ 467: /***/ (
             __unused_webpack_module,
             exports,
             __nccwpck_require__
@@ -16617,27 +16973,7 @@ Filtered results for: ${this.inputValue ? this.inputValue : color.gray("Enter so
             /***/
         },
 
-        /***/ 1331: /***/ (__unused_webpack_module, exports) => {
-            "use strict";
-
-            Object.defineProperty(exports, "__esModule", { value: true });
-            exports.isTemplateInfo = isTemplateInfo;
-            function isTemplateInfo(obj) {
-                if (typeof obj !== "object" || obj === null) {
-                    return false;
-                }
-                return (
-                    "framework" in obj &&
-                    (obj.framework === "tanstack-router" ||
-                        obj.framework === "next/app" ||
-                        obj.framework === "next/pages")
-                );
-            }
-
-            /***/
-        },
-
-        /***/ 5721: /***/ function (
+        /***/ 5830: /***/ function (
             __unused_webpack_module,
             exports,
             __nccwpck_require__
@@ -16673,7 +17009,7 @@ Filtered results for: ${this.inputValue ? this.inputValue : color.gray("Enter so
             /***/
         },
 
-        /***/ 4917: /***/ function (
+        /***/ 3660: /***/ function (
             __unused_webpack_module,
             exports,
             __nccwpck_require__
@@ -16687,41 +17023,16 @@ Filtered results for: ${this.inputValue ? this.inputValue : color.gray("Enter so
                 };
             Object.defineProperty(exports, "__esModule", { value: true });
             exports.addPackage = addPackage;
-            const option_1 = __nccwpck_require__(1479);
-            const result_1 = __nccwpck_require__(6883);
+            const result_1 = __nccwpck_require__(3648);
             const node_fs_1 = __nccwpck_require__(3024);
             const node_path_1 = __importDefault(__nccwpck_require__(6760));
-            const template_static_1 = __nccwpck_require__(3236);
-            const copy_1 = __nccwpck_require__(8706);
-            const found_file_1 = __nccwpck_require__(6839);
+            const template_static_1 = __nccwpck_require__(2584);
+            const copy_1 = __nccwpck_require__(827);
+            const found_file_1 = __nccwpck_require__(5052);
             const promises_1 = __importDefault(__nccwpck_require__(1943));
-            const selectLibList = [
-                { title: "Popup", value: "popup" },
-                { title: "Loading", value: "loading" }
-            ];
-            function isArray(value) {
-                return Array.isArray(value);
-            }
-            function isLibsArray(value) {
-                return (
-                    isArray(value) &&
-                    value.every((item) =>
-                        template_static_1.libsArray.includes(item)
-                    )
-                );
-            }
-            function isLib(value) {
-                return template_static_1.libsArray.includes(value);
-            }
-            async function addPackage({ root, isTailwind, libs }) {
-                const { optionConversion, isNone } = option_1.optionUtility;
-                const {
-                    createNg,
-                    createOk,
-                    isNG,
-                    checkPromiseReturn,
-                    checkPromiseVoid
-                } = result_1.resultUtility;
+            async function addPackage({ root, css, libs }) {
+                const { isNG, checkPromiseReturn, checkPromiseVoid } =
+                    result_1.resultUtility;
                 const appPath = node_path_1.default.join(root, "src", "lib");
                 const testPath = node_path_1.default.join(
                     root,
@@ -16758,6 +17069,7 @@ Filtered results for: ${this.inputValue ? this.inputValue : color.gray("Enter so
                         node_path_1.default.join(
                             __dirname,
                             "..",
+                            "..",
                             "lib",
                             "lib",
                             lib.lib
@@ -16779,7 +17091,7 @@ Filtered results for: ${this.inputValue ? this.inputValue : color.gray("Enter so
                         cwd: resultPath.value
                     });
                     if (isNG(res)) {
-                        console.error(res.err.message);
+                        console.error(res.err);
                         process.exit(1);
                     }
                     if (lib.storybook) {
@@ -16795,18 +17107,15 @@ Filtered results for: ${this.inputValue ? this.inputValue : color.gray("Enter so
                                 __dirname,
                                 "lib",
                                 "stories",
-                                isTailwind
-                                    ? lib.lib + "-tailwind"
-                                    : lib.lib + "-vanilla"
+                                lib.lib + "-" + css
                             ),
                             node_path_1.default.join(
                                 __dirname,
                                 "..",
+                                "..",
                                 "lib",
                                 "stories",
-                                isTailwind
-                                    ? lib.lib + "-tailwind"
-                                    : lib.lib + "-vanilla"
+                                lib.lib + "-" + css
                             )
                         ];
                         const storybookResultPath = (0,
@@ -16848,6 +17157,7 @@ Filtered results for: ${this.inputValue ? this.inputValue : color.gray("Enter so
                             ),
                             node_path_1.default.join(
                                 __dirname,
+                                "..",
                                 "..",
                                 "lib",
                                 "__test__",
@@ -16916,105 +17226,48 @@ Filtered results for: ${this.inputValue ? this.inputValue : color.gray("Enter so
             /***/
         },
 
-        /***/ 2905: /***/ function (
+        /***/ 9042: /***/ (
             __unused_webpack_module,
             exports,
             __nccwpck_require__
-        ) {
+        ) => {
             "use strict";
 
-            var __importDefault =
-                (this && this.__importDefault) ||
-                function (mod) {
-                    return mod && mod.__esModule ? mod : { default: mod };
-                };
             Object.defineProperty(exports, "__esModule", { value: true });
             exports.run = run;
             exports.notify = notify;
             exports.errorExit = errorExit;
-            const commander_1 = __nccwpck_require__(1543);
             const node_path_1 = __nccwpck_require__(6760);
-            const prompts_1 = __importDefault(__nccwpck_require__(524));
-            const validate_npm_name_1 = __nccwpck_require__(5721);
+            const validate_npm_name_1 = __nccwpck_require__(5830);
             const node_fs_1 = __nccwpck_require__(3024);
-            const is_1 = __nccwpck_require__(1331);
             const picocolors_1 = __nccwpck_require__(6404);
-            const create_app_1 = __nccwpck_require__(6434);
-            const template_static_1 = __nccwpck_require__(3236);
-            const option_1 = __nccwpck_require__(1479);
-            const result_1 = __nccwpck_require__(6883);
+            const create_app_1 = __nccwpck_require__(7249);
+            const result_1 = __nccwpck_require__(3648);
+            const core_1 = __nccwpck_require__(4618);
+            const name_1 = __nccwpck_require__(5638);
+            const framework_1 = __nccwpck_require__(3757);
+            const css_1 = __nccwpck_require__(6650);
+            const lib_1 = __nccwpck_require__(2234);
             const handleSigTerm = () => process.exit(0);
             process.on("SIGTERM", handleSigTerm);
             process.on("SIGINT", handleSigTerm);
-            const onPromptState = (state) => {
-                if (state.aborted) {
-                    process.stdout.write("\x1B[?25h");
-                    process.stdout.write("\n");
+            async function run() {
+                const { isNG } = result_1.resultUtility;
+                const {
+                    optionName,
+                    optionFramework,
+                    optionCss,
+                    optionUseAllComponents
+                } = core_1.commanderCore;
+                const projectName = await (0, name_1.nameCommand)(optionName);
+                if (isNG(projectName)) {
+                    console.error(
+                        (0, picocolors_1.red)(projectName.err.message)
+                    );
+                    console.error(projectName.err.stack ?? "");
                     process.exit(1);
                 }
-            };
-            const selectLibList = [
-                { title: "Popup", value: "popup" },
-                { title: "Loading", value: "loading" }
-            ];
-            function isArray(value) {
-                return Array.isArray(value);
-            }
-            function isLibsArray(value) {
-                return (
-                    isArray(value) &&
-                    value.every((item) =>
-                        template_static_1.libsArray.includes(item)
-                    )
-                );
-            }
-            function isLib(value) {
-                return template_static_1.libsArray.includes(value);
-            }
-            const program = new commander_1.Command("create-react-template")
-                .version("0.1.0", "-v, --version", "output the current version")
-                .argument("[directory]")
-                .usage("[directory] [options]")
-                .helpOption("-h, --help", "display help for command")
-                .allowUnknownOption()
-                .option("-n, --name <name>", "specify the project name")
-                .option(
-                    "-f, --framework <framework>",
-                    "framework to use (tanstack-router | next/app | next/pages)"
-                )
-                .option("--use-tailwind", "set up Tailwind CSS")
-                .option("--use-vanilla-extract", "set up Vanilla Extract")
-                .parse(process.argv);
-            const opts = program.opts();
-            let projectPath = "";
-            async function run() {
-                const { optionConversion, isNone } = option_1.optionUtility;
-                const { createNg, createOk, isNG } = result_1.resultUtility;
-                let isTailwind = false;
-                if (opts.name && typeof opts.name === "string") {
-                    projectPath = opts.name.trim();
-                } else {
-                    const res = await (0, prompts_1.default)({
-                        onState: onPromptState,
-                        type: "text",
-                        name: "path",
-                        message: "What is your project named?",
-                        initial: "my-project",
-                        validate: (name) => {
-                            const validation = (0,
-                            validate_npm_name_1.validateNpmName)(name);
-                            if (validation.valid) {
-                                return true;
-                            }
-                            return `Invalid project name: ${validation.problems?.join(", ")}`;
-                        }
-                    });
-                    projectPath =
-                        res.path && typeof res.path === "string"
-                            ? res.path.trim()
-                            : "my-project";
-                }
-                const appPath = (0, node_path_1.resolve)(projectPath);
+                const appPath = (0, node_path_1.resolve)(projectName.value);
                 const appName = (0, node_path_1.basename)(appPath);
                 const validation = (0, validate_npm_name_1.validateNpmName)(
                     appName
@@ -17033,103 +17286,41 @@ Filtered results for: ${this.inputValue ? this.inputValue : color.gray("Enter so
                     );
                     process.exit(1);
                 }
-                const styleFramework = (0, picocolors_1.blue)("framework");
-                if (
-                    !opts.framework ||
-                    typeof opts.framework !== "string" ||
-                    !["tanstack-router", "next/app", "next/pages"].includes(
-                        opts.framework
-                    )
-                ) {
-                    const { framework } = await (0, prompts_1.default)({
-                        onState: onPromptState,
-                        type: "select",
-                        name: "framework",
-                        message: `Select a ${styleFramework} for your project:`,
-                        choices: [
-                            {
-                                title: "TanStack Router",
-                                value: "tanstack-router"
-                            },
-                            {
-                                title: "Next.js (App Router)",
-                                value: "next/app"
-                            },
-                            {
-                                title: "Next.js (Pages Router)",
-                                value: "next/pages"
-                            }
-                        ],
-                        initial: 0
-                    });
-                    opts.framework = framework;
-                }
-                const templateInfo = {
-                    framework: opts.framework
-                };
-                if (!(0, is_1.isTemplateInfo)(templateInfo)) {
-                    console.error("Invalid template information.");
+                const frameworResult = await (0, framework_1.frameworkCommand)(
+                    optionFramework
+                );
+                if (isNG(frameworResult)) {
+                    console.error(
+                        (0, picocolors_1.red)(frameworResult.err.message)
+                    );
+                    console.error(frameworResult.err.stack ?? "");
                     process.exit(1);
                 }
-                const { tailwind } = await (0, prompts_1.default)({
-                    onState: onPromptState,
-                    type: "toggle",
-                    name: "tailwind",
-                    message: `Would you like to use tailwindCSS?`,
-                    initial: false,
-                    active: "Yes",
-                    inactive: "No"
-                });
-                isTailwind = Boolean(tailwind);
-                const res = await (0, prompts_1.default)({
-                    onState: onPromptState,
-                    type: "multiselect",
-                    name: "packages",
-                    message: "Select packages to add",
-                    choices: selectLibList,
-                    hint: "(Use space to select, and enter to submit)",
-                    instructions: false
-                });
-                const optionSelected = optionConversion(res.packages);
-                if (isNone(optionSelected)) {
-                    console.log("No packages selected. Exiting.");
-                    return;
+                const cssResult = await (0, css_1.cssCommand)(optionCss);
+                if (isNG(cssResult)) {
+                    console.error((0, picocolors_1.red)(cssResult.err.message));
+                    console.error(cssResult.err.stack ?? "");
+                    process.exit(1);
                 }
-                const selectedPackages = optionSelected.value;
-                const resultSelected = isLibsArray(selectedPackages)
-                    ? createOk(selectedPackages)
-                    : isLib(selectedPackages)
-                      ? createOk([selectedPackages])
-                      : createNg(
-                            new Error(
-                                "Selected packages have an invalid structure."
-                            )
-                        );
+                const resultSelected = await (0, lib_1.libCli)(
+                    optionUseAllComponents
+                );
                 if (isNG(resultSelected)) {
-                    console.error(resultSelected.err.message);
+                    console.error(
+                        (0, picocolors_1.red)(resultSelected.err.message)
+                    );
                     console.error(resultSelected.err.stack ?? "");
                     process.exit(1);
                 }
-                try {
-                    await (0, create_app_1.createApp)({
-                        appPath,
-                        templateInfo,
-                        tailwind: isTailwind,
-                        libs: resultSelected.value
-                    });
-                } catch (e) {
-                    console.error(
-                        (0, picocolors_1.red)(
-                            "An error occurred while creating the project."
-                        )
-                    );
-                    if (e instanceof Error) {
-                        console.error((0, picocolors_1.red)(e.message));
-                    }
-                    process.exit(1);
-                }
+                await (0, create_app_1.createApp)({
+                    appPath,
+                    framework: frameworResult.value,
+                    css: cssResult.value,
+                    libs: resultSelected.value
+                });
+                return projectName.value;
             }
-            function notify() {
+            function notify(projectPath) {
                 console.log("cd " + projectPath);
                 console.log(`Package install: \n\n ex) npm install`);
                 console.log(`Application launch: \n\n ex) npm run dev`);
@@ -17151,7 +17342,7 @@ Filtered results for: ${this.inputValue ? this.inputValue : color.gray("Enter so
             /***/
         },
 
-        /***/ 3700: /***/ function (
+        /***/ 1656: /***/ function (
             __unused_webpack_module,
             exports,
             __nccwpck_require__
@@ -17165,24 +17356,19 @@ Filtered results for: ${this.inputValue ? this.inputValue : color.gray("Enter so
                 };
             Object.defineProperty(exports, "__esModule", { value: true });
             exports.installTemplate = installTemplate;
-            const copy_1 = __nccwpck_require__(8706);
+            const copy_1 = __nccwpck_require__(827);
             const path_1 = __importDefault(__nccwpck_require__(6928));
-            const result_1 = __nccwpck_require__(6883);
+            const result_1 = __nccwpck_require__(3648);
             const promises_1 = __importDefault(__nccwpck_require__(1943));
-            const found_file_1 = __nccwpck_require__(6839);
-            async function installTemplate({
-                appName,
-                root,
-                framework,
-                tailwind
-            }) {
+            const found_file_1 = __nccwpck_require__(5052);
+            async function installTemplate({ appName, root, framework, css }) {
                 const { isNG, checkPromiseVoid } = result_1.resultUtility;
-                const css = tailwind ? "tailwind" : "vanilla-extract";
                 const copySource = ["**/*"];
                 const templatePath = [
                     path_1.default.join(__dirname, "template", framework, css),
                     path_1.default.join(
                         __dirname,
+                        "..",
                         "..",
                         "template",
                         framework,
@@ -17251,17 +17437,32 @@ Filtered results for: ${this.inputValue ? this.inputValue : color.gray("Enter so
             /***/
         },
 
-        /***/ 3236: /***/ (__unused_webpack_module, exports) => {
+        /***/ 2584: /***/ (__unused_webpack_module, exports) => {
             "use strict";
 
             Object.defineProperty(exports, "__esModule", { value: true });
-            exports.librarySetting = exports.libsArray = void 0;
-            const frameworks = /* unused pure expression or super */ null && [
-                "tanstack-router",
-                "next/app",
-                "next/pages"
-            ];
+            exports.librarySetting =
+                exports.selectLibList =
+                exports.libsArray =
+                exports.csses =
+                exports.frameworks =
+                    void 0;
+            /**
+             * Static definitions for template creation
+             */
+            exports.frameworks = ["tanstack-router", "next/app", "next/pages"];
+            /**
+             * CSS
+             */
+            exports.csses = ["tailwind", "vanilla-extract"];
+            /**
+             * Library definitions
+             */
             exports.libsArray = ["popup", "loading"];
+            exports.selectLibList = [
+                { title: "Popup", value: "popup" },
+                { title: "Loading", value: "loading" }
+            ];
             exports.librarySetting = [
                 {
                     lib: "popup",
@@ -17278,7 +17479,7 @@ Filtered results for: ${this.inputValue ? this.inputValue : color.gray("Enter so
             /***/
         },
 
-        /***/ 6839: /***/ function (
+        /***/ 5052: /***/ function (
             __unused_webpack_module,
             exports,
             __nccwpck_require__
@@ -17293,7 +17494,7 @@ Filtered results for: ${this.inputValue ? this.inputValue : color.gray("Enter so
             Object.defineProperty(exports, "__esModule", { value: true });
             exports.foundFolder = foundFolder;
             const node_fs_1 = __importDefault(__nccwpck_require__(3024));
-            const result_1 = __nccwpck_require__(6883);
+            const result_1 = __nccwpck_require__(3648);
             function foundFolder(paths) {
                 const { createNg, createOk } = result_1.resultUtility;
                 for (const p of paths) {
@@ -17309,23 +17510,63 @@ Filtered results for: ${this.inputValue ? this.inputValue : color.gray("Enter so
             /***/
         },
 
-        /***/ 8014: /***/ (__unused_webpack_module, exports) => {
+        /***/ 5542: /***/ (
+            __unused_webpack_module,
+            exports,
+            __nccwpck_require__
+        ) => {
             "use strict";
 
             Object.defineProperty(exports, "__esModule", { value: true });
+            exports.isTechStack = isTechStack;
             exports.isNull = isNull;
             exports.isUndefined = isUndefined;
+            exports.isString = isString;
+            exports.isLibsArray = isLibsArray;
+            exports.isLib = isLib;
+            exports.isCss = isCss;
+            exports.isBoolean = isBoolean;
+            const template_static_1 = __nccwpck_require__(2584);
+            function isTechStack(value) {
+                if (typeof value !== "string") {
+                    return false;
+                }
+                return template_static_1.frameworks.includes(value);
+            }
             function isNull(value) {
                 return value === null;
             }
             function isUndefined(value) {
                 return value === undefined;
             }
+            function isString(value) {
+                return typeof value === "string";
+            }
+            function isArray(value) {
+                return Array.isArray(value);
+            }
+            function isLibsArray(value) {
+                return (
+                    isArray(value) &&
+                    value.every((item) =>
+                        template_static_1.libsArray.includes(item)
+                    )
+                );
+            }
+            function isLib(value) {
+                return template_static_1.libsArray.includes(value);
+            }
+            function isCss(value) {
+                return template_static_1.csses.includes(value);
+            }
+            function isBoolean(value) {
+                return typeof value === "boolean";
+            }
 
             /***/
         },
 
-        /***/ 1479: /***/ (
+        /***/ 3376: /***/ (
             __unused_webpack_module,
             exports,
             __nccwpck_require__
@@ -17334,7 +17575,7 @@ Filtered results for: ${this.inputValue ? this.inputValue : color.gray("Enter so
 
             Object.defineProperty(exports, "__esModule", { value: true });
             exports.optionUtility = void 0;
-            const is_1 = __nccwpck_require__(8014);
+            const is_1 = __nccwpck_require__(5542);
             const basic = {
                 OPTION_SOME: "some",
                 OPTION_NONE: "none"
@@ -17379,7 +17620,7 @@ Filtered results for: ${this.inputValue ? this.inputValue : color.gray("Enter so
             /***/
         },
 
-        /***/ 6883: /***/ (__unused_webpack_module, exports) => {
+        /***/ 3648: /***/ (__unused_webpack_module, exports) => {
             "use strict";
 
             Object.defineProperty(exports, "__esModule", { value: true });
@@ -22282,9 +22523,9 @@ Expecting one of '${allowedValues.join("', '")}'`);
         var exports = __webpack_exports__;
 
         Object.defineProperty(exports, "__esModule", { value: true });
-        const main_1 = __nccwpck_require__(2905);
+        const main_1 = __nccwpck_require__(9042);
         (0, main_1.run)()
-            .then(() => (0, main_1.notify)())
+            .then((path) => (0, main_1.notify)(path))
             .catch(() => (0, main_1.errorExit)());
     })();
 

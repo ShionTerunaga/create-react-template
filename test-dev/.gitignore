@@ -1,8 +1,9 @@
-next-app-vanilla
-next-app-tailwind
-next-pages-vanilla
-next-pages-tailwind
-tanstack-vanilla
+mac-nextapp-tailwind
+mac-nextapp-vanillaextract
+mac-nextpages-tailwind
+mac-nextpages-vanillaextract
+mac-tanstack-tailwind
+mac-tanstack-vanillaextract
 
 node_modules
 .DS_Store
