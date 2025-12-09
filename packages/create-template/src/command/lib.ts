@@ -1,7 +1,11 @@
-import { Lib, libsArray, selectLibList } from "@/template-src/template.static";
-import { isBoolean, isLib, isLibsArray } from "@/utils/is";
-import { type Option, optionUtility } from "@/utils/option";
-import { type Result, resultUtility } from "@/utils/result";
+import {
+    type Lib,
+    libsArray,
+    selectLibList
+} from "../template/template.static";
+import { isBoolean, isLib, isLibsArray } from "../utils/is";
+import { type Option, optionUtility } from "../utils/option";
+import { type Result, resultUtility } from "../utils/result";
 import { commanderCore } from "./core";
 import prompts from "prompts";
 

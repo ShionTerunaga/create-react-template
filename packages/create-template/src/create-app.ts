@@ -1,9 +1,9 @@
 import { resolve, basename } from "node:path";
-import { Css, Framework, Lib } from "./template-src/template.static";
+import { Css, Framework, Lib } from "./template/template.static";
 import { mkdirSync } from "node:fs";
 import { isFolderEmpty } from "./helper/is-folder-empty";
 import { green } from "picocolors";
-import { installTemplate } from "./template-src/template.index";
+import { installTemplate } from "./template/template.index";
 import { addPackage } from "./install-lib/install-lib";
 import { Option, optionUtility } from "./utils/option";
 import { isLib, isLibsArray } from "./utils/is";

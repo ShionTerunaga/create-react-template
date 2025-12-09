@@ -1,6 +1,6 @@
-import { isCss } from "@/utils/is";
-import { type Option, optionUtility } from "@/utils/option";
-import { resultUtility } from "@/utils/result";
+import { isCss } from "../utils/is";
+import { type Option, optionUtility } from "../utils/option";
+import { resultUtility } from "../utils/result";
 import prompts from "prompts";
 import { commanderCore } from "./core";
 

@@ -1,9 +1,9 @@
-import { resultUtility } from "@/utils/result";
+import { resultUtility } from "../utils/result";
 import { mkdirSync } from "node:fs";
 import path from "node:path";
-import { Css, Lib, librarySetting } from "@/template-src/template.static";
+import { Css, Lib, librarySetting } from "../template/template.static";
 import { copy } from "../helper/copy";
-import { foundFolder } from "@/utils/found-file";
+import { foundFolder } from "../utils/found-file";
 import fs from "fs/promises";
 
 export async function addPackage({
@@ -40,7 +40,7 @@ export async function addPackage({
 
         const templatePath = [
             path.join(__dirname, "lib", "lib", lib.lib),
-            path.join(__dirname, "..", "lib", "lib", lib.lib)
+            path.join(__dirname, "..", "..", "lib", "lib", lib.lib)
         ];
 
         const resultPath = foundFolder(templatePath);
@@ -72,6 +72,7 @@ export async function addPackage({
                 path.join(__dirname, "lib", "stories", lib.lib + "-" + css),
                 path.join(
                     __dirname,
+                    "..",
                     "..",
                     "lib",
                     "stories",
@@ -108,7 +109,7 @@ export async function addPackage({
 
             const testTemplatePath = [
                 path.join(__dirname, "lib", "__test__", lib.lib),
-                path.join(__dirname, "..", "lib", "__test__", lib.lib)
+                path.join(__dirname, "..", "..", "lib", "__test__", lib.lib)
             ];
 
             const testResultPath = foundFolder(testTemplatePath);

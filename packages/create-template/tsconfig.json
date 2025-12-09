@@ -3,11 +3,7 @@
     "compilerOptions": {
         "outDir": "../../dist/src/create-template-react",
         "rootDir": "./",
-        "composite": false,
-        "baseUrl": ".",
-        "paths": {
-            "@/*": ["./src/*"]
-        }
+        "composite": false
     },
     "include": ["./**/*", "./template/**/*", "rspack.config.js"],
     "exclude": [

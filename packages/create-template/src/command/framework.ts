@@ -1,6 +1,6 @@
-import { isTechStack } from "@/utils/is";
-import { optionUtility, type Option } from "@/utils/option";
-import { resultUtility } from "@/utils/result";
+import { isTechStack } from "../utils/is";
+import { optionUtility, type Option } from "../utils/option";
+import { resultUtility } from "../utils/result";
 import prompts from "prompts";
 import { commanderCore } from "./core";
 import { blue } from "picocolors";
