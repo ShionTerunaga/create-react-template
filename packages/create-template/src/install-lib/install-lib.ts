@@ -1,53 +1,21 @@
-import prompts from "prompts";
-import { Option, optionUtility } from "../utils/option";
 import { resultUtility } from "../utils/result";
 import { mkdirSync } from "node:fs";
 import path from "node:path";
-import {
-    Lib,
-    librarySetting,
-    libsArray
-} from "../template-src/template.static";
+import { Css, Lib, librarySetting } from "../template/template.static";
 import { copy } from "../helper/copy";
 import { foundFolder } from "../utils/found-file";
 import fs from "fs/promises";
 
-interface SelectLib {
-    title: string;
-    value: Lib;
-}
-
-const selectLibList: Array<SelectLib> = [
-    { title: "Popup", value: "popup" },
-    { title: "Loading", value: "loading" }
-];
-
-function isArray(value: unknown): value is Array<unknown> {
-    return Array.isArray(value);
-}
-
-function isLibsArray(value: unknown): value is Array<Lib> {
-    return (
-        isArray(value) && value.every((item) => libsArray.includes(item as Lib))
-    );
-}
-
-function isLib(value: unknown): value is Lib {
-    return libsArray.includes(value as Lib);
-}
-
 export async function addPackage({
     root,
-    isTailwind,
+    css,
     libs
 }: {
     root: string;
-    isTailwind: boolean;
+    css: Css;
     libs: Array<Lib>;
 }) {
-    const { optionConversion, isNone } = optionUtility;
-    const { createNg, createOk, isNG, checkPromiseReturn, checkPromiseVoid } =
-        resultUtility;
+    const { isNG, checkPromiseReturn, checkPromiseVoid } = resultUtility;
 
     const appPath = path.join(root, "src", "lib");
     const testPath = path.join(root, "src", "__test__", "lib");
@@ -72,7 +40,7 @@ export async function addPackage({
 
         const templatePath = [
             path.join(__dirname, "lib", "lib", lib.lib),
-            path.join(__dirname, "..", "lib", "lib", lib.lib)
+            path.join(__dirname, "..", "..", "lib", "lib", lib.lib)
         ];
 
         const resultPath = foundFolder(templatePath);
@@ -90,7 +58,7 @@ export async function addPackage({
         });
 
         if (isNG(res)) {
-            console.error(res.err.message);
+            console.error(res.err);
 
             process.exit(1);
         }
@@ -101,18 +69,14 @@ export async function addPackage({
             mkdirSync(srcStorybookDir, { recursive: true });
 
             const storybookTemplatePath = [
-                path.join(
-                    __dirname,
-                    "lib",
-                    "stories",
-                    isTailwind ? lib.lib + "-tailwind" : lib.lib + "-vanilla"
-                ),
+                path.join(__dirname, "lib", "stories", lib.lib + "-" + css),
                 path.join(
                     __dirname,
                     "..",
+                    "..",
                     "lib",
                     "stories",
-                    isTailwind ? lib.lib + "-tailwind" : lib.lib + "-vanilla"
+                    lib.lib + "-" + css
                 )
             ];
 
@@ -145,7 +109,7 @@ export async function addPackage({
 
             const testTemplatePath = [
                 path.join(__dirname, "lib", "__test__", lib.lib),
-                path.join(__dirname, "..", "lib", "__test__", lib.lib)
+                path.join(__dirname, "..", "..", "lib", "__test__", lib.lib)
             ];
 
             const testResultPath = foundFolder(testTemplatePath);

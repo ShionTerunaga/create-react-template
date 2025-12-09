@@ -9,16 +9,15 @@ export async function installTemplate({
     appName,
     root,
     framework,
-    tailwind
+    css
 }: InstallTemplateArgs) {
     const { isNG, checkPromiseVoid } = resultUtility;
-    const css = tailwind ? "tailwind" : "vanilla-extract";
 
     const copySource = ["**/*"];
 
     const templatePath = [
         path.join(__dirname, "template", framework, css),
-        path.join(__dirname, "..", "template", framework, css)
+        path.join(__dirname, "..", "..", "template", framework, css)
     ];
 
     const resultPath = foundFolder(templatePath);

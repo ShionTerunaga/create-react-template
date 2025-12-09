@@ -1,4 +1,3 @@
-import { popupStore } from "@/lib/popup/store";
 import PopupBase from "./popup-base/popup-base";
 import PopupSampleLayout from "./popup-layout/popup-layout";
 import PopupCloseButton from "./popup-close-button/popup-close-button";
