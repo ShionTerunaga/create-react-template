@@ -1,4 +1,4 @@
-import { optionUtility } from "@/utils/option";
+import { optionUtility } from "../utils/option";
 import { Command } from "commander";
 import { InitialReturnValue } from "prompts";
 

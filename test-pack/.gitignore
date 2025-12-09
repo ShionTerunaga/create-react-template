@@ -1,9 +1,9 @@
-next-app-win
-next-app-mac
-next-pages-win
-next-pages-mac
-tanstack-mac
-tanstack-win
+mac-nextapp-tailwind
+mac-nextapp-vanillaextract
+mac-nextpages-tailwind
+mac-nextpages-vanillaextract
+mac-tanstack-tailwind
+mac-tanstack-vanillaextract
 
 node_modules
 .DS_Store

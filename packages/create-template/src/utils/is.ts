@@ -5,7 +5,7 @@ import {
     frameworks,
     Lib,
     libsArray
-} from "@/template-src/template.static";
+} from "../template/template.static";
 
 export function isTechStack(value: unknown): value is Framework {
     if (typeof value !== "string") {
