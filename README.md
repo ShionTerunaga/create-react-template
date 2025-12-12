@@ -1,3 +1,7 @@
+> [!WARNING]
+> Going forward, I'll be working in a different repository. The reason is that I've decided to start creating templates for frameworks other than React. I plan to fork this repository into the new one and use it there.
+
+
 # Create React Project
 
 This is template of react projects. For now, it will be for macos only.We will
